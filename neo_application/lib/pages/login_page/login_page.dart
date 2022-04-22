@@ -47,7 +47,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Center(
           child: Container(
-            height: 350,
+            height: 310,
             width: 400,
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -65,8 +65,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 76,
                   child: const Center(
                     child: Text(
-                      "NEO ANALYTICS",
-                      style: TextStyle(color: Colors.white),
+                      "Eco",
+                      style: TextStyle(color: Colors.white,
+                      fontSize: 30),
                     ),
                   ),
                 ),
@@ -74,9 +75,9 @@ class _LoginPageState extends State<LoginPage> {
                   height: 20,
                 ),
                 AppText(
-                  "Usuário",
+                  "E-mail",
                   Icon(Icons.person),
-                  "Digite seu usuário",
+                  "Digite seu e-mail",
                   controller: _tLogin,
                   validator: _validateLogin,
                   textInputAction: TextInputAction.next,
@@ -141,7 +142,7 @@ class _LoginPageState extends State<LoginPage> {
 
   String? _validateLogin(String? text) {
     if (text!.isEmpty) {
-      return "Digite o usuario";
+      return "Digite o e-mail";
     }
   }
 
@@ -155,9 +156,9 @@ class _LoginPageState extends State<LoginPage> {
         context: context,
         builder: (context) => AlertDialog(
           content: Container(
-            height: 200,
+            height: 60,
             child: Center(
-              child: Text("Usuario ou senha incorreto"),
+              child: Text("E-mail ou senha incorreto"),
             ),
           ),
           actions: [
