@@ -16,14 +16,6 @@ class _MenuState extends State<Menu> {
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Container(
-              padding: const EdgeInsets.only(left: 2, top: 10),
-              child: Image.asset(
-                "assets/images/neocert_logo.png",
-                fit: BoxFit.fill,
-                width: 100,
-              ),
-            ),
             const SizedBox(
               height: 20,
             ),
