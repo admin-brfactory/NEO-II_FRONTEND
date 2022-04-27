@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_api.dart';
+import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_createPage.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_edit.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_model.dart';
 import 'package:neo_application/pages/clientes_grupos/fracao_propriedades/Tabelas_model.dart';
@@ -12,7 +13,7 @@ import 'package:neo_application/pages/utils/globals.dart' as globals;
 
 class ColaboradorPage extends StatefulWidget {
   String? token;
- 
+
   ColaboradorPage({Key? key, this.token}) : super(key: key);
 
   @override
@@ -21,7 +22,7 @@ class ColaboradorPage extends StatefulWidget {
 
 class _ColaboradorPageState extends State<ColaboradorPage> {
   Size get size => MediaQuery.of(context).size;
-  
+
   List<ColaboradorModel> listColaborador = [];
   List<TodasTabelasModel> listTabelas = [];
 
@@ -37,22 +38,29 @@ class _ColaboradorPageState extends State<ColaboradorPage> {
         automaticallyImplyLeading: false,
         centerTitle: true,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          _onNavAdd(context);
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Color.fromRGBO(78, 204, 196, 2),
+      ),
     );
   }
 
   void _onNavAdd(BuildContext context) {
     AppModel app = Provider.of<AppModel>(context, listen: false);
-    app.setPage(ColaboradorEdit(
+    app.setPage(ColaboradorCreate(
       colaboradorModel: ColaboradorModel(
-      idAuditor: 0,
-      Nome: "",
-      DataInicio: "",
-      Especialidade: "",
-      qAuditor: "",
-      qAuditorLider: "",
-      qLiderExperiencia: "",
-      Usuario: "",
-         ),
+        idAuditor: 0,
+        Nome: "",
+        DataInicio: "",
+        Especialidade: "",
+        qAuditor: "",
+        qAuditorLider: "",
+        qLiderExperiencia: "",
+        Usuario: "",
+      ),
       tipoAcao: "adicionar",
     ));
   }
@@ -61,7 +69,6 @@ class _ColaboradorPageState extends State<ColaboradorPage> {
     return FutureBuilder(
       future: ColaboradorApi().getListColaborador(),
       builder: (context, AsyncSnapshot snapshot) {
-         
         if (globals.isValid == false) {
           Fluttertoast.showToast(
               msg: "Usuario não autorizado",
@@ -85,8 +92,14 @@ class _ColaboradorPageState extends State<ColaboradorPage> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text("Nome: " + "${listColaborador[index].Nome}" + " - " "Usuário: " + "${listColaborador[index].Usuario}" + " - " "Especialidade: " + "${listColaborador[index].Especialidade}" + " - " "Data de Início: " + "${listColaborador[index].DataInicio}"
-                        ),
+                    title: Text("Nome: " +
+                        "${listColaborador[index].Nome}" +
+                        " - " "E-mail: " +
+                        "${listColaborador[index].Usuario}" +
+                        " - " "Especialidade: " +
+                        "${listColaborador[index].Especialidade}" +
+                        " - " "Data de Início: " +
+                        "${listColaborador[index].DataInicio}"),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
@@ -104,6 +117,15 @@ class _ColaboradorPageState extends State<ColaboradorPage> {
                             color: Color.fromARGB(246, 34, 37, 44),
                           ),
                         ),
+                        IconButton(
+                          onPressed: () async {
+                            await _dialogDelete(index, context);
+                          },
+                          icon: const Icon(
+                            Icons.delete,
+                            color: Color.fromARGB(246, 34, 37, 44),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -118,4 +140,49 @@ class _ColaboradorPageState extends State<ColaboradorPage> {
       },
     );
   }
+
+ Future<void> _deleteColaborador(int index, BuildContext context) async {
+    var resposta =
+        await colaboradorApi.deleteColaborador(listColaborador[index].idAuditor!);
+    if (resposta["type"] == "S") {
+      Fluttertoast.showToast(
+          msg: resposta["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 10,
+          fontSize: 16.0);
+      Navigator.pop(context);
+      setState(() {
+        ColaboradorApi().getListColaborador();
+      });
+    }
+  }
+
+  _dialogDelete(int index, BuildContext context) => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Container(
+            height: 60,
+            child: Center(
+              child: Text("Você deseja excluir este item?"),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => _deleteColaborador(index, context),
+              child: Text("Sim"),
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(246, 34, 37, 44)),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text("Não"),
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromARGB(246, 34, 37, 44)),
+            ),
+          ],
+        ),
+      );
 }

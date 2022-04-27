@@ -14,12 +14,41 @@ import 'package:neo_application/pages/utils/globals.dart' as globals;
 class ColaboradorApi {
   List<ColaboradorModel> list = [];
   
-  Future<List<ColaboradorModel>> getListColaborador() async {
+  Future<List<ColaboradorModel>> getColaborador() async {
     var token = await UserToken().getToken();
 
     try {
       var url = Uri.parse(
           "https://neo-ii-back-end.azurewebsites.net/user"); 
+
+      Map<String, String> headers = {
+        "Authorization": "JWT $token",
+      };
+
+      var response = await http.get(url, headers: headers);
+      
+      if (response.statusCode == 200) {
+        var responseMap = json.decode(response.body) as List;
+
+        return responseMap
+            .map((colaborador) => ColaboradorModel.fromMap(colaborador))
+            .toList();
+      } else if (response.statusCode == 401){
+        globals.isValid = false;
+        return[];
+      }
+    } catch (e) {
+      print(e);
+    }
+    throw "Erro ao carregar os dados";
+  }
+
+  Future<List<ColaboradorModel>> getListColaborador() async {
+    var token = await UserToken().getToken();
+
+    try {
+      var url = Uri.parse(
+          "https://neo-ii-back-end.azurewebsites.net/users"); 
 
       Map<String, String> headers = {
         "Authorization": "JWT $token",
@@ -59,6 +88,8 @@ class ColaboradorApi {
       "qAuditorLider": oColaborador.qAuditorLider,
       "qLiderExperiencia": oColaborador.qLiderExperiencia,
       "Usuario": oColaborador.Usuario,
+      "change_pwd": oColaborador.change_pwd,
+      "Senha": oColaborador.Senha,
       };
 
       var response = await http.put(url,
@@ -89,9 +120,11 @@ class ColaboradorApi {
   }
 
   Future createColaborador(ColaboradorModel oColaborador) async {
+    var token = await UserToken().getToken();
+
     try {
       var url = Uri.parse(
-          "https://neo-ii-back-end.azurewebsites.net/user/create");
+          "https://neo-ii-back-end.azurewebsites.net/signup");
 
       var body = {
       "Nome": oColaborador.Nome,
@@ -101,10 +134,15 @@ class ColaboradorApi {
       "qAuditorLider": oColaborador.qAuditorLider,
       "qLiderExperiencia": oColaborador.qLiderExperiencia,
       "Usuario": oColaborador.Usuario,
+      "change_pwd": oColaborador.change_pwd,
+      "Senha": oColaborador.Senha,
       };
 
-      var response = await http.post(url,
-          headers: <String, String>{'Content-Type': 'application/json'},
+       var response = await http.post(url,
+          headers: <String, String>{
+             "Authorization": "JWT $token",
+            "Content-type": "application/json",
+          },
           body: jsonEncode(body));
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
@@ -114,24 +152,45 @@ class ColaboradorApi {
         };
         return map;
       }
+      else if (response.statusCode == 401) {
+        Map<String, dynamic> map = {
+          "type": "U",
+          "message": "Sessão expirada",
+        };
+        return map;
+      }
     } catch (e) {
       print(e);
     }
     return "";
   }
 
-  Future deleteColaborador(int idProp) async {
+  Future deleteColaborador(int delete) async {
+    var token = await UserToken().getToken();
+
     try {
       var url = Uri.parse(
-          "https://neo-ii-back-end.azurewebsites.net/user/delete/$idProp");
+          "https://neo-ii-back-end.azurewebsites.net/user/delete/$delete");
 
-      var response = await http.delete(url);
+      // var response = await http.delete(url);
+      
+      var response = await http.delete(url,
+          headers: <String, String>{
+             "Authorization": "JWT $token",
+            "Content-type": "application/json",
+          });
       if (response.statusCode == 200) {
         var res = jsonDecode(response.body);
-
         Map<String, dynamic> map = {
           "type": res["type"],
           "message": res["message"]
+        };
+        return map;
+      }
+      else if (response.statusCode == 401) {
+        Map<String, dynamic> map = {
+          "type": "U",
+          "message": "Sessão expirada",
         };
         return map;
       }
