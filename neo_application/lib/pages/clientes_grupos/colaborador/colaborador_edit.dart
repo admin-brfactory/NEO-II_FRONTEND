@@ -4,6 +4,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_api.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_model.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_page.dart';
+import 'package:neo_application/pages/default_page.dart';
+import 'package:neo_application/pages/home_page/home_page.dart';
 import 'package:neo_application/pages/login_page/login_page.dart';
 import 'package:neo_application/pages/provider/app_provider.dart';
 import 'package:provider/provider.dart';
@@ -38,12 +40,22 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
       TextEditingController();
   final TextEditingController _controllerqLiderExperiencia =
       TextEditingController();
-  final TextEditingController _controllerUsuario = TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
+  final TextEditingController _controllerSenha = TextEditingController();
+  final TextEditingController _controllerConfSenha = TextEditingController();
+  final TextEditingController _controllerChangePwd = TextEditingController();
+
 
   late AppModel appRepository;
   late ColaboradorModel oColaboradorModel;
 
   List<ColaboradorModel> listColaborador = [];
+
+  bool checkAuditor = false;
+  bool checkAuditorLider = false;
+  bool checkLiderExperiencia = false;
+  bool checkSenha = false;
+  
 
   final _formKey = GlobalKey<FormState>();
 
@@ -60,7 +72,7 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
     return Scaffold(
       body: _body(),
       appBar: AppBar(
-        title: Text("Usuário"),
+        title: Text("Editar usuário"),
         backgroundColor: Color.fromRGBO(78, 204, 196, 2),
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -74,11 +86,31 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
     _controllerNome.text = oColaborador.Nome.toString();
     _controllerDataInicio.text = oColaborador.DataInicio.toString();
     _controllerEspecialidade.text = oColaborador.Especialidade.toString();
+    _controllerEmail.text = oColaborador.Usuario.toString();
+    // _controllerChangePwd.text = oColaborador.change_pwd.toString();
+    // if (_controllerChangePwd.text == "X") {
+    //   checkSenha = true;
+    // } else {
+    //   checkSenha = false;
+    // }
     _controllerqAuditor.text = oColaborador.qAuditor.toString();
+    if (_controllerqAuditor.text == "X") {
+      checkAuditor = true;
+    } else {
+      checkAuditor = false;
+    }
     _controllerqAuditorLider.text = oColaborador.qAuditorLider.toString();
-    _controllerqLiderExperiencia.text =
-        oColaborador.qLiderExperiencia.toString();
-    _controllerUsuario.text = oColaborador.Usuario.toString();
+    if (_controllerqAuditorLider.text == "X") {
+      checkAuditorLider = true;
+    } else {
+      checkAuditorLider = false;
+    }
+    _controllerqLiderExperiencia.text = oColaborador.qLiderExperiencia.toString();
+    if (_controllerqLiderExperiencia.text == "X") {
+      checkLiderExperiencia = true;
+    } else {
+      checkLiderExperiencia = false;
+    }
   }
 
   _body() {
@@ -97,161 +129,279 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
                   child: LayoutBuilder(builder: (context, constraints) {
                     return Container(
                       padding: EdgeInsets.all(50),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const SizedBox(
-                            width: 30,
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 300,
-                            height: 40,
-                            child: TextFormField(
-                              controller: _controllerNome,
-                              decoration: const InputDecoration(
-                                labelText: "Nome",
-                                border: OutlineInputBorder(),
-                                isDense: true,
-                              ),
+                      child: Form(
+                        key: _formKey,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
                             ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 300,
-                            height: 40,
-                            child: TextFormField(
-                              controller: _controllerUsuario,
-                              decoration: const InputDecoration(
-                                labelText: "Usuário",
-                                border: OutlineInputBorder(),
-                                isDense: true,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 300,
-                            height: 40,
-                            child: TextFormField(
-                              controller: _controllerEspecialidade,
-                              decoration: const InputDecoration(
-                                labelText: "Especialidade",
-                                border: OutlineInputBorder(),
-                                isDense: true,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 300,
-                            height: 40,
-                            child: TextFormField(
-                              controller: _controllerqAuditor,
-                              decoration: const InputDecoration(
-                                labelText: "Auditor",
-                                border: OutlineInputBorder(),
-                                isDense: true,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 300,
-                            height: 40,
-                            child: TextFormField(
-                              controller: _controllerqAuditorLider,
-                              decoration: const InputDecoration(
-                                labelText: "Auditor Líder",
-                                border: OutlineInputBorder(),
-                                isDense: true,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                            height: 20,
-                          ),
-                          SizedBox(
-                            width: 300,
-                            height: 40,
-                            child: TextFormField(
-                              controller:
-                                  _controllerqLiderExperiencia,
-                              decoration: const InputDecoration(
-                                labelText: "Lider de Experiência",
-                                border: OutlineInputBorder(),
-                                isDense: true,
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                            height: 20,
-                          ),
-                          Container(
-                            width: 300,
-                            height: 40,
-                            child: TextFormField(
-                              controller: _controllerDataInicio,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 15,
-                              ),
-                              decoration: InputDecoration(
-                                border: const OutlineInputBorder(),
-                                labelText: "Data de Início",
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    Icons.date_range,
-                                    color: Color.fromARGB(
-                                        96, 88, 87, 87),
-                                    size: 20,
-                                  ),
-                                  onPressed: () async {
-                                    final data = await showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime(2100),
-                                    );
-                                    if (data != null)
-                                      setState(() => _valueEntrada =
-                                          data.toString());
-
-                                    _controllerDataInicio
-                                        .text = _valueEntrada
-                                            .substring(8, 10) +
-                                        '/' +
-                                        _valueEntrada.substring(
-                                            5, 7) +
-                                        '/' +
-                                        _valueEntrada.substring(0, 4);
-
-                                    print(_controllerDataInicio.text);
-                                  },
+                            SizedBox(
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerNome,
+                                decoration: const InputDecoration(
+                                  labelText: "Nome",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
                                 ),
                               ),
                             ),
-                          ),
-                          const SizedBox(
-                            width: 30,
-                            height: 20,
-                          ),
-                          _Buttons()
-                        ],
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerEspecialidade,
+                                decoration: const InputDecoration(
+                                  labelText: "Especialidade",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            Container(
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerDataInicio,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
+                                ),
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: "Data de Início",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      Icons.date_range,
+                                      color: Color.fromARGB(
+                                          96, 88, 87, 87),
+                                      size: 20,
+                                    ),
+                                    onPressed: () async {
+                                      final data = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (data != null)
+                                        setState(() => _valueEntrada =
+                                            data.toString());
+                      
+                                      _controllerDataInicio
+                                          .text = _valueEntrada
+                                              .substring(8, 10) +
+                                          '/' +
+                                          _valueEntrada.substring(
+                                              5, 7) +
+                                          '/' +
+                                          _valueEntrada.substring(0, 4);
+                      
+                                      print(_controllerDataInicio.text);
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                             const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 300,
+                              height: 60,
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value!.length == 0) {
+                                    return "E-mail curto demais";
+                                  } else if (!value.contains("@")) {
+                                    return "E-mail invalido";
+                                  } else if (!value.contains(".com")) {
+                                    return "E-mail invalido";
+                                  }
+                                  return null;
+                                },
+                                controller: _controllerEmail,
+                                decoration: const InputDecoration(
+                                  labelText: "E-mail",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 5,
+                            ),
+                            SizedBox(
+                              width: 300,
+                              height: 60,
+                              child: TextFormField(
+                                controller: _controllerSenha,
+                                decoration: const InputDecoration(
+                                  labelText: "Senha",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 5,
+                            ),
+                            SizedBox(
+                              width: 300,
+                              height: 60,
+                              child: TextFormField(
+                                validator: (value) {
+                                  if (value != _controllerSenha.text) {
+                                    return "As senhas não são compatíveis";
+                                  }
+                                  return null;
+                                },
+                                  decoration: const InputDecoration(
+                                  labelText: "Confirmação de Senha",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: checkSenha,
+                                    onChanged:(value) {
+                                      setState(() {
+                                        checkSenha = value!;
+                                      });
+                                  },),
+                                 Text("Solicitar alteração de senha no próximo logon?")
+                                ],
+                              )
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 2,
+                            ),
+                            SizedBox(
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: checkAuditor,
+                                    onChanged:(value) {
+                                      setState(() {
+                                        checkAuditor = value!;
+                                      });
+                                  },),
+                                 Text("Auditor")
+                                ],
+                              )
+                            ),
+                            const SizedBox(
+                             width: 30,
+                              height: 2,
+                            ),
+                            SizedBox(
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: checkAuditorLider,
+                                    onChanged:(value) {
+                                      setState(() {
+                                        checkAuditorLider = value!;
+                                      });
+                                  },),
+                                 Text("Auditor Líder")
+                                ],
+                              )
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 2,
+                            ),
+                            SizedBox(
+                              child: Row(
+                                children: [
+                                  Checkbox(
+                                    value: checkLiderExperiencia,
+                                    onChanged:(value) {
+                                      setState(() {
+                                        checkLiderExperiencia = value!;
+                                      });
+                                  },),
+                                 Text("Lider de Experiência")
+                                ],
+                              )
+                            ),
+                            // const SizedBox(
+                            //   width: 30,
+                            //   height: 20,
+                            // ),
+                            // SizedBox(
+                            //   width: 300,
+                            //   height: 40,
+                            //   child: TextFormField(
+                            //     controller: _controllerqAuditor,
+                            //     decoration: const InputDecoration(
+                            //       labelText: "Auditor",
+                            //       border: OutlineInputBorder(),
+                            //       isDense: true,
+                            //     ),
+                            //   ),
+                            // ),
+                            // const SizedBox(
+                            //   width: 30,
+                            //   height: 20,
+                            // ),
+                            // SizedBox(
+                            //   width: 300,
+                            //   height: 40,
+                            //   child: TextFormField(
+                            //     controller: _controllerqAuditorLider,
+                            //     decoration: const InputDecoration(
+                            //       labelText: "Auditor Líder",
+                            //       border: OutlineInputBorder(),
+                            //       isDense: true,
+                            //     ),
+                            //   ),
+                            // ),
+                            // const SizedBox(
+                            //   width: 30,
+                            //   height: 20,
+                            // ),
+                            // SizedBox(
+                            //   width: 300,
+                            //   height: 40,
+                            //   child: TextFormField(
+                            //     controller:
+                            //         _controllerqLiderExperiencia,
+                            //     decoration: const InputDecoration(
+                            //       labelText: "Lider de Experiência",
+                            //       border: OutlineInputBorder(),
+                            //       isDense: true,
+                            //     ),
+                            //   ),
+                            // ),
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            _Buttons()
+                          ],
+                        ),
                       ),
                     );
                   }),
@@ -302,11 +452,41 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
   }
 
   _onClickSalvar() async {
-    if (_controllerNome.text == "" || _controllerEspecialidade.text == "") {
+
+   if(_formKey.currentState!.validate()) {
+    if (_controllerNome.text == "" || _controllerEspecialidade.text == "" || _controllerEmail.text == "" ) {
       _onClickDialog();
       return;
     }
+  
+    var senha = _controllerSenha.text;
+    var novaSenha;
+    var auditor;
+    var auditorLider;
+    var liderExperiencia;
+
+    if (checkSenha == true) {
+      novaSenha = "X";
+    }
+
+    if (checkAuditor == true) {
+      auditor = "X";
+    } else {
+      auditor = "";
+    }
     
+    if (checkAuditorLider == true) {
+      auditorLider = "X";
+    } else {
+      auditorLider = "";
+    }
+    
+    if (checkLiderExperiencia == true) {
+      liderExperiencia =  "X";
+    } else {
+      liderExperiencia =  "";
+    }
+
     var DataInicio = _controllerDataInicio.text.substring(3, 5) +
         '/' +
         _controllerDataInicio.text.substring(0, 2) +
@@ -320,10 +500,12 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
       Nome: _controllerNome.text,
       DataInicio: DataInicio.toString(),
       Especialidade: _controllerEspecialidade.text,
-      qAuditor: _controllerqAuditor.text,
-      qAuditorLider: _controllerqAuditorLider.text,
-      qLiderExperiencia: _controllerqLiderExperiencia.text,
-      Usuario: _controllerUsuario.text,
+      Usuario:_controllerEmail.text,
+      qAuditor: auditor,
+      qAuditorLider: auditorLider,
+      qLiderExperiencia: liderExperiencia,
+      Senha: senha,
+      change_pwd: novaSenha,
     );
 
     var messageReturn = await colaboradorApi.updateColaborador(oColaborador);
@@ -338,6 +520,7 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
 
       AppModel app = Provider.of<AppModel>(context, listen: false);
       app.setPage(ColaboradorPage());
+
     } else if (messageReturn["type"] == "U") {
       Fluttertoast.showToast(
           msg: messageReturn["message"],
@@ -358,6 +541,9 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
           timeInSecForIosWeb: 10,
           fontSize: 16.0);
     }
+   } else {
+     print("invalido");
+   }
   }
 
   _onClickDialog() => showDialog(
@@ -373,7 +559,7 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
               title: Text('Preencha os campos obrigatórios.',
              style: TextStyle(fontSize: 20),
              ),
-              subtitle: Text('Nome, Especialidade.',
+              subtitle: Text('Nome, Especialidade e E-mail.',
               style: TextStyle(fontSize: 18),
               ),
             ),
