@@ -90,10 +90,17 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
-                  height: 100,
+                  
                   child: Center(
                     child: Container(
-                      child: Image.asset("images/logoEco.jpeg"),
+                      height: 100,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("images/logoEco.jpeg"),
+                          
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -250,7 +257,8 @@ class _LoginPageState extends State<LoginPage> {
                 style: ElevatedButton.styleFrom(
                     primary: Color.fromRGBO(78, 204, 196, 2)),
                 onPressed: () async {
-                  var messageReturn = await _onClickSalvarNovaSenha(colaborador);
+                  var messageReturn =
+                      await _onClickSalvarNovaSenha(colaborador);
 
                   if (messageReturn["type"] == "S") {
                     Fluttertoast.showToast(
@@ -356,10 +364,10 @@ class _LoginPageState extends State<LoginPage> {
         change_pwd: null,
       );
 
-      var messageReturn = await colaboradorApi.updateColaborador(oColaborador, colaborador.idAuditor!);
+      var messageReturn = await colaboradorApi.updateColaborador(
+          oColaborador, colaborador.idAuditor!);
 
       return messageReturn;
-
     } else {
       print("invalido");
     }
