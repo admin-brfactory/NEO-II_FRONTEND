@@ -190,7 +190,7 @@ class _LoginPageState extends State<LoginPage> {
                 borderRadius: BorderRadius.circular(20.0)),
             content: Container(
               width: 400,
-              height: 230,
+              height: 250,
               child: Form(
                 key: _formKeyDialog,
                 child: Column(
@@ -232,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
                         obscureText: true,
                         validator: (value) {
                           if (value!.length == 0) {
-                            return "Confirmação de obrigatória";
+                            return "Confirmação de senha obrigatória";
                           }
                           if (value != _controllerSenha.text) {
                             return "As senhas não são compatíveis";
