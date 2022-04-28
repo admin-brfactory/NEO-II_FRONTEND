@@ -3,10 +3,11 @@ const MANIFEST = 'flutter-app-manifest';
 const TEMP = 'flutter-temp-cache';
 const CACHE_NAME = 'flutter-app-cache';
 const RESOURCES = {
-  "assets/AssetManifest.json": "701cae22d866970f97463a1c63472961",
+  "assets/AssetManifest.json": "b563c836c9f477c7689bbee6e88f6cd3",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/fonts/MaterialIcons-Regular.otf": "7e7a6cccddf6d7b20012a548461d5d81",
 "assets/images/login_bg_agro.jpeg": "4343defa53ec5345ff35a9d20dd1c8fa",
+"assets/images/logoEco.jpeg": "ae17667475df61f8470c86152a761217",
 "assets/images/message.txt": "7c3c770d577e07524aa7ad2be3c9d479",
 "assets/images/neocert_logo.png": "c8e699c3acb94e0bab09c4dc9aa05364",
 "assets/NOTICES": "48c194f447e46782aaf13dd09b349ac0",
@@ -22,9 +23,9 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "7faa232fd44107db56dc3e31b4f878bc",
-"/": "7faa232fd44107db56dc3e31b4f878bc",
-"main.dart.js": "42a0720710520fce53701484b3015d8e",
+"index.html": "d16f34a300e9d6de70f5610b5bdfe0de",
+"/": "d16f34a300e9d6de70f5610b5bdfe0de",
+"main.dart.js": "62ff9f596614334d06d82b68e8b706c1",
 "manifest.json": "689d85e07f16f38de3a561956def330b",
 "version.json": "31ad7459046c8ebc10c17e09127cccad"
 };

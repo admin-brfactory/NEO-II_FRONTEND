@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_api.dart';
+import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_model.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_page.dart';
 import 'package:neo_application/pages/home_page/home_page.dart';
 import 'package:neo_application/pages/login_page/login_api.dart';
@@ -7,6 +11,7 @@ import 'package:neo_application/pages/utils/nav.dart';
 import 'package:neo_application/pages/widgets/app_button.dart';
 import 'package:neo_application/pages/widgets/app_text.dart';
 import 'package:neo_application/pages/utils/globals.dart' as globals;
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -26,12 +31,28 @@ class _LoginPageState extends State<LoginPage> {
 
   final _focusSenha = FocusNode();
 
+  late ColaboradorModel oColaborador;
+
+  final TextEditingController _controlleridAuditor = TextEditingController();
+  final TextEditingController _controllerNome = TextEditingController();
+  final TextEditingController _controllerDataInicio = TextEditingController();
+  final TextEditingController _controllerEspecialidade =
+      TextEditingController();
+  final TextEditingController _controllerqAuditor = TextEditingController();
+  final TextEditingController _controllerqAuditorLider =
+      TextEditingController();
+  final TextEditingController _controllerqLiderExperiencia =
+      TextEditingController();
+  final TextEditingController _controllerEmail = TextEditingController();
   final TextEditingController _controllerSenha = TextEditingController();
   final TextEditingController _controllerConfSenha = TextEditingController();
+  final TextEditingController _controllerChangePwd = TextEditingController();
 
   bool _showProgress = false;
 
   late AppModel appRepository;
+
+  final _formKeyDialog = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Center(
           child: Container(
-            height: 310,
+            height: 340,
             width: 400,
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -65,19 +86,21 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                      color: Color.fromRGBO(78, 204, 196, 2),
+                      color: Colors.white,
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
-                  height: 76,
                   child: Center(
                     child: Container(
-                      child: Image.asset("assets/images/logoEco.jpeg"),
+                      height: 100,
+                      decoration: const BoxDecoration(
+                        image: DecorationImage(
+                          image: AssetImage("images/logoEco.jpeg"),
+                          fit: BoxFit.fitHeight,
+                        ),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 AppText(
                   "E-mail",
@@ -126,12 +149,12 @@ class _LoginPageState extends State<LoginPage> {
     LoginModel loginModel = LoginModel();
     String username = _tLogin.text;
     String password = _tSenha.text;
-    String changePwd = "";
+    // String changePwd = "X";
 
-    if (changePwd == "X") {
-      _onDialogNovaSenha();
-      return;
-    }
+    // if (changePwd == "X") {
+    //   _onDialogNovaSenha();
+    //   return;
+    // }
 
     setState(() {
       _showProgress = true;
@@ -139,6 +162,13 @@ class _LoginPageState extends State<LoginPage> {
     var response = await loginModel.login(username, password);
 
     if (response.access_token != null) {
+      var response = await ColaboradorApi().getColaborador();
+
+      if (response[0].change_pwd == "X") {
+        _onDialogNovaSenha(response[0]);
+        return;
+      }
+
       push(context, HomePage());
       setState(() {
         _showProgress = false;
@@ -151,83 +181,114 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  _onDialogNovaSenha() => showDialog(
+  _onDialogNovaSenha(ColaboradorModel colaborador) => showDialog(
         context: context,
         builder: (context) => Container(
           child: AlertDialog(
             elevation: 24,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20.0)
-            ),
+                borderRadius: BorderRadius.circular(20.0)),
             content: Container(
               width: 400,
               height: 230,
-              child: Column(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(30),
-                    child: Text("Alteração de senha inicial",
-                    style: TextStyle(fontSize: 25),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 300,
-                    height: 60,
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.length == 0) {
-                          return "Senha obrigatória";
-                        }
-                        return null;
-                      },
-                      controller: _controllerSenha,
-                      decoration: const InputDecoration(
-                        labelText: "Senha",
-                        border: OutlineInputBorder(),
-                        isDense: true,
+              child: Form(
+                key: _formKeyDialog,
+                child: Column(
+                  children: [
+                    Container(
+                      padding: EdgeInsets.all(30),
+                      child: Text(
+                        "Alteração de senha inicial",
+                        style: TextStyle(fontSize: 25),
                       ),
                     ),
-                  ),
-                  const SizedBox(
-                    width: 30,
-                    height: 5,
-                  ),
-                  SizedBox(
-                    width: 300,
-                    height: 60,
-                    child: TextFormField(
-                      validator: (value) {
-                        if (value!.length == 0) {
-                          return "Confirmação de obrigatória";
-                        }
-                        if (value != _controllerSenha.text) {
-                          return "As senhas não são compatíveis";
-                        }
-                        return null;
-                      },
-                      decoration: const InputDecoration(
-                        labelText: "Confirmação de senha",
-                        border: OutlineInputBorder(),
-                        isDense: true,
+                    SizedBox(
+                      width: 300,
+                      height: 60,
+                      child: TextFormField(
+                        obscureText: true,
+                        validator: (value) {
+                          if (value!.length == 0) {
+                            return "Senha obrigatória";
+                          }
+                          return null;
+                        },
+                        controller: _controllerSenha,
+                        decoration: const InputDecoration(
+                          labelText: "Senha",
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
                       ),
                     ),
-                  ),
-                ],
+                    const SizedBox(
+                      width: 30,
+                      height: 5,
+                    ),
+                    SizedBox(
+                      width: 300,
+                      height: 60,
+                      child: TextFormField(
+                        obscureText: true,
+                        validator: (value) {
+                          if (value!.length == 0) {
+                            return "Confirmação de obrigatória";
+                          }
+                          if (value != _controllerSenha.text) {
+                            return "As senhas não são compatíveis";
+                          }
+                          return null;
+                        },
+                        decoration: const InputDecoration(
+                          labelText: "Confirmação de senha",
+                          border: OutlineInputBorder(),
+                          isDense: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
             actions: [
               ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary:  Color.fromRGBO(78, 204, 196, 2)),
-            onPressed: () => _onClickSalvarNovaSenha(),
-            child: Text("Salvar Alterações"),
-          ),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-                primary: Color.fromRGBO(78, 204, 196, 2)),
-            onPressed: () => {appRepository.setPage(LoginPage())},
-            child: Text("Cancelar"),
-          ),
+                style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(78, 204, 196, 2)),
+                onPressed: () async {
+                  var messageReturn =
+                      await _onClickSalvarNovaSenha(colaborador);
+
+                  if (messageReturn["type"] == "S") {
+                    Fluttertoast.showToast(
+                        msg: messageReturn["message"],
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 10,
+                        fontSize: 16.0);
+                    Navigator.pop(context);
+                    setState(() {
+                      _showProgress = false;
+                    });
+                  } else {
+                    Fluttertoast.showToast(
+                        msg: messageReturn["message"],
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.CENTER,
+                        timeInSecForIosWeb: 10,
+                        fontSize: 16.0);
+                  }
+                },
+                child: Text("Salvar Alterações"),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    primary: Color.fromRGBO(78, 204, 196, 2)),
+                onPressed: () => {
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => LoginPage()))
+                },
+                child: Text("Cancelar"),
+              ),
             ],
           ),
         ),
@@ -265,7 +326,48 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
 
-  _onClickSalvarNovaSenha() {
-    
+  // _onClickSalvarNovaSenha() {
+
+  // }
+
+  _onClickSalvarNovaSenha(ColaboradorModel colaborador) async {
+    if (_formKeyDialog.currentState!.validate()) {
+      // if (_controllerSenha.text == "" ) {
+      //   _onClickDialog();
+      //   return;
+      // }
+
+      var senha = _controllerSenha.text;
+
+      var data = colaborador.DataInicio;
+
+      var DataInicio = data!.substring(3, 5) +
+          '/' +
+          data.substring(0, 2) +
+          '/' +
+          data.substring(6, 10);
+
+      ColaboradorApi colaboradorApi = ColaboradorApi();
+
+      ColaboradorModel oColaborador = ColaboradorModel(
+        idAuditor: colaborador.idAuditor,
+        Nome: colaborador.Nome,
+        DataInicio: DataInicio,
+        Especialidade: colaborador.Especialidade,
+        Usuario: colaborador.Usuario,
+        qAuditor: colaborador.qAuditor,
+        qAuditorLider: colaborador.qAuditorLider,
+        qLiderExperiencia: colaborador.qLiderExperiencia,
+        Senha: senha,
+        change_pwd: null,
+      );
+
+      var messageReturn = await colaboradorApi.updateColaborador(
+          oColaborador, colaborador.idAuditor!);
+
+      return messageReturn;
+    } else {
+      print("invalido");
+    }
   }
 }

@@ -10,15 +10,16 @@ import 'package:neo_application/pages/login_page/login_page.dart';
 import 'package:neo_application/pages/provider/app_provider.dart';
 import 'package:provider/provider.dart';
 
-
 class ColaboradorEdit extends StatefulWidget {
   ColaboradorModel colaboradorModel;
-  var tipoAcao;
+  // var tipoAcao;
+  // var indice;
 
   ColaboradorEdit({
     Key? key,
     required this.colaboradorModel,
-    this.tipoAcao,
+    // this.tipoAcao,
+    // this.indice
   }) : super(key: key);
 
   @override
@@ -45,17 +46,17 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
   final TextEditingController _controllerConfSenha = TextEditingController();
   final TextEditingController _controllerChangePwd = TextEditingController();
 
-
   late AppModel appRepository;
   late ColaboradorModel oColaboradorModel;
 
   List<ColaboradorModel> listColaborador = [];
 
+  bool checkBoxEnable = false;
+
   bool checkAuditor = false;
   bool checkAuditorLider = false;
   bool checkLiderExperiencia = false;
   bool checkSenha = false;
-  
 
   final _formKey = GlobalKey<FormState>();
 
@@ -63,6 +64,18 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
   void initState() {
     _setText();
     super.initState();
+
+    _controllerSenha.addListener(() {
+      final checkBoxEnable = _controllerSenha.text.isNotEmpty;
+      setState(() => this.checkBoxEnable = checkBoxEnable);
+      
+    });
+  }
+
+  @override
+  void dispose() {
+    _controllerSenha.dispose();
+    super.dispose();
   }
 
   @override
@@ -105,7 +118,8 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
     } else {
       checkAuditorLider = false;
     }
-    _controllerqLiderExperiencia.text = oColaborador.qLiderExperiencia.toString();
+    _controllerqLiderExperiencia.text =
+        oColaborador.qLiderExperiencia.toString();
     if (_controllerqLiderExperiencia.text == "X") {
       checkLiderExperiencia = true;
     } else {
@@ -185,8 +199,7 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       Icons.date_range,
-                                      color: Color.fromARGB(
-                                          96, 88, 87, 87),
+                                      color: Color.fromARGB(96, 88, 87, 87),
                                       size: 20,
                                     ),
                                     onPressed: () async {
@@ -197,25 +210,21 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
                                         lastDate: DateTime(2100),
                                       );
                                       if (data != null)
-                                        setState(() => _valueEntrada =
-                                            data.toString());
-                      
-                                      _controllerDataInicio
-                                          .text = _valueEntrada
-                                              .substring(8, 10) +
-                                          '/' +
-                                          _valueEntrada.substring(
-                                              5, 7) +
-                                          '/' +
-                                          _valueEntrada.substring(0, 4);
-                      
-                                      print(_controllerDataInicio.text);
+                                        setState(() =>
+                                            _valueEntrada = data.toString());
+
+                                      _controllerDataInicio.text =
+                                          _valueEntrada.substring(8, 10) +
+                                              '/' +
+                                              _valueEntrada.substring(5, 7) +
+                                              '/' +
+                                              _valueEntrada.substring(0, 4);
                                     },
                                   ),
                                 ),
                               ),
                             ),
-                             const SizedBox(
+                            const SizedBox(
                               width: 30,
                               height: 20,
                             ),
@@ -249,6 +258,7 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
                               width: 300,
                               height: 60,
                               child: TextFormField(
+                                obscureText: true,
                                 controller: _controllerSenha,
                                 decoration: const InputDecoration(
                                   labelText: "Senha",
@@ -265,13 +275,14 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
                               width: 300,
                               height: 60,
                               child: TextFormField(
+                                obscureText: true,
                                 validator: (value) {
                                   if (value != _controllerSenha.text) {
                                     return "As senhas não são compatíveis";
                                   }
                                   return null;
                                 },
-                                  decoration: const InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: "Confirmação de Senha",
                                   border: OutlineInputBorder(),
                                   isDense: true,
@@ -279,122 +290,78 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
                               ),
                             ),
                             SizedBox(
-                              child: Row(
-                                children: [
-                                  Checkbox(
+                                child: Row(
+                              children: [
+                                Checkbox(
                                     value: checkSenha,
-                                    onChanged:(value) {
-                                      setState(() {
-                                        checkSenha = value!;
-                                      });
-                                  },),
-                                 Text("Solicitar alteração de senha no próximo logon?")
-                                ],
-                              )
-                            ),
+                                    onChanged: checkBoxEnable
+                                        ? (value) {
+                                            setState(() {
+                                              if (_controllerSenha.text != "") {
+                                                checkBoxEnable = true;
+                                              }
+                                              checkSenha = value!;
+                                            });
+                                          }
+                                        : null),
+                                Text(
+                                    "Solicitar alteração de senha no próximo logon?")
+                              ],
+                            )),
                             const SizedBox(
                               width: 30,
                               height: 2,
                             ),
                             SizedBox(
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                    value: checkAuditor,
-                                    onChanged:(value) {
-                                      setState(() {
-                                        checkAuditor = value!;
-                                      });
-                                  },),
-                                 Text("Auditor")
-                                ],
-                              )
-                            ),
-                            const SizedBox(
-                             width: 30,
-                              height: 2,
-                            ),
-                            SizedBox(
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                    value: checkAuditorLider,
-                                    onChanged:(value) {
-                                      setState(() {
-                                        checkAuditorLider = value!;
-                                      });
-                                  },),
-                                 Text("Auditor Líder")
-                                ],
-                              )
-                            ),
+                                child: Row(
+                              children: [
+                                Checkbox(
+                                  value: checkAuditor,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      checkAuditor = value!;
+                                    });
+                                  },
+                                ),
+                                Text("Auditor")
+                              ],
+                            )),
                             const SizedBox(
                               width: 30,
                               height: 2,
                             ),
                             SizedBox(
-                              child: Row(
-                                children: [
-                                  Checkbox(
-                                    value: checkLiderExperiencia,
-                                    onChanged:(value) {
-                                      setState(() {
-                                        checkLiderExperiencia = value!;
-                                      });
-                                  },),
-                                 Text("Lider de Experiência")
-                                ],
-                              )
+                                child: Row(
+                              children: [
+                                Checkbox(
+                                  value: checkAuditorLider,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      checkAuditorLider = value!;
+                                    });
+                                  },
+                                ),
+                                Text("Auditor Líder")
+                              ],
+                            )),
+                            const SizedBox(
+                              width: 30,
+                              height: 2,
                             ),
-                            // const SizedBox(
-                            //   width: 30,
-                            //   height: 20,
-                            // ),
-                            // SizedBox(
-                            //   width: 300,
-                            //   height: 40,
-                            //   child: TextFormField(
-                            //     controller: _controllerqAuditor,
-                            //     decoration: const InputDecoration(
-                            //       labelText: "Auditor",
-                            //       border: OutlineInputBorder(),
-                            //       isDense: true,
-                            //     ),
-                            //   ),
-                            // ),
-                            // const SizedBox(
-                            //   width: 30,
-                            //   height: 20,
-                            // ),
-                            // SizedBox(
-                            //   width: 300,
-                            //   height: 40,
-                            //   child: TextFormField(
-                            //     controller: _controllerqAuditorLider,
-                            //     decoration: const InputDecoration(
-                            //       labelText: "Auditor Líder",
-                            //       border: OutlineInputBorder(),
-                            //       isDense: true,
-                            //     ),
-                            //   ),
-                            // ),
-                            // const SizedBox(
-                            //   width: 30,
-                            //   height: 20,
-                            // ),
-                            // SizedBox(
-                            //   width: 300,
-                            //   height: 40,
-                            //   child: TextFormField(
-                            //     controller:
-                            //         _controllerqLiderExperiencia,
-                            //     decoration: const InputDecoration(
-                            //       labelText: "Lider de Experiência",
-                            //       border: OutlineInputBorder(),
-                            //       isDense: true,
-                            //     ),
-                            //   ),
-                            // ),
+                            SizedBox(
+                                child: Row(
+                              children: [
+                                Checkbox(
+                                  value: checkLiderExperiencia,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      checkLiderExperiencia = value!;
+                                    });
+                                  },
+                                ),
+                                Text("Lider de Experiência")
+                              ],
+                            )),
                             const SizedBox(
                               width: 30,
                               height: 20,
@@ -452,98 +419,102 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
   }
 
   _onClickSalvar() async {
+    if (_formKey.currentState!.validate()) {
+      if (_controllerNome.text == "" ||
+          _controllerEspecialidade.text == "" ||
+          _controllerEmail.text == "") {
+        _onClickDialog();
+        return;
+      }
 
-   if(_formKey.currentState!.validate()) {
-    if (_controllerNome.text == "" || _controllerEspecialidade.text == "" || _controllerEmail.text == "" ) {
-      _onClickDialog();
-      return;
-    }
-  
-    var senha = _controllerSenha.text;
-    var novaSenha;
-    var auditor;
-    var auditorLider;
-    var liderExperiencia;
+      var senha = _controllerSenha.text;
+      var novaSenha;
+      var auditor;
+      var auditorLider;
+      var liderExperiencia;
 
-    if (checkSenha == true) {
-      novaSenha = "X";
-    }
+      if (checkBoxEnable == false) {
+        checkSenha = false;
+      } 
 
-    if (checkAuditor == true) {
-      auditor = "X";
+      if (checkSenha == true) {
+        novaSenha = "X";
+      }
+
+      if (checkAuditor == true) {
+        auditor = "X";
+      } else {
+        auditor = "";
+      }
+
+      if (checkAuditorLider == true) {
+        auditorLider = "X";
+      } else {
+        auditorLider = "";
+      }
+
+      if (checkLiderExperiencia == true) {
+        liderExperiencia = "X";
+      } else {
+        liderExperiencia = "";
+      }
+
+      var DataInicio = _controllerDataInicio.text.substring(3, 5) +
+          '/' +
+          _controllerDataInicio.text.substring(0, 2) +
+          '/' +
+          _controllerDataInicio.text.substring(6, 10);
+
+      ColaboradorApi colaboradorApi = ColaboradorApi();
+
+      ColaboradorModel oColaborador = ColaboradorModel(
+        idAuditor: widget.colaboradorModel.idAuditor,
+        Nome: _controllerNome.text,
+        DataInicio: DataInicio.toString(),
+        Especialidade: _controllerEspecialidade.text,
+        Usuario: _controllerEmail.text,
+        qAuditor: auditor,
+        qAuditorLider: auditorLider,
+        qLiderExperiencia: liderExperiencia,
+        Senha: senha,
+        change_pwd: novaSenha,
+      );
+
+      var messageReturn = await colaboradorApi.updateColaborador(oColaborador, widget.colaboradorModel.idAuditor!);
+
+      if (messageReturn["type"] == "S") {
+        Fluttertoast.showToast(
+            msg: messageReturn["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 10,
+            fontSize: 16.0);
+
+        AppModel app = Provider.of<AppModel>(context, listen: false);
+        app.setPage(ColaboradorPage());
+      } else if (messageReturn["type"] == "U") {
+        Fluttertoast.showToast(
+            msg: messageReturn["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 10,
+            fontSize: 16.0);
+
+        SchedulerBinding.instance!.addPostFrameCallback((_) {
+          Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => LoginPage()));
+        });
+      } else {
+        Fluttertoast.showToast(
+            msg: messageReturn["message"],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.CENTER,
+            timeInSecForIosWeb: 10,
+            fontSize: 16.0);
+      }
     } else {
-      auditor = "";
+      print("invalido");
     }
-    
-    if (checkAuditorLider == true) {
-      auditorLider = "X";
-    } else {
-      auditorLider = "";
-    }
-    
-    if (checkLiderExperiencia == true) {
-      liderExperiencia =  "X";
-    } else {
-      liderExperiencia =  "";
-    }
-
-    var DataInicio = _controllerDataInicio.text.substring(3, 5) +
-        '/' +
-        _controllerDataInicio.text.substring(0, 2) +
-        '/' +
-        _controllerDataInicio.text.substring(6, 10);
-
-    ColaboradorApi colaboradorApi = ColaboradorApi();
-
-    ColaboradorModel oColaborador = ColaboradorModel(
-      idAuditor: widget.colaboradorModel.idAuditor,
-      Nome: _controllerNome.text,
-      DataInicio: DataInicio.toString(),
-      Especialidade: _controllerEspecialidade.text,
-      Usuario:_controllerEmail.text,
-      qAuditor: auditor,
-      qAuditorLider: auditorLider,
-      qLiderExperiencia: liderExperiencia,
-      Senha: senha,
-      change_pwd: novaSenha,
-    );
-
-    var messageReturn = await colaboradorApi.updateColaborador(oColaborador);
-
-    if (messageReturn["type"] == "S") {
-      Fluttertoast.showToast(
-          msg: messageReturn["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 10,
-          fontSize: 16.0);
-
-      AppModel app = Provider.of<AppModel>(context, listen: false);
-      app.setPage(ColaboradorPage());
-
-    } else if (messageReturn["type"] == "U") {
-      Fluttertoast.showToast(
-          msg: messageReturn["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 10,
-          fontSize: 16.0);
-
-      SchedulerBinding.instance!.addPostFrameCallback((_) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LoginPage()));
-      });
-    } else {
-      Fluttertoast.showToast(
-          msg: messageReturn["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 10,
-          fontSize: 16.0);
-    }
-   } else {
-     print("invalido");
-   }
   }
 
   _onClickDialog() => showDialog(
@@ -553,16 +524,20 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
             height: 60,
             child: Center(
               child: ListTile(
-              leading: Icon(Icons.warning,
-              color: Colors.orange,
-              size: 30,),
-              title: Text('Preencha os campos obrigatórios.',
-             style: TextStyle(fontSize: 20),
-             ),
-              subtitle: Text('Nome, Especialidade e E-mail.',
-              style: TextStyle(fontSize: 18),
+                leading: Icon(
+                  Icons.warning,
+                  color: Colors.orange,
+                  size: 30,
+                ),
+                title: Text(
+                  'Preencha os campos obrigatórios.',
+                  style: TextStyle(fontSize: 20),
+                ),
+                subtitle: Text(
+                  'Nome, Especialidade e E-mail.',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
-            ),
             ),
           ),
           actions: [

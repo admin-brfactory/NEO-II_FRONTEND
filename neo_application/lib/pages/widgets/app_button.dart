@@ -10,6 +10,7 @@ class AppButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: 300,
+      height: 40,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           primary: Color.fromRGBO(78, 204, 196, 2),
