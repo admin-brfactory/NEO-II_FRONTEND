@@ -3,9 +3,7 @@ import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_api.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_model.dart';
-import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_page.dart';
 import 'package:neo_application/pages/default_page.dart';
-import 'package:neo_application/pages/home_page/home_page.dart';
 import 'package:neo_application/pages/login_page/login_page.dart';
 import 'package:neo_application/pages/provider/app_provider.dart';
 import 'package:provider/provider.dart';
@@ -55,19 +53,31 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
   bool checkAuditorLider = false;
   bool checkLiderExperiencia = false;
   bool checkSenha = false;
-  
 
   final _formKey = GlobalKey<FormState>();
 
+  bool checkBoxEnable = false;
+
+  late Future future;
+
   @override
   void initState() {
-    _setText();
+    future = ColaboradorApi().getColaborador();
     super.initState();
+    
+    _controllerSenha.addListener(() {
+      final checkBoxEnable = _controllerSenha.text.isNotEmpty;
+      setState(() => this.checkBoxEnable = checkBoxEnable);
+    });
   }
 
   @override
+  void dispose() {
+    _controllerSenha.dispose();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
-    oColaboradorModel = widget.colaboradorModel;
     appRepository = Provider.of<AppModel>(context);
     return Scaffold(
       body: _body(),
@@ -80,19 +90,13 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
     );
   }
 
-  _setText() {
-    oColaborador = widget.colaboradorModel;
+  _setText(ColaboradorModel colaboradorModel) {
+    oColaborador = colaboradorModel;
     _controlleridAuditor.text = oColaborador.idAuditor.toString();
     _controllerNome.text = oColaborador.Nome.toString();
     _controllerDataInicio.text = oColaborador.DataInicio.toString();
     _controllerEspecialidade.text = oColaborador.Especialidade.toString();
     _controllerEmail.text = oColaborador.Usuario.toString();
-    // _controllerChangePwd.text = oColaborador.change_pwd.toString();
-    // if (_controllerChangePwd.text == "X") {
-    //   checkSenha = true;
-    // } else {
-    //   checkSenha = false;
-    // }
     _controllerqAuditor.text = oColaborador.qAuditor.toString();
     if (_controllerqAuditor.text == "X") {
       checkAuditor = true;
@@ -115,13 +119,14 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
 
   _body() {
     return FutureBuilder(
-      future: ColaboradorApi().getColaborador(),
+      future: future,
       builder: (context, AsyncSnapshot snapshot) {
         if (snapshot.hasError) {
           return const Center(child: Text("Erro ao carregar os dados"));
         }
         if (snapshot.hasData) {
           listColaborador = snapshot.data;
+          _setText(listColaborador[0]);
           if (listColaborador.isNotEmpty) {
             return ListView(
               children: [
@@ -250,6 +255,7 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
                               height: 60,
                               child: TextFormField(
                                 controller: _controllerSenha,
+                                obscureText: true,
                                 decoration: const InputDecoration(
                                   labelText: "Senha",
                                   border: OutlineInputBorder(),
@@ -265,6 +271,7 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
                               width: 300,
                               height: 60,
                               child: TextFormField(
+                                obscureText: true,
                                 validator: (value) {
                                   if (value != _controllerSenha.text) {
                                     return "As senhas não são compatíveis";
@@ -283,11 +290,16 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
                                 children: [
                                   Checkbox(
                                     value: checkSenha,
-                                    onChanged:(value) {
-                                      setState(() {
-                                        checkSenha = value!;
-                                      });
-                                  },),
+                                    onChanged: checkBoxEnable
+                                        ? (value) {
+                                            setState(() {
+                                              if (_controllerSenha.text != "") {
+                                                checkBoxEnable = true;
+                                              }
+                                              checkSenha = value!;
+                                            });
+                                          }
+                                        : null),
                                  Text("Solicitar alteração de senha no próximo logon?")
                                 ],
                               )
@@ -346,55 +358,6 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
                                 ],
                               )
                             ),
-                            // const SizedBox(
-                            //   width: 30,
-                            //   height: 20,
-                            // ),
-                            // SizedBox(
-                            //   width: 300,
-                            //   height: 40,
-                            //   child: TextFormField(
-                            //     controller: _controllerqAuditor,
-                            //     decoration: const InputDecoration(
-                            //       labelText: "Auditor",
-                            //       border: OutlineInputBorder(),
-                            //       isDense: true,
-                            //     ),
-                            //   ),
-                            // ),
-                            // const SizedBox(
-                            //   width: 30,
-                            //   height: 20,
-                            // ),
-                            // SizedBox(
-                            //   width: 300,
-                            //   height: 40,
-                            //   child: TextFormField(
-                            //     controller: _controllerqAuditorLider,
-                            //     decoration: const InputDecoration(
-                            //       labelText: "Auditor Líder",
-                            //       border: OutlineInputBorder(),
-                            //       isDense: true,
-                            //     ),
-                            //   ),
-                            // ),
-                            // const SizedBox(
-                            //   width: 30,
-                            //   height: 20,
-                            // ),
-                            // SizedBox(
-                            //   width: 300,
-                            //   height: 40,
-                            //   child: TextFormField(
-                            //     controller:
-                            //         _controllerqLiderExperiencia,
-                            //     decoration: const InputDecoration(
-                            //       labelText: "Lider de Experiência",
-                            //       border: OutlineInputBorder(),
-                            //       isDense: true,
-                            //     ),
-                            //   ),
-                            // ),
                             const SizedBox(
                               width: 30,
                               height: 20,
@@ -465,9 +428,13 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
     var auditorLider;
     var liderExperiencia;
 
-    if (checkSenha == true) {
-      novaSenha = "X";
-    }
+    if (checkBoxEnable == false) {
+        checkSenha = false;
+      } 
+
+      if (checkSenha == true) {
+        novaSenha = "X";
+      }
 
     if (checkAuditor == true) {
       auditor = "X";
@@ -508,7 +475,7 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
       change_pwd: novaSenha,
     );
 
-    var messageReturn = await colaboradorApi.updateColaborador(oColaborador);
+    var messageReturn = await colaboradorApi.updateColaborador(oColaborador, widget.colaboradorModel.idAuditor!);
 
     if (messageReturn["type"] == "S") {
       Fluttertoast.showToast(
@@ -517,6 +484,7 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
           gravity: ToastGravity.CENTER,
           timeInSecForIosWeb: 10,
           fontSize: 16.0);
+          
           AppModel app = Provider.of<AppModel>(context, listen: false);
            app.setPage(DefaultPage());
     } else if (messageReturn["type"] == "U") {
@@ -539,9 +507,7 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
           timeInSecForIosWeb: 10,
           fontSize: 16.0);
     }
-   } else {
-     print("invalido");
-   }
+   } 
   }
 
   _onClickDialog() => showDialog(

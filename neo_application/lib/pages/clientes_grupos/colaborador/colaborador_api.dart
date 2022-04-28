@@ -72,12 +72,12 @@ class ColaboradorApi {
     throw "Erro ao carregar os dados";
   }
 
-  Future updateColaborador(ColaboradorModel oColaborador) async {
+  Future updateColaborador(ColaboradorModel oColaborador, int update) async {
     var token = await UserToken().getToken();
 
     try {
       var url = Uri.parse(
-          "https://neo-ii-back-end.azurewebsites.net/user/update");
+          "https://neo-ii-back-end.azurewebsites.net/user/update/$update");
 
       var body = {
       "idAuditor": oColaborador.idAuditor,

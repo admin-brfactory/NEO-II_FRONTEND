@@ -13,8 +13,9 @@ import 'package:neo_application/pages/utils/globals.dart' as globals;
 
 class ColaboradorPage extends StatefulWidget {
   String? token;
+  var indice;
 
-  ColaboradorPage({Key? key, this.token}) : super(key: key);
+  ColaboradorPage({Key? key, this.token, this.indice}) : super(key: key);
 
   @override
   State<ColaboradorPage> createState() => _ColaboradorPageState();
@@ -103,29 +104,55 @@ class _ColaboradorPageState extends State<ColaboradorPage> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+
                         IconButton(
-                          onPressed: () {
-                            AppModel app =
-                                Provider.of<AppModel>(context, listen: false);
-                            app.setPage(ColaboradorEdit(
-                              colaboradorModel: listColaborador[index],
-                              tipoAcao: "editar",
-                            ));
-                          },
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Color.fromARGB(246, 34, 37, 44),
-                          ),
-                        ),
-                        IconButton(
-                          onPressed: () async {
-                            await _dialogDelete(index, context);
-                          },
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Color.fromARGB(246, 34, 37, 44),
-                          ),
-                        ),
+                              onPressed: () {
+                                AppModel app = Provider.of<AppModel>(context,
+                                    listen: false);
+                                app.setPage(ColaboradorEdit(
+                                  colaboradorModel: listColaborador[index],
+                                  // tipoAcao: "editar",
+                                  // indice: index,
+                                ));
+                              },
+                              icon: const Icon(
+                                Icons.edit,
+                                color: Color.fromARGB(246, 34, 37, 44),
+                              ),
+                            ),
+                            IconButton(
+                              onPressed: () async {
+                                await _dialogDelete(index, context);
+                              },
+                              icon: const Icon(
+                                Icons.delete,
+                                color: Color.fromARGB(246, 34, 37, 44),
+                              ),
+                            ),
+
+                        // IconButton(
+                        //   onPressed: () {
+                        //     AppModel app =
+                        //         Provider.of<AppModel>(context, listen: false);
+                        //     app.setPage(ColaboradorEdit(
+                        //       colaboradorModel: listColaborador[index],
+                        //       tipoAcao: "editar",
+                        //     ));
+                        //   },
+                        //   icon: const Icon(
+                        //     Icons.edit,
+                        //     color: Color.fromARGB(246, 34, 37, 44),
+                        //   ),
+                        // ),
+                        // IconButton(
+                        //   onPressed: () async {
+                        //     await _dialogDelete(index, context);
+                        //   },
+                        //   icon: const Icon(
+                        //     Icons.delete,
+                        //     color: Color.fromARGB(246, 34, 37, 44),
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
