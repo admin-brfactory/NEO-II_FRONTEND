@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         Center(
           child: Container(
-            height: 310,
+            height: 340,
             width: 400,
             decoration: const BoxDecoration(
               color: Colors.white,
@@ -90,14 +90,12 @@ class _LoginPageState extends State<LoginPage> {
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
-                  
                   child: Center(
                     child: Container(
                       height: 100,
                       decoration: const BoxDecoration(
                         image: DecorationImage(
                           image: AssetImage("images/logoEco.jpeg"),
-                          
                           fit: BoxFit.fitHeight,
                         ),
                       ),
