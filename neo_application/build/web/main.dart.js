@@ -75083,7 +75083,7 @@ A.afv.prototype={
 $0(){this.a.go=!1},
 $S:0}
 A.afC.prototype={
-$1(a){var s=null,r=A.f8(20),q=this.a,p=t.p,o=A.a1(s,A.ws(s,A.c1(A.a([A.a1(s,A.x("Altera\xe7\xe3o de senha inicial",s,s,s,s,A.bq(s,s,s,s,s,s,s,s,s,s,s,25,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),B.h,s,s,s,s,s,s,new A.av(30,30,30,30),s,s,s),A.ax(A.aZ(!1,q.fr,B.fu,s,s,s,s,!0,s,s,s,s,s,new A.afy()),60,300),B.c6,A.ax(A.aZ(!1,s,B.p1,s,s,s,s,!0,s,s,s,s,s,new A.afz(q)),60,300)],p),B.t,B.q,B.u),q.k1),B.h,s,s,s,s,230,s,s,s,s,400),n=A.aT(s,s,s,s,s,s,s,s,s,s,s,A.bO(78,204,196,2),s,s,s,s,s,s)
+$1(a){var s=null,r=A.f8(20),q=this.a,p=t.p,o=A.a1(s,A.ws(s,A.c1(A.a([A.a1(s,A.x("Altera\xe7\xe3o de senha inicial",s,s,s,s,A.bq(s,s,s,s,s,s,s,s,s,s,s,25,s,s,s,s,!0,s,s,s,s,s,s,s,s),s,s),B.h,s,s,s,s,s,s,new A.av(30,30,30,30),s,s,s),A.ax(A.aZ(!1,q.fr,B.fu,s,s,s,s,!0,s,s,s,s,s,new A.afy()),60,300),B.c6,A.ax(A.aZ(!1,s,B.p1,s,s,s,s,!0,s,s,s,s,s,new A.afz(q)),60,300)],p),B.t,B.q,B.u),q.k1),B.h,s,s,s,s,250,s,s,s,s,400),n=A.aT(s,s,s,s,s,s,s,s,s,s,s,A.bO(78,204,196,2),s,s,s,s,s,s)
 n=A.aW(A.x("Salvar Altera\xe7\xf5es",s,s,s,s,s,s,s),new A.afA(q,this.b,a),n)
 q=A.aT(s,s,s,s,s,s,s,s,s,s,s,A.bO(78,204,196,2),s,s,s,s,s,s)
 return A.a1(s,A.dk(A.a([n,A.aW(A.x("Cancelar",s,s,s,s,s,s,s),new A.afB(a),q)],p),o,24,new A.dP(r,B.B)),B.h,s,s,s,s,s,s,s,s,s,s)},
@@ -75093,7 +75093,7 @@ $1(a){if(a.length===0)return"Senha obrigat\xf3ria"
 return null},
 $S:14}
 A.afz.prototype={
-$1(a){if(a.length===0)return"Confirma\xe7\xe3o de obrigat\xf3ria"
+$1(a){if(a.length===0)return"Confirma\xe7\xe3o de senha obrigat\xf3ria"
 if(a!==this.a.fr.a.a)return"As senhas n\xe3o s\xe3o compat\xedveis"
 return null},
 $S:14}
