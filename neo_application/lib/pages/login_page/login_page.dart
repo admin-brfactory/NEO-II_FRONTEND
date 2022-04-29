@@ -182,6 +182,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   _onDialogNovaSenha(ColaboradorModel colaborador) => showDialog(
+        barrierDismissible: false,
         context: context,
         builder: (context) => Container(
           child: AlertDialog(
@@ -268,6 +269,7 @@ class _LoginPageState extends State<LoginPage> {
                     Navigator.pop(context);
                     setState(() {
                       _showProgress = false;
+                      _tSenha.text = "";
                     });
                   } else {
                     Fluttertoast.showToast(
@@ -284,8 +286,13 @@ class _LoginPageState extends State<LoginPage> {
                 style: ElevatedButton.styleFrom(
                     primary: Color.fromRGBO(78, 204, 196, 2)),
                 onPressed: () => {
-                  Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(builder: (context) => LoginPage()))
+                  Navigator.pop(context),
+                    setState(() {
+                      _showProgress = false;
+                      _tSenha.text = "";
+                      _controllerSenha.text = "";
+                    }),
+                      
                 },
                 child: Text("Cancelar"),
               ),
@@ -311,9 +318,17 @@ class _LoginPageState extends State<LoginPage> {
         builder: (context) => AlertDialog(
           content: Container(
             height: 60,
-            child: Center(
-              child: Text("E-mail ou senha incorreto"),
+            child: ListTile(
+              leading: Icon(Icons.warning,
+              color: Colors.orange,
+              size: 30,),
+              title: Text('E-mail ou senha incorreto.',
+             style: TextStyle(fontSize: 20),
+             ),
             ),
+            // Center(
+            //   child: Text("E-mail ou senha incorreto"),
+            // ),
           ),
           actions: [
             ElevatedButton(

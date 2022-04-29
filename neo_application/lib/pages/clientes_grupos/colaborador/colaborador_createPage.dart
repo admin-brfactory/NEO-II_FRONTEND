@@ -261,7 +261,7 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
                               child: TextFormField(
                                 validator: (value) {
                                   if (value!.length == 0) {
-                                    return "Confirmação de obrigatória";
+                                    return "Confirmação de senha obrigatória";
                                   }
                                   if (value != _controllerSenha.text) {
                                     return "As senhas não são compatíveis";
@@ -493,66 +493,6 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
      print("invalido");
    }
   }
-
-  // _onClickSalvar() async {
-  //   if (_controllerNome.text == "" || _controllerEspecialidade.text == "" || _controllerEmail.text == "" ) {
-  //     _onClickDialog();
-  //     return;
-  //   }
-    
-  //   var DataInicio = _controllerDataInicio.text.substring(3, 5) +
-  //       '/' +
-  //       _controllerDataInicio.text.substring(0, 2) +
-  //       '/' +
-  //       _controllerDataInicio.text.substring(6, 10);
-
-  //   ColaboradorApi colaboradorApi = ColaboradorApi();
-
-  //   ColaboradorModel oColaborador = ColaboradorModel(
-  //     idAuditor: widget.colaboradorModel.idAuditor,
-  //     Nome: _controllerNome.text,
-  //     DataInicio: DataInicio.toString(),
-  //     Especialidade: _controllerEspecialidade.text,
-  //     qAuditor: _controllerqAuditor.text,
-  //     qAuditorLider: _controllerqAuditorLider.text,
-  //     qLiderExperiencia: _controllerqLiderExperiencia.text,
-  //     Usuario: _controllerEmail.text,
-  //   );
-
-  //   var messageReturn = await colaboradorApi.updateColaborador(oColaborador);
-
-  //   if (messageReturn["type"] == "S") {
-  //     Fluttertoast.showToast(
-  //         msg: messageReturn["message"],
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.CENTER,
-  //         timeInSecForIosWeb: 10,
-  //         fontSize: 16.0);
-
-  //     AppModel app = Provider.of<AppModel>(context, listen: false);
-  //     app.setPage(ColaboradorPage());
-  //   } else if (messageReturn["type"] == "U") {
-  //     Fluttertoast.showToast(
-  //         msg: messageReturn["message"],
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.CENTER,
-  //         timeInSecForIosWeb: 10,
-  //         fontSize: 16.0);
-
-  //     SchedulerBinding.instance!.addPostFrameCallback((_) {
-  //       Navigator.of(context).pushReplacement(
-  //           MaterialPageRoute(builder: (context) => LoginPage()));
-  //     });
-  //   } else {
-  //     Fluttertoast.showToast(
-  //         msg: messageReturn["message"],
-  //         toastLength: Toast.LENGTH_SHORT,
-  //         gravity: ToastGravity.CENTER,
-  //         timeInSecForIosWeb: 10,
-  //         fontSize: 16.0);
-  //   }
-  // }
-
 
   _onClickDialog() => showDialog(
         context: context,
