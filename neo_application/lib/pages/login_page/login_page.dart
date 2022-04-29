@@ -149,12 +149,6 @@ class _LoginPageState extends State<LoginPage> {
     LoginModel loginModel = LoginModel();
     String username = _tLogin.text;
     String password = _tSenha.text;
-    // String changePwd = "X";
-
-    // if (changePwd == "X") {
-    //   _onDialogNovaSenha();
-    //   return;
-    // }
 
     setState(() {
       _showProgress = true;
@@ -326,9 +320,6 @@ class _LoginPageState extends State<LoginPage> {
              style: TextStyle(fontSize: 20),
              ),
             ),
-            // Center(
-            //   child: Text("E-mail ou senha incorreto"),
-            // ),
           ),
           actions: [
             ElevatedButton(
@@ -340,10 +331,6 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
       );
-
-  // _onClickSalvarNovaSenha() {
-
-  // }
 
   _onClickSalvarNovaSenha(ColaboradorModel colaborador) async {
     if (_formKeyDialog.currentState!.validate()) {
