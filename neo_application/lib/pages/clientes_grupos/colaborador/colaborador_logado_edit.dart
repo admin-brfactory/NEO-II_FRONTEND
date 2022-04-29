@@ -233,7 +233,7 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
                                     return "E-mail curto demais";
                                   } else if (!value.contains("@")) {
                                     return "E-mail invalido";
-                                  } else if (!value.contains(".com")) {
+                                  } else if (!value.contains(".")) {
                                     return "E-mail invalido";
                                   }
                                   return null;

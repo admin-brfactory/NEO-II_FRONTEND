@@ -237,7 +237,7 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
                                     return "E-mail curto demais";
                                   } else if (!value.contains("@")) {
                                     return "E-mail invalido";
-                                  } else if (!value.contains(".com")) {
+                                  } else if (!value.contains(".")) {
                                     return "E-mail invalido";
                                   }
                                   return null;

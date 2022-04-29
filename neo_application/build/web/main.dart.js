@@ -71774,7 +71774,7 @@ A.aav.prototype={
 $1(a){var s="E-mail invalido"
 if(a.length===0)return"E-mail obrigat\xf3rio"
 else if(!B.b.w(a,"@"))return s
-else if(!B.b.w(a,".com"))return s
+else if(!B.b.w(a,"."))return s
 return null},
 $S:14}
 A.aaw.prototype={
@@ -71983,7 +71983,7 @@ A.aaS.prototype={
 $1(a){var s="E-mail invalido"
 if(a.length===0)return"E-mail curto demais"
 else if(!B.b.w(a,"@"))return s
-else if(!B.b.w(a,".com"))return s
+else if(!B.b.w(a,"."))return s
 return null},
 $S:14}
 A.aaT.prototype={
@@ -72189,7 +72189,7 @@ A.abf.prototype={
 $1(a){var s="E-mail invalido"
 if(a.length===0)return"E-mail curto demais"
 else if(!B.b.w(a,"@"))return s
-else if(!B.b.w(a,".com"))return s
+else if(!B.b.w(a,"."))return s
 return null},
 $S:14}
 A.abg.prototype={

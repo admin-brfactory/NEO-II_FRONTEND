@@ -216,7 +216,7 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
                                     return "E-mail obrigatório";
                                   } else if (!value.contains("@")) {
                                     return "E-mail invalido";
-                                  } else if (!value.contains(".com")) {
+                                  } else if (!value.contains(".")) {
                                     return "E-mail invalido";
                                   }
                                   return null;
