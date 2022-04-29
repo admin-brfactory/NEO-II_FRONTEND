@@ -211,16 +211,7 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
                               width: 300,
                               height: 60,
                               child: TextFormField(
-                                validator: (value) {
-                                  if (value!.length == 0) {
-                                    return "E-mail obrigatório";
-                                  } else if (!value.contains("@")) {
-                                    return "E-mail invalido";
-                                  } else if (!value.contains(".")) {
-                                    return "E-mail invalido";
-                                  }
-                                  return null;
-                                },
+                                validator: _validateEmail,
                                 controller: _controllerEmail,
                                 decoration: const InputDecoration(
                                   labelText: "E-mail",
@@ -375,6 +366,15 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
         );
       },
     );
+  }
+
+  String? _validateEmail(String? text) {
+    if (text == "") {
+      return "E-mail obrigatório";
+    } else if (!RegExp(r'[a-zA-Z0-9.-_]+@[a-zA-Z0-9-_]+\..+').hasMatch(text ?? '')) {
+      return "E-mail invalido";
+    }
+    return null;
   }
 
   _Buttons() {
