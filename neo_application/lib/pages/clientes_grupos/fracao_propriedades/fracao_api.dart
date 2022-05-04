@@ -11,7 +11,7 @@ class FracaoPropApi {
   Future<List<FracaoPropModel>> getListFracaoProp() async {
     try {
       var url = Uri.parse(
-          "https://neo-ii-back-end.azurewebsites.net/fracaoPropriedade"); //fracaoPropriedade
+          "https://neo-ii-back-end.azurewebsites.net/fracaoPropriedade");
 
       var response = await http.get(url);
 
