@@ -385,93 +385,77 @@ class _ControleEditState extends State<ControleEdit> {
                           height: 20,
                         ),
                         Container(
-                          width: 300,
-                          height: 40,
-                          child: TextFormField(
-                            controller: _controllerDataEntrada,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                            ),
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: "Data Entrada",
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  Icons.date_range,
-                                  color: Color.fromARGB(96, 88, 87, 87),
-                                  size: 20,
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerDataEntrada,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
                                 ),
-                                onPressed: () async {
-                                  final data = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                  );
-                                  if (data != null)
-                                    setState(
-                                        () => _valueEntrada = data.toString());
-
-                                  _controllerDataEntrada.text =
-                                      _valueEntrada.substring(8, 10) +
-                                          '/' +
-                                          _valueEntrada.substring(5, 7) +
-                                          '/' +
-                                          _valueEntrada.substring(0, 4);
-
-                                  print(_controllerDataEntrada.text);
-                                },
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: "Data Entrada",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      Icons.date_range,
+                                      color: Color.fromARGB(96, 88, 87, 87),
+                                      size: 20,
+                                    ),
+                                    onPressed: () async {
+                                      final data = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (data != null) {
+                                      _valueEntrada = data.toString(); 
+                                      _controllerDataEntrada.text = _valueEntrada.substring(8, 10) + '/' + _valueEntrada.substring(5, 7) + '/' + _valueEntrada.substring(0, 4);
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
                         const SizedBox(
                           width: 30,
                           height: 20,
                         ),
                         Container(
-                          width: 300,
-                          height: 40,
-                          child: TextFormField(
-                            controller: _controllerDataSaida,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                            ),
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: "Data Saída",
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  Icons.date_range,
-                                  color: Color.fromARGB(96, 88, 87, 87),
-                                  size: 20,
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerDataSaida,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
                                 ),
-                                onPressed: () async {
-                                  final data = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                  );
-                                  if (data != null)
-                                    setState(
-                                        () => _valueSaida = data.toString());
-
-                                  _controllerDataSaida.text =
-                                      _valueSaida.substring(8, 10) +
-                                          '/' +
-                                          _valueSaida.substring(5, 7) +
-                                          '/' +
-                                          _valueSaida.substring(0, 4);
-
-                                  print(_controllerDataSaida.text);
-                                },
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: "Data de Saida",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      Icons.date_range,
+                                      color: Color.fromARGB(96, 88, 87, 87),
+                                      size: 20,
+                                    ),
+                                    onPressed: () async {
+                                      final data = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (data != null) {
+                                      _valueSaida = data.toString(); 
+                                      _controllerDataSaida.text = _valueSaida.substring(8, 10) + '/' + _valueSaida.substring(5, 7) + '/' + _valueSaida.substring(0, 4);
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
                         const SizedBox(
                           width: 30,
                           height: 20,
@@ -600,6 +584,20 @@ class _ControleEditState extends State<ControleEdit> {
       return;
     }
 
+    var DataEntradaInt = 
+        int.parse(_controllerDataEntrada.text.substring(0, 2) +
+        _controllerDataEntrada.text.substring(3, 5) +
+        _controllerDataEntrada.text.substring(6, 10));
+    var DataSaidaInt = 
+         int.parse(_controllerDataSaida.text.substring(0, 2) +
+        _controllerDataSaida.text.substring(3, 5) +
+        _controllerDataSaida.text.substring(6, 10));
+
+    if ( DataEntradaInt > DataSaidaInt) {
+      _onClickDialogDataIco();
+      return;
+    }
+
     var DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
         '/' +
         _controllerDataEntrada.text.substring(0, 2) +
@@ -700,6 +698,20 @@ class _ControleEditState extends State<ControleEdit> {
       return;
     }
 
+    var DataEntradaInt = 
+        int.parse(_controllerDataEntrada.text.substring(0, 2) +
+        _controllerDataEntrada.text.substring(3, 5) +
+        _controllerDataEntrada.text.substring(6, 10));
+    var DataSaidaInt = 
+         int.parse(_controllerDataSaida.text.substring(0, 2) +
+        _controllerDataSaida.text.substring(3, 5) +
+        _controllerDataSaida.text.substring(6, 10));
+
+    if ( DataEntradaInt > DataSaidaInt) {
+      _onClickDialogDataIco();
+      return;
+    }
+
     var DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
         '/' +
         _controllerDataEntrada.text.substring(0, 2) +
@@ -768,6 +780,33 @@ class _ControleEditState extends State<ControleEdit> {
               subtitle: Text('Entidades, Propriedades, Grupos, Fração, Data Entrada e Data Saída.',
               style: TextStyle(fontSize: 18),
               ),
+            ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => {Navigator.pop(context)},
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(75, 171, 143, 30)),
+              child: Text("Ok"),
+            )
+          ],
+        ),
+      );
+
+      _onClickDialogDataIco() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Container(
+            height: 60,
+            child: Center(
+              child: ListTile(
+              leading: Icon(Icons.warning,
+              color: Colors.orange,
+              size: 30,),
+              title: Text(' A Data Entrada não pode ser maior que a Data Saída',
+             style: TextStyle(fontSize: 20),
+             ),
             ),
             ),
           ),

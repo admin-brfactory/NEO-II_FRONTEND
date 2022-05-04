@@ -63,6 +63,7 @@ class _ControlePageState extends State<ControlePage> {
   }
 
   _body() {
+    ControleApi().getListControle();
     return FutureBuilder(
       future: ControleApi().getListControle(),
       builder: (context, AsyncSnapshot snapshot) {
