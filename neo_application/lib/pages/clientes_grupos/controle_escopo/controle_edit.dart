@@ -88,8 +88,8 @@ class _ControleEditState extends State<ControleEdit> {
       body: _body(),
       appBar: AppBar(
         title: Text(widget.tipoAcao == "editar"
-            ? "Editar Fração (${widget.controleModel.ID})"
-            : "Criar Nova Fração"),
+            ? "Editar Controle de Escopo (${widget.controleModel.ID})"
+            : "Criar Novo Controle de Escopo"),
         backgroundColor: Color.fromRGBO(78, 204, 196, 2),
         automaticallyImplyLeading: false,
         centerTitle: true,
@@ -111,6 +111,29 @@ class _ControleEditState extends State<ControleEdit> {
     _controllerAreaAuditada.text = oControle.AreaAuditada.toString();
     _controllerCicloTrabalho.text = oControle.CicloTrabalho.toString();
 
+    _buscarEntidades();
+
+    _buscarPropriedades();
+
+    _buscarGrupos();
+
+    _buscarFracao();
+    
+  }
+
+  _buscarGrupos() async {
+      await dropDownControllerGrupos.buscarGrupos();
+    var listGrupos = dropDownControllerGrupos.listGrupos;
+
+    if (oControle.grupos != null) {
+      var listGruposFiltrado = listGrupos
+          .where((element) => element.idGrupo == oControle.grupos!.idGrupo)
+          .toList();
+      dropDownControllerGrupos.setSelecionadoGrupos(listGruposFiltrado[0]);
+    }
+  }
+
+  _buscarEntidades() async {
     await dropDownControllerEntidades.buscarEntidades();
     var listEntidades = dropDownControllerEntidades.listEntidades;
 
@@ -121,7 +144,9 @@ class _ControleEditState extends State<ControleEdit> {
       dropDownControllerEntidades
           .setSelecionadoEntidades(listEntidadeFiltrado[0]);
     }
+  }
 
+  _buscarPropriedades() async {
     await dropDownControllerPropriedades.buscarPropriedades();
     var listPropriedades = dropDownControllerPropriedades.listPropriedades;
 
@@ -133,17 +158,9 @@ class _ControleEditState extends State<ControleEdit> {
       dropDownControllerPropriedades
           .setSelecionadoPropriedades(listPropriedadesFiltrado[0]);
     }
+  }
 
-    await dropDownControllerGrupos.buscarGrupos();
-    var listGrupos = dropDownControllerGrupos.listGrupos;
-
-    if (oControle.grupos != null) {
-      var listGruposFiltrado = listGrupos
-          .where((element) => element.idGrupo == oControle.grupos!.idGrupo)
-          .toList();
-      dropDownControllerGrupos.setSelecionadoGrupos(listGruposFiltrado[0]);
-    }
-
+  _buscarFracao() async {
     await dropDownControllerFracao.buscarFracao();
     var listFracao = dropDownControllerFracao.listFracao;
 
@@ -156,6 +173,10 @@ class _ControleEditState extends State<ControleEdit> {
   }
 
   _body() {
+    _buscarEntidades();
+    _buscarPropriedades();
+    _buscarGrupos();
+    _buscarFracao();
     return FutureBuilder(
       future: TodasTabelas().getTodasTabelas(),
       builder: (context, AsyncSnapshot snapshot) {
@@ -169,10 +190,10 @@ class _ControleEditState extends State<ControleEdit> {
           listFracao = todasTabelas.fracaoPropriedades!;
           listGrupos = todasTabelas.grupos!;
 
-          List<EntidadesModel> listEntidadesValue = [];
-          List<PropriedadesModel> listPropriedadeValue = [];
-          List<FracaoPropModel> listFracaoValue = [];
-          List<GruposModel> listGruposValue = [];
+          // List<EntidadesModel> listEntidadesValue = [];
+          // List<PropriedadesModel> listPropriedadeValue = [];
+          // List<FracaoPropModel> listFracaoValue = [];
+          // List<GruposModel> listGruposValue = [];
 
 
            switch (snapshot.connectionState) {
@@ -257,8 +278,7 @@ class _ControleEditState extends State<ControleEdit> {
                                     hint: Text("Propriedades"),
                                     isDense: true,
                                     isExpanded: true,
-                                    value: dropDownControllerPropriedades
-                                        .selecionadoPropriedades,
+                                    value: dropDownControllerPropriedades.selecionadoPropriedades,
                                     onChanged: (value) =>
                                         dropDownControllerPropriedades
                                             .setSelecionadoPropriedades(value),
@@ -289,8 +309,7 @@ class _ControleEditState extends State<ControleEdit> {
                           child: AnimatedBuilder(
                             animation: dropDownControllerGrupos,
                             builder: (context, child) {
-                              if (dropDownControllerGrupos
-                                  .listGrupos.isEmpty) {
+                              if (dropDownControllerGrupos.listGrupos.isEmpty) {
                                 return Center(
                                     child: const CircularProgressIndicator());
                               } else {
@@ -366,93 +385,77 @@ class _ControleEditState extends State<ControleEdit> {
                           height: 20,
                         ),
                         Container(
-                          width: 300,
-                          height: 40,
-                          child: TextFormField(
-                            controller: _controllerDataEntrada,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                            ),
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: "Data Entrada",
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  Icons.date_range,
-                                  color: Color.fromARGB(96, 88, 87, 87),
-                                  size: 20,
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerDataEntrada,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
                                 ),
-                                onPressed: () async {
-                                  final data = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                  );
-                                  if (data != null)
-                                    setState(
-                                        () => _valueEntrada = data.toString());
-
-                                  _controllerDataEntrada.text =
-                                      _valueEntrada.substring(8, 10) +
-                                          '/' +
-                                          _valueEntrada.substring(5, 7) +
-                                          '/' +
-                                          _valueEntrada.substring(0, 4);
-
-                                  print(_controllerDataEntrada.text);
-                                },
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: "Data Entrada",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      Icons.date_range,
+                                      color: Color.fromARGB(96, 88, 87, 87),
+                                      size: 20,
+                                    ),
+                                    onPressed: () async {
+                                      final data = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (data != null) {
+                                      _valueEntrada = data.toString(); 
+                                      _controllerDataEntrada.text = _valueEntrada.substring(8, 10) + '/' + _valueEntrada.substring(5, 7) + '/' + _valueEntrada.substring(0, 4);
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
                         const SizedBox(
                           width: 30,
                           height: 20,
                         ),
                         Container(
-                          width: 300,
-                          height: 40,
-                          child: TextFormField(
-                            controller: _controllerDataSaida,
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 15,
-                            ),
-                            decoration: InputDecoration(
-                              border: const OutlineInputBorder(),
-                              labelText: "Data Saída",
-                              suffixIcon: IconButton(
-                                icon: Icon(
-                                  Icons.date_range,
-                                  color: Color.fromARGB(96, 88, 87, 87),
-                                  size: 20,
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerDataSaida,
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 15,
                                 ),
-                                onPressed: () async {
-                                  final data = await showDatePicker(
-                                    context: context,
-                                    initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2100),
-                                  );
-                                  if (data != null)
-                                    setState(
-                                        () => _valueSaida = data.toString());
-
-                                  _controllerDataSaida.text =
-                                      _valueSaida.substring(8, 10) +
-                                          '/' +
-                                          _valueSaida.substring(5, 7) +
-                                          '/' +
-                                          _valueSaida.substring(0, 4);
-
-                                  print(_controllerDataSaida.text);
-                                },
+                                decoration: InputDecoration(
+                                  border: const OutlineInputBorder(),
+                                  labelText: "Data de Saida",
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      Icons.date_range,
+                                      color: Color.fromARGB(96, 88, 87, 87),
+                                      size: 20,
+                                    ),
+                                    onPressed: () async {
+                                      final data = await showDatePicker(
+                                        context: context,
+                                        initialDate: DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (data != null) {
+                                      _valueSaida = data.toString(); 
+                                      _controllerDataSaida.text = _valueSaida.substring(8, 10) + '/' + _valueSaida.substring(5, 7) + '/' + _valueSaida.substring(0, 4);
+                                      }
+                                    },
+                                  ),
+                                ),
                               ),
                             ),
-                          ),
-                        ),
                         const SizedBox(
                           width: 30,
                           height: 20,
@@ -581,70 +584,17 @@ class _ControleEditState extends State<ControleEdit> {
       return;
     }
 
-    var DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
-        '/' +
-        _controllerDataEntrada.text.substring(0, 2) +
-        '/' +
-        _controllerDataEntrada.text.substring(6, 10);
-    var DataSaida = _controllerDataSaida.text.substring(3, 5) +
-        '/' +
-        _controllerDataSaida.text.substring(0, 2) +
-        '/' +
-        _controllerDataSaida.text.substring(6, 10);
+    var DataEntradaInt = 
+        int.parse(_controllerDataEntrada.text.substring(0, 2) +
+        _controllerDataEntrada.text.substring(3, 5) +
+        _controllerDataEntrada.text.substring(6, 10));
+    var DataSaidaInt = 
+         int.parse(_controllerDataSaida.text.substring(0, 2) +
+        _controllerDataSaida.text.substring(3, 5) +
+        _controllerDataSaida.text.substring(6, 10));
 
-    int CicloTrabalho = int.parse(_controllerCicloTrabalho.text);
-
-    double AreaEscopo;
-    double AreaAuditada;
-
-    if (_controllerAreaEscopo.text.isEmpty) {
-      AreaEscopo = 0;
-    } else {
-      AreaEscopo =
-          double.parse(_controllerAreaEscopo.text.replaceAll(",", "."));
-    }
-
-    if (_controllerAreaAuditada.text.isEmpty) {
-      AreaAuditada = 0;
-    } else {
-      AreaAuditada =
-          double.parse(_controllerAreaAuditada.text.replaceAll(",", "."));
-    }
-
-    ControleApi controleApi = ControleApi();
-
-    ControleModel oControle = ControleModel(
-      ID: widget.controleModel.ID,
-      idFracao: dropDownControllerFracao.selecionadoFracao!.ID,
-      idEntidade: dropDownControllerEntidades.selecionadoEntidades!.Id,
-      idPropriedade:dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade,
-      idGrupo: dropDownControllerGrupos.selecionadoGrupos!.idGrupo,
-      DataEntrada: DataEntrada.toString(),
-      DataSaida: DataSaida.toString(),
-      RequerenteSaida: _controllerRequerenteSaida.text.toString(),
-      AreaEscopo: AreaEscopo,
-      AreaAuditada: AreaAuditada,
-      CicloTrabalho: CicloTrabalho,
-    );
-
-    var messageReturn = await controleApi.updateControle(oControle);
-
-    if (messageReturn["type"] == "S") {
-      Fluttertoast.showToast(
-          msg: messageReturn["message"],
-          toastLength: Toast.LENGTH_SHORT,
-          gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
-          fontSize: 16.0);
-
-      AppModel app = Provider.of<AppModel>(context, listen: false);
-      app.setPage(ControlePage());
-    }
-  }
-
-  _onClickAdd() async {
-    if (_controllerDataEntrada.text == "" || _controllerDataSaida.text == "") {
-      _onClickDialog();
+    if ( DataEntradaInt > DataSaidaInt) {
+      _onClickDialogDataIco();
       return;
     }
 
@@ -663,14 +613,176 @@ class _ControleEditState extends State<ControleEdit> {
     double AreaAuditada = double.parse(_controllerAreaAuditada.text);
     int CicloTrabalho = int.parse(_controllerCicloTrabalho.text);
 
+    if (_controllerAreaEscopo.text.isEmpty) {
+      AreaEscopo = 0;
+    } else {
+      AreaEscopo =
+          double.parse(_controllerAreaEscopo.text.replaceAll(",", "."));
+    }
+
+    if (_controllerAreaAuditada.text.isEmpty) {
+      AreaAuditada = 0;
+    } else {
+      AreaAuditada =
+          double.parse(_controllerAreaAuditada.text.replaceAll(",", "."));
+    }
+
+      var fracao;
+      var entidades;
+      var propriedades;
+      var grupos;
+
+
+      var idFracao = dropDownControllerFracao.selecionadoFracao;
+      if (idFracao == null) {
+        fracao = 0;
+      } else {
+        fracao = dropDownControllerFracao.selecionadoFracao!.ID;
+      }
+
+      var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
+      if (idEntidade == null) {
+        entidades = 0;
+      } else {
+        entidades = dropDownControllerEntidades.selecionadoEntidades!.Id;
+      }
+
+      var idPropriedade = dropDownControllerPropriedades.selecionadoPropriedades;
+      if (idPropriedade == null) {
+        propriedades = 0;
+      } else {
+        propriedades = dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade;
+      }
+
+      var idGrupo = dropDownControllerGrupos.selecionadoGrupos;
+      if (idGrupo == null) {
+        grupos = 0;
+      } else {
+        grupos = dropDownControllerGrupos.selecionadoGrupos!.idGrupo;
+      }
+
     ControleApi controleApi = ControleApi();
 
     ControleModel oControle = ControleModel(
       ID: widget.controleModel.ID,
-      idFracao: dropDownControllerFracao.selecionadoFracao!.ID,
-      idEntidade: dropDownControllerEntidades.selecionadoEntidades!.Id,
-      idPropriedade:dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade,
-      idGrupo: dropDownControllerGrupos.selecionadoGrupos!.idGrupo,
+      idFracao: fracao,
+      idEntidade: entidades,
+      idPropriedade: propriedades,
+      idGrupo: grupos,
+      DataEntrada: DataEntrada.toString(),
+      DataSaida: DataSaida.toString(),
+      RequerenteSaida: _controllerRequerenteSaida.text.toString(),
+      AreaEscopo: AreaEscopo,
+      AreaAuditada: AreaAuditada,
+      CicloTrabalho: CicloTrabalho,
+    );
+
+    var messageReturn = await controleApi.updateControle(oControle);
+
+    if (messageReturn["type"] == "S") {
+      Fluttertoast.showToast(
+          msg: messageReturn["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 10,
+          fontSize: 16.0);
+
+      AppModel app = Provider.of<AppModel>(context, listen: false);
+      app.setPage(ControlePage());
+    }
+  }
+
+  _onClickAdd() async {
+    if (_controllerDataEntrada.text == "" || _controllerDataSaida.text == "") {
+      _onClickDialog();
+      return;
+    }
+
+     var DataEntradaInt = 
+        int.parse(_controllerDataEntrada.text.substring(0, 2) +
+        _controllerDataEntrada.text.substring(3, 5) +
+        _controllerDataEntrada.text.substring(6, 10));
+    var DataSaidaInt = 
+         int.parse(_controllerDataSaida.text.substring(0, 2) +
+        _controllerDataSaida.text.substring(3, 5) +
+        _controllerDataSaida.text.substring(6, 10));
+
+    if ( DataEntradaInt > DataSaidaInt) {
+      _onClickDialogDataIco();
+      return;
+    }
+
+    var DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
+        '/' +
+        _controllerDataEntrada.text.substring(0, 2) +
+        '/' +
+        _controllerDataEntrada.text.substring(6, 10);
+    var DataSaida = _controllerDataSaida.text.substring(3, 5) +
+        '/' +
+        _controllerDataSaida.text.substring(0, 2) +
+        '/' +
+        _controllerDataSaida.text.substring(6, 10);
+
+    double AreaEscopo = double.parse(_controllerAreaEscopo.text);
+    double AreaAuditada = double.parse(_controllerAreaAuditada.text);
+    int CicloTrabalho = int.parse(_controllerCicloTrabalho.text);
+
+    if (_controllerAreaEscopo.text.isEmpty) {
+      AreaEscopo = 0;
+    } else {
+      AreaEscopo =
+          double.parse(_controllerAreaEscopo.text.replaceAll(",", "."));
+    }
+
+    if (_controllerAreaAuditada.text.isEmpty) {
+      AreaAuditada = 0;
+    } else {
+      AreaAuditada =
+          double.parse(_controllerAreaAuditada.text.replaceAll(",", "."));
+    }
+
+      var fracao;
+      var entidades;
+      var propriedades;
+      var grupos;
+
+
+      var idFracao = dropDownControllerFracao.selecionadoFracao;
+      if (idFracao == null) {
+        fracao = 0;
+      } else {
+        fracao = dropDownControllerFracao.selecionadoFracao!.ID;
+      }
+
+      var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
+      if (idEntidade == null) {
+        entidades = 0;
+      } else {
+        entidades = dropDownControllerEntidades.selecionadoEntidades!.Id;
+      }
+
+      var idPropriedade = dropDownControllerPropriedades.selecionadoPropriedades;
+      if (idPropriedade == null) {
+        propriedades = 0;
+      } else {
+        propriedades = dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade;
+      }
+
+      var idGrupo = dropDownControllerGrupos.selecionadoGrupos;
+      if (idGrupo == null) {
+        grupos = 0;
+      } else {
+        grupos = dropDownControllerGrupos.selecionadoGrupos!.idGrupo;
+      }
+
+    ControleApi controleApi = ControleApi();
+
+    ControleModel oControle = ControleModel(
+      // ID: widget.controleModel.ID,
+      idFracao: fracao,
+      idEntidade: entidades,
+      idPropriedade: propriedades,
+      idGrupo: grupos,
       DataEntrada: DataEntrada.toString(),
       DataSaida: DataSaida.toString(),
       RequerenteSaida: _controllerRequerenteSaida.text.toString(),
@@ -686,7 +798,7 @@ class _ControleEditState extends State<ControleEdit> {
           msg: messageReturn["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 10,
           fontSize: 16.0);
       AppModel app = Provider.of<AppModel>(context, listen: false);
       app.setPage(ControlePage());
@@ -695,7 +807,7 @@ class _ControleEditState extends State<ControleEdit> {
           msg: messageReturn["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 1,
+          timeInSecForIosWeb: 10,
           fontSize: 16.0);
     }
   }
@@ -716,6 +828,33 @@ class _ControleEditState extends State<ControleEdit> {
               subtitle: Text('Entidades, Propriedades, Grupos, Fração, Data Entrada e Data Saída.',
               style: TextStyle(fontSize: 18),
               ),
+            ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => {Navigator.pop(context)},
+              style: ElevatedButton.styleFrom(
+                  primary: Color.fromRGBO(75, 171, 143, 30)),
+              child: Text("Ok"),
+            )
+          ],
+        ),
+      );
+
+      _onClickDialogDataIco() => showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          content: Container(
+            height: 60,
+            child: Center(
+              child: ListTile(
+              leading: Icon(Icons.warning,
+              color: Colors.orange,
+              size: 30,),
+              title: Text(' A Data Entrada não pode ser maior que a Data Saída',
+             style: TextStyle(fontSize: 20),
+             ),
             ),
             ),
           ),

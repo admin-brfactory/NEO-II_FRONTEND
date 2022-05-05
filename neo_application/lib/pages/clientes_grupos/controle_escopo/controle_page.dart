@@ -63,6 +63,7 @@ class _ControlePageState extends State<ControlePage> {
   }
 
   _body() {
+    ControleApi().getListControle();
     return FutureBuilder(
       future: ControleApi().getListControle(),
       builder: (context, AsyncSnapshot snapshot) {
@@ -128,7 +129,7 @@ class _ControlePageState extends State<ControlePage> {
           msg: resposta["message"],
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.CENTER,
-          timeInSecForIosWeb: 10,
+          timeInSecForIosWeb: 5,
           fontSize: 16.0);
       Navigator.pop(context);
       setState(() {

@@ -42,7 +42,6 @@ class ControleModel {
     this.CicloTrabalho,
   });
 
-  
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};

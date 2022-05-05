@@ -209,16 +209,8 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
                                         firstDate: DateTime(2000),
                                         lastDate: DateTime(2100),
                                       );
-                                      if (data != null)
-                                        setState(() =>
-                                            _valueEntrada = data.toString());
-
-                                      _controllerDataInicio.text =
-                                          _valueEntrada.substring(8, 10) +
-                                              '/' +
-                                              _valueEntrada.substring(5, 7) +
-                                              '/' +
-                                              _valueEntrada.substring(0, 4);
+                                      if (data != null) setState(() => _valueEntrada = data.toString()); 
+                                      _controllerDataInicio.text = _valueEntrada.substring(8, 10) + '/' + _valueEntrada.substring(5, 7) + '/' + _valueEntrada.substring(0, 4);
                                     },
                                   ),
                                 ),
