@@ -22,7 +22,7 @@ class ColaboradorApi {
           "https://neo-ii-back-end.azurewebsites.net/user"); 
 
       Map<String, String> headers = {
-        "Authorization": "JWT $token",
+        "Authorization": "Bearer $token",
       };
 
       var response = await http.get(url, headers: headers);
@@ -51,7 +51,7 @@ class ColaboradorApi {
           "https://neo-ii-back-end.azurewebsites.net/users"); 
 
       Map<String, String> headers = {
-        "Authorization": "JWT $token",
+        "Authorization": "Bearer $token",
       };
 
       var response = await http.get(url, headers: headers);
@@ -94,7 +94,7 @@ class ColaboradorApi {
 
       var response = await http.put(url,
           headers: <String, String>{
-             "Authorization": "JWT $token",
+             "Authorization": "Bearer $token",
             "Content-type": "application/json",
           },
           body: jsonEncode(body));
@@ -140,7 +140,7 @@ class ColaboradorApi {
 
        var response = await http.post(url,
           headers: <String, String>{
-             "Authorization": "JWT $token",
+             "Authorization": "Bearer $token",
             "Content-type": "application/json",
           },
           body: jsonEncode(body));
@@ -176,7 +176,7 @@ class ColaboradorApi {
       
       var response = await http.delete(url,
           headers: <String, String>{
-             "Authorization": "JWT $token",
+             "Authorization": "Bearer $token",
             "Content-type": "application/json",
           });
       if (response.statusCode == 200) {

@@ -109,16 +109,7 @@ class _ControleEditState extends State<ControleEdit> {
     _controllerRequerenteSaida.text = oControle.RequerenteSaida.toString();
     _controllerAreaEscopo.text = oControle.AreaEscopo.toString();
     _controllerAreaAuditada.text = oControle.AreaAuditada.toString();
-    _controllerCicloTrabalho.text = oControle.CicloTrabalho.toString();
-
-    _buscarEntidades();
-
-    _buscarPropriedades();
-
-    _buscarGrupos();
-
-    _buscarFracao();
-    
+    _controllerCicloTrabalho.text = oControle.CicloTrabalho.toString();    
   }
 
   _buscarGrupos() async {

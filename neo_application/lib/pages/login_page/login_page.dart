@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,6 +9,7 @@ import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_mo
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_page.dart';
 import 'package:neo_application/pages/home_page/home_page.dart';
 import 'package:neo_application/pages/login_page/login_api.dart';
+import 'package:neo_application/pages/login_page/user_token.dart';
 import 'package:neo_application/pages/provider/app_provider.dart';
 import 'package:neo_application/pages/utils/nav.dart';
 import 'package:neo_application/pages/widgets/app_button.dart';
@@ -140,6 +144,40 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
+  Timer scheduleTimeout() => Timer(Duration(minutes: 9), handleTimeout);
+
+  handleTimeout() async {
+    print("tempo");
+    UserToken userToken = UserToken();
+      var token = await UserToken().getToken();
+      try {
+        var url =
+            Uri.parse("https://neo-ii-back-end.azurewebsites.net/newToken");
+
+        Map<String, String> headers = {
+          "Authorization": "Bearer $token",
+        };
+
+        var response = await http.get(url, headers: headers);
+
+        if (response.statusCode == 200) {
+          var map = jsonDecode(response.body);
+
+          userToken = UserToken.fromMap(map);
+
+          await userToken.saveToken(userToken.access_token!);
+          scheduleTimeout();
+          return userToken;
+        }
+        if (response.statusCode == 401) {
+          return userToken;
+        }
+      } catch (e) {
+        print(e);
+      }
+    
+  }
+
   Future<void> _onClickLogin() async {
     bool formOk = _formKey.currentState!.validate();
     if (!formOk) {
@@ -162,6 +200,8 @@ class _LoginPageState extends State<LoginPage> {
         _onDialogNovaSenha(response[0]);
         return;
       }
+
+      scheduleTimeout();
 
       push(context, HomePage());
       setState(() {
@@ -281,12 +321,11 @@ class _LoginPageState extends State<LoginPage> {
                     primary: Color.fromRGBO(78, 204, 196, 2)),
                 onPressed: () => {
                   Navigator.pop(context),
-                    setState(() {
-                      _showProgress = false;
-                      _tSenha.text = "";
-                      _controllerSenha.text = "";
-                    }),
-                      
+                  setState(() {
+                    _showProgress = false;
+                    _tSenha.text = "";
+                    _controllerSenha.text = "";
+                  }),
                 },
                 child: Text("Cancelar"),
               ),
@@ -313,12 +352,15 @@ class _LoginPageState extends State<LoginPage> {
           content: Container(
             height: 60,
             child: ListTile(
-              leading: Icon(Icons.warning,
-              color: Colors.orange,
-              size: 30,),
-              title: Text('E-mail ou senha incorreto.',
-             style: TextStyle(fontSize: 20),
-             ),
+              leading: Icon(
+                Icons.warning,
+                color: Colors.orange,
+                size: 30,
+              ),
+              title: Text(
+                'E-mail ou senha incorreto.',
+                style: TextStyle(fontSize: 20),
+              ),
             ),
           ),
           actions: [
