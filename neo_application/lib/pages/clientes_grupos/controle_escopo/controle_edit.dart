@@ -698,7 +698,7 @@ class _ControleEditState extends State<ControleEdit> {
       return;
     }
 
-    var DataEntradaInt = 
+     var DataEntradaInt = 
         int.parse(_controllerDataEntrada.text.substring(0, 2) +
         _controllerDataEntrada.text.substring(3, 5) +
         _controllerDataEntrada.text.substring(6, 10));
@@ -727,14 +727,62 @@ class _ControleEditState extends State<ControleEdit> {
     double AreaAuditada = double.parse(_controllerAreaAuditada.text);
     int CicloTrabalho = int.parse(_controllerCicloTrabalho.text);
 
+    if (_controllerAreaEscopo.text.isEmpty) {
+      AreaEscopo = 0;
+    } else {
+      AreaEscopo =
+          double.parse(_controllerAreaEscopo.text.replaceAll(",", "."));
+    }
+
+    if (_controllerAreaAuditada.text.isEmpty) {
+      AreaAuditada = 0;
+    } else {
+      AreaAuditada =
+          double.parse(_controllerAreaAuditada.text.replaceAll(",", "."));
+    }
+
+      var fracao;
+      var entidades;
+      var propriedades;
+      var grupos;
+
+
+      var idFracao = dropDownControllerFracao.selecionadoFracao;
+      if (idFracao == null) {
+        fracao = 0;
+      } else {
+        fracao = dropDownControllerFracao.selecionadoFracao!.ID;
+      }
+
+      var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
+      if (idEntidade == null) {
+        entidades = 0;
+      } else {
+        entidades = dropDownControllerEntidades.selecionadoEntidades!.Id;
+      }
+
+      var idPropriedade = dropDownControllerPropriedades.selecionadoPropriedades;
+      if (idPropriedade == null) {
+        propriedades = 0;
+      } else {
+        propriedades = dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade;
+      }
+
+      var idGrupo = dropDownControllerGrupos.selecionadoGrupos;
+      if (idGrupo == null) {
+        grupos = 0;
+      } else {
+        grupos = dropDownControllerGrupos.selecionadoGrupos!.idGrupo;
+      }
+
     ControleApi controleApi = ControleApi();
 
     ControleModel oControle = ControleModel(
       // ID: widget.controleModel.ID,
-      idFracao: dropDownControllerFracao.selecionadoFracao!.ID,
-      idEntidade: dropDownControllerEntidades.selecionadoEntidades!.Id,
-      idPropriedade:dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade,
-      idGrupo: dropDownControllerGrupos.selecionadoGrupos!.idGrupo,
+      idFracao: fracao,
+      idEntidade: entidades,
+      idPropriedade: propriedades,
+      idGrupo: grupos,
       DataEntrada: DataEntrada.toString(),
       DataSaida: DataSaida.toString(),
       RequerenteSaida: _controllerRequerenteSaida.text.toString(),
