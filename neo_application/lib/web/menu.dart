@@ -7,6 +7,7 @@ import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_lo
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_model.dart';
 import 'package:neo_application/pages/login_page/login_page.dart';
 import 'package:neo_application/pages/provider/app_provider.dart';
+import 'package:neo_application/pages/utils/nav.dart';
 import 'package:neo_application/web/expandable_list/sub_list_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:neo_application/pages/utils/globals.dart' as globals;
@@ -26,12 +27,9 @@ class _MenuState extends State<Menu> {
   }
 
   _body(BuildContext context) {
-
-    
-          setState(() {
-        ColaboradorApi().getColaborador();
-      });
-
+    setState(() {
+      ColaboradorApi().getColaborador();
+    });
 
     return Container(
       color: Color.fromARGB(246, 34, 37, 44),
@@ -91,7 +89,42 @@ class _MenuState extends State<Menu> {
                               SizedBox(
                                 height: 20,
                               ),
-                              SubListTile()
+                              SubListTile(),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Container(
+                                padding: EdgeInsets.only(left: 15, bottom: 20),
+                                child: Material(
+                                  color: Colors.transparent,
+                                  child: InkWell(
+                                    onTap: () {
+                                      push(context, LoginPage());
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.centerLeft,
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.logout,
+                                            color: Colors.white,
+                                            size: 25,
+                                          ),
+                                          SizedBox(
+                                            width: 27,
+                                          ),
+                                          Text(
+                                            "Logout",
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),
