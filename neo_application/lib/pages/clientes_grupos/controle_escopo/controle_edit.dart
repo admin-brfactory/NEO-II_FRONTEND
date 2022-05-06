@@ -181,12 +181,6 @@ class _ControleEditState extends State<ControleEdit> {
           listFracao = todasTabelas.fracaoPropriedades!;
           listGrupos = todasTabelas.grupos!;
 
-          // List<EntidadesModel> listEntidadesValue = [];
-          // List<PropriedadesModel> listPropriedadeValue = [];
-          // List<FracaoPropModel> listFracaoValue = [];
-          // List<GruposModel> listGruposValue = [];
-
-
            switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;
@@ -769,7 +763,6 @@ class _ControleEditState extends State<ControleEdit> {
     ControleApi controleApi = ControleApi();
 
     ControleModel oControle = ControleModel(
-      // ID: widget.controleModel.ID,
       idFracao: fracao,
       idEntidade: entidades,
       idPropriedade: propriedades,
