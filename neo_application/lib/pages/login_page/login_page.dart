@@ -147,7 +147,6 @@ class _LoginPageState extends State<LoginPage> {
   Timer scheduleTimeout() => Timer(Duration(minutes: 9), handleTimeout);
 
   handleTimeout() async {
-    print("tempo");
     UserToken userToken = UserToken();
       var token = await UserToken().getToken();
       try {
@@ -376,10 +375,6 @@ class _LoginPageState extends State<LoginPage> {
 
   _onClickSalvarNovaSenha(ColaboradorModel colaborador) async {
     if (_formKeyDialog.currentState!.validate()) {
-      // if (_controllerSenha.text == "" ) {
-      //   _onClickDialog();
-      //   return;
-      // }
 
       var senha = _controllerSenha.text;
 

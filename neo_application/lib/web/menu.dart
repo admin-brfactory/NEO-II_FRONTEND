@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,11 +8,13 @@ import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_ed
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_logado_edit.dart';
 import 'package:neo_application/pages/clientes_grupos/colaborador/colaborador_model.dart';
 import 'package:neo_application/pages/login_page/login_page.dart';
+import 'package:neo_application/pages/login_page/user_token.dart';
 import 'package:neo_application/pages/provider/app_provider.dart';
 import 'package:neo_application/pages/utils/nav.dart';
 import 'package:neo_application/web/expandable_list/sub_list_tile.dart';
 import 'package:provider/provider.dart';
 import 'package:neo_application/pages/utils/globals.dart' as globals;
+import 'package:http/http.dart' as http;
 
 class Menu extends StatefulWidget {
   const Menu({Key? key}) : super(key: key);
@@ -98,8 +102,27 @@ class _MenuState extends State<Menu> {
                                 child: Material(
                                   color: Colors.transparent,
                                   child: InkWell(
-                                    onTap: () {
+                                    onTap: () async {
                                       push(context, LoginPage());
+                                        var token = await UserToken().getToken();
+                                        try {
+                                          var url = Uri.parse("https://neo-ii-back-end.azurewebsites.net/logout");
+
+                                          var response = await http.delete(url,
+                                              headers: <String, String>{
+                                                "Authorization": "Bearer $token",
+                                                "Content-type": "application/json",
+                                              });
+                                          if (response.statusCode == 200) {
+                                            var res = jsonDecode(response.body);
+                                            Map<String, dynamic> map = {
+                                              "type": res["type"],
+                                              "message": res["message"]
+                                            };
+                                          }
+                                        } catch (e) {
+                                          print(e);
+                                        }
                                     },
                                     child: Align(
                                       alignment: Alignment.centerLeft,
