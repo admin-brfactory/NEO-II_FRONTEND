@@ -31,7 +31,6 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
       DropDownControllerEntidades();
   DropDownControllerPropriedades dropDownControllerPropriedades =
       DropDownControllerPropriedades();
-  
 
   final TextEditingController _controllerID = TextEditingController();
   final TextEditingController _controllerIDEntidade = TextEditingController();
@@ -131,10 +130,6 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
                         Container(
                           width: 300,
                           height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
                           child: AnimatedBuilder(
                             animation: dropDownControllerEntidades,
                             builder: (context, child) {
@@ -145,7 +140,16 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
                               } else {
                                 return DropdownButtonHideUnderline(
                                     child: ButtonTheme(
-                                  child: DropdownButton(
+                                  child: DropdownButtonFormField(
+                                    style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                    decoration: InputDecoration(
+                                      labelText: "Entidades",
+                                      border: OutlineInputBorder(),
+                                      isDense: true,
+                                    ),
                                     hint: Text("Entidades"),
                                     isDense: true,
                                     isExpanded: true,
@@ -174,21 +178,21 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
                         Container(
                           width: 300,
                           height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
                           child: AnimatedBuilder(
                             animation: dropDownControllerPropriedades,
                             builder: (context, child) {
-                              if (dropDownControllerPropriedades
-                                  .listPropriedades.isEmpty) {
-                                return Center(
-                                    child: const CircularProgressIndicator());
-                              } else {
                                 return DropdownButtonHideUnderline(
                                     child: ButtonTheme(
-                                  child: DropdownButton(
+                                  child: DropdownButtonFormField(
+                                    style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
+                                    decoration: InputDecoration(
+                                      labelText: "Propriedades",
+                                      border: OutlineInputBorder(),
+                                      isDense: true,
+                                    ),
                                     hint: Text("Propriedades"),
                                     isDense: true,
                                     isExpanded: true,
@@ -206,7 +210,7 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
                                         .toList(),
                                   ),
                                 ));
-                              }
+                              
                             },
                           ),
                         ),
@@ -268,7 +272,9 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
   }
 
   _onClickSalvar() async {
-     if (_controllerFracao.text == 0 || _controllerFracao.text == null || _controllerFracao.text == "") {
+    if (_controllerFracao.text == 0 ||
+        _controllerFracao.text == null ||
+        _controllerFracao.text == "") {
       _onClickDialog();
       return;
     }
@@ -279,7 +285,8 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
     FracaoPropModel oFracaoProp = FracaoPropModel(
       ID: widget.fracaoPropModel.ID,
       IDEntidade: dropDownControllerEntidades.selecionadoEntidades!.Id,
-      IDPropriedade:dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade,
+      IDPropriedade:
+          dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade,
       Fracao: Fracao,
     );
 
@@ -305,7 +312,9 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
   }
 
   _onClickAdd() async {
-     if (_controllerFracao.text == "0" || _controllerFracao.text == null || _controllerFracao.text == "") {
+    if (_controllerFracao.text == "0" ||
+        _controllerFracao.text == null ||
+        _controllerFracao.text == "") {
       _onClickDialog();
       return;
     }
@@ -316,7 +325,8 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
     FracaoPropModel oFracaoProp = FracaoPropModel(
       ID: widget.fracaoPropModel.ID,
       IDEntidade: dropDownControllerEntidades.selecionadoEntidades!.Id,
-      IDPropriedade: dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade,
+      IDPropriedade:
+          dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade,
       Fracao: Fracao,
     );
 
@@ -348,16 +358,20 @@ class _FracaoPropEditState extends State<FracaoPropEdit> {
             height: 60,
             child: Center(
               child: ListTile(
-              leading: Icon(Icons.warning,
-              color: Colors.orange,
-              size: 30,),
-              title: Text('Preencha os campos obrigatórios.',
-             style: TextStyle(fontSize: 20),
-             ),
-              subtitle: Text('Entidades, Propriedades, Fração.',
-              style: TextStyle(fontSize: 18),
+                leading: Icon(
+                  Icons.warning,
+                  color: Colors.orange,
+                  size: 30,
+                ),
+                title: Text(
+                  'Preencha os campos obrigatórios.',
+                  style: TextStyle(fontSize: 20),
+                ),
+                subtitle: Text(
+                  'Entidades, Propriedades, Fração.',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
-            ),
             ),
           ),
           actions: [

@@ -140,7 +140,6 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
     dropDownControllerFloresta.buscarTipoFloresta();
 
     dropDownControllerProduto.buscarTipoProduto();
-
   }
 
   _body() {
@@ -197,7 +196,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
                                   children: [
                                     Expanded(child: _formEsq()),
                                     const SizedBox(
-                                      width:20,
+                                      width: 20,
                                       height: 20,
                                     ),
                                     Expanded(child: _formDir()),
@@ -265,8 +264,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
                                                             "${Map.from(listProp[listIndice].tipoManejo[index])['Descricao']}"),
                                                         trailing: Row(
                                                           mainAxisSize:
-                                                              MainAxisSize
-                                                                  .min,
+                                                              MainAxisSize.min,
                                                           children: [
                                                             IconButton(
                                                               onPressed:
@@ -275,8 +273,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
                                                                     index,
                                                                     context);
                                                               },
-                                                              icon:
-                                                                  const Icon(
+                                                              icon: const Icon(
                                                                 Icons.delete,
                                                                 color: Color
                                                                     .fromARGB(
@@ -334,8 +331,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
                                                             "${Map.from(listProp[listIndice].tipoFloresta[index])['Descricao']}"),
                                                         trailing: Row(
                                                           mainAxisSize:
-                                                              MainAxisSize
-                                                                  .min,
+                                                              MainAxisSize.min,
                                                           children: [
                                                             IconButton(
                                                               onPressed:
@@ -344,8 +340,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
                                                                     index,
                                                                     context);
                                                               },
-                                                              icon:
-                                                                  const Icon(
+                                                              icon: const Icon(
                                                                 Icons.delete,
                                                                 color: Color
                                                                     .fromARGB(
@@ -401,8 +396,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
                                                             "${Map.from(listProp[listIndice].produtos[index])['Descricao']}"),
                                                         trailing: Row(
                                                           mainAxisSize:
-                                                              MainAxisSize
-                                                                  .min,
+                                                              MainAxisSize.min,
                                                           children: [
                                                             IconButton(
                                                               onPressed:
@@ -411,8 +405,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
                                                                     index,
                                                                     context);
                                                               },
-                                                              icon:
-                                                                  const Icon(
+                                                              icon: const Icon(
                                                                 Icons.delete,
                                                                 color: Color
                                                                     .fromARGB(
@@ -460,163 +453,150 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
     );
   }
 
-  _formEsq(){
-   
-   return Column(
-            children: [
-              SizedBox(
-                width: constWidth,
-                height: 30,
-                child: TextFormField(
-                  textInputAction: TextInputAction.next,
-                  autofocus: true,
-                  onEditingComplete: () => _controllerCNPJFocus.requestFocus(),
-                  controller: _controllerNome,
-                  decoration: const InputDecoration(
-                    labelText: "Nome",
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: constWidth,
-                height: 50,
-                child: TextFormField(
-                  focusNode: _controllerCNPJFocus,
-                  onEditingComplete: () => _controllerXCoordFocus.requestFocus(),
-                  controller: _controllerCNPJ,
-                  maxLength: 18,
-                  decoration: const InputDecoration(
-                    labelText: "CNPJ",
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 5,
-              ),
-              SizedBox(
-                width: constWidth,
-                height: 30,
-                child: TextFormField(
-                  focusNode: _controllerXCoordFocus,
-                  onEditingComplete: () => _controllerYCoordFocus.requestFocus(),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^\d+.?\d{0,2}'))
-                  ],
-                  keyboardType:
-                      TextInputType.numberWithOptions(
-                          decimal: true),
-                  controller: _controllerXCoord,
-                  decoration: const InputDecoration(
-                    labelText: "XCoord",
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: constWidth,
-                height: 30,
-                child: TextFormField(
-                  focusNode: _controllerYCoordFocus,
-                  onEditingComplete: () => _controllerAreaPropriedadeFocus.requestFocus(),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^\d+.?\d{0,2}'))
-                  ],
-                  keyboardType:
-                      TextInputType.numberWithOptions(
-                          decimal: true),
-                  controller: _controllerYCoord,
-                  decoration: const InputDecoration(
-                    labelText: "YCoord",
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: constWidth,
-                height: 30,
-                child: TextFormField(
-                  focusNode: _controllerAreaPropriedadeFocus,
-                  onEditingComplete: () => _controllerAreaTotalFocus.requestFocus(),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^\d+.?\d{0,2}'))
-                  ],
-                  keyboardType:
-                      TextInputType.numberWithOptions(
-                          decimal: true),
-                  controller: _controllerAreaPropriedade,
-                  decoration: const InputDecoration(
-                    labelText: "Área da Propriedade",
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              SizedBox(
-                width: constWidth,
-                height: 30,
-                child: TextFormField(
-                  focusNode: _controllerAreaTotalFocus,
-                  onEditingComplete: () => _controllerAreaPlantadaFocus.requestFocus(),
-                  controller: _controllerAreaTotal,
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                        RegExp(r'^\d+.?\d{0,2}'))
-                  ],
-                  keyboardType:
-                      TextInputType.numberWithOptions(
-                          decimal: true),
-                  decoration: const InputDecoration(
-                    labelText: "Área Total",
-                    border: OutlineInputBorder(),
-                    isDense: true,
-                  ),
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
+  _formEsq() {
+    return Column(
+      children: [
+        SizedBox(
+          width: constWidth,
+          height: 40,
+          child: TextFormField(
+            textInputAction: TextInputAction.next,
+            autofocus: true,
+            onEditingComplete: () => _controllerCNPJFocus.requestFocus(),
+            controller: _controllerNome,
+            decoration: const InputDecoration(
+              labelText: "Nome",
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: constWidth,
+          height: 60,
+          child: TextFormField(
+            focusNode: _controllerCNPJFocus,
+            onEditingComplete: () => _controllerXCoordFocus.requestFocus(),
+            controller: _controllerCNPJ,
+            maxLength: 18,
+            decoration: const InputDecoration(
+              labelText: "CNPJ",
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 5,
+        ),
+        SizedBox(
+          width: constWidth,
+          height: 40,
+          child: TextFormField(
+            focusNode: _controllerXCoordFocus,
+            onEditingComplete: () => _controllerYCoordFocus.requestFocus(),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+.?\d{0,2}'))
             ],
-          );
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            controller: _controllerXCoord,
+            decoration: const InputDecoration(
+              labelText: "XCoord",
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: constWidth,
+          height: 40,
+          child: TextFormField(
+            focusNode: _controllerYCoordFocus,
+            onEditingComplete: () =>
+                _controllerAreaPropriedadeFocus.requestFocus(),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+.?\d{0,2}'))
+            ],
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            controller: _controllerYCoord,
+            decoration: const InputDecoration(
+              labelText: "YCoord",
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: constWidth,
+          height: 40,
+          child: TextFormField(
+            focusNode: _controllerAreaPropriedadeFocus,
+            onEditingComplete: () => _controllerAreaTotalFocus.requestFocus(),
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+.?\d{0,2}'))
+            ],
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            controller: _controllerAreaPropriedade,
+            decoration: const InputDecoration(
+              labelText: "Área da Propriedade",
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        SizedBox(
+          width: constWidth,
+          height: 40,
+          child: TextFormField(
+            focusNode: _controllerAreaTotalFocus,
+            onEditingComplete: () =>
+                _controllerAreaPlantadaFocus.requestFocus(),
+            controller: _controllerAreaTotal,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+.?\d{0,2}'))
+            ],
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
+            decoration: const InputDecoration(
+              labelText: "Área Total",
+              border: OutlineInputBorder(),
+              isDense: true,
+            ),
+          ),
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+      ],
+    );
   }
 
-  _formDir(){
+  _formDir() {
     List<String> listUfs = Uf().listUfs();
     return Column(
       children: [
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerAreaPlantadaFocus,
-            onEditingComplete: () => _controllerAreaEstimaConserFocus.requestFocus(),
+            onEditingComplete: () =>
+                _controllerAreaEstimaConserFocus.requestFocus(),
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'^\d+.?\d{0,2}'))
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+.?\d{0,2}'))
             ],
-            keyboardType:
-                TextInputType.numberWithOptions(
-                    decimal: true),
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             controller: _controllerAreaPlantada,
             decoration: const InputDecoration(
               labelText: "Área Plantada",
@@ -630,21 +610,18 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerAreaEstimaConserFocus,
-            onEditingComplete: () => _controllerAreaInfraestruturaFocus.requestFocus(),
+            onEditingComplete: () =>
+                _controllerAreaInfraestruturaFocus.requestFocus(),
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'^\d+.?\d{0,2}'))
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+.?\d{0,2}'))
             ],
-            keyboardType:
-                TextInputType.numberWithOptions(
-                    decimal: true),
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             controller: _controllerAreaEstimaConser,
             decoration: const InputDecoration(
-              labelText:
-                  "Área Estimada de Conservação",
+              labelText: "Área Estimada de Conservação",
               border: OutlineInputBorder(),
               isDense: true,
             ),
@@ -655,17 +632,14 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerAreaInfraestruturaFocus,
             onEditingComplete: () => _controllerAreaOutroFocus.requestFocus(),
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'^\d+.?\d{0,2}'))
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+.?\d{0,2}'))
             ],
-            keyboardType:
-                TextInputType.numberWithOptions(
-                    decimal: true),
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             controller: _controllerAreaInfraestrutura,
             decoration: const InputDecoration(
               labelText: "Área de Infraestrutura",
@@ -679,23 +653,20 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerAreaOutroFocus,
             onEditingComplete: () => _controllerLocalizacaoFocus.requestFocus(),
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(
-                  RegExp(r'^\d+.?\d{0,2}'))
+              FilteringTextInputFormatter.allow(RegExp(r'^\d+.?\d{0,2}'))
             ],
-            keyboardType:
-                TextInputType.numberWithOptions(
-                    decimal: true),
+            keyboardType: TextInputType.numberWithOptions(decimal: true),
             controller: _controllerAreaOutro,
             decoration: const InputDecoration(
               labelText: " Outras Áreas",
               border: OutlineInputBorder(),
               isDense: true,
-                        ),
+            ),
           ),
         ),
         const SizedBox(
@@ -703,7 +674,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerLocalizacaoFocus,
             onEditingComplete: () => _controllerUfFocus.requestFocus(),
@@ -720,16 +691,20 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         Container(
           width: constWidth,
-          height: 30,
-          decoration: BoxDecoration(
-            border: Border.all(
-                width: 1, color: Colors.grey),
-            borderRadius: BorderRadius.circular(5),
-          ),
+          height: 40,
           child: DropdownButtonHideUnderline(
             child: ButtonTheme(
               alignedDropdown: true,
-              child: DropdownButton<String>(
+              child: DropdownButtonFormField<String>(
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
+                decoration: InputDecoration(
+                  labelText: "UF",
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                ),
                 hint: Text("UF"),
                 isDense: true,
                 isExpanded: true,
