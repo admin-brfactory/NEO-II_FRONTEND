@@ -466,7 +466,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
             children: [
               SizedBox(
                 width: constWidth,
-                height: 30,
+                height: 40,
                 child: TextFormField(
                   textInputAction: TextInputAction.next,
                   autofocus: true,
@@ -484,7 +484,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
               ),
               SizedBox(
                 width: constWidth,
-                height: 50,
+                height: 60,
                 child: TextFormField(
                   focusNode: _controllerCNPJFocus,
                   onEditingComplete: () => _controllerXCoordFocus.requestFocus(),
@@ -502,7 +502,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
               ),
               SizedBox(
                 width: constWidth,
-                height: 30,
+                height: 40,
                 child: TextFormField(
                   focusNode: _controllerXCoordFocus,
                   onEditingComplete: () => _controllerYCoordFocus.requestFocus(),
@@ -526,7 +526,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
               ),
               SizedBox(
                 width: constWidth,
-                height: 30,
+                height: 40,
                 child: TextFormField(
                   focusNode: _controllerYCoordFocus,
                   onEditingComplete: () => _controllerAreaPropriedadeFocus.requestFocus(),
@@ -550,7 +550,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
               ),
               SizedBox(
                 width: constWidth,
-                height: 30,
+                height: 40,
                 child: TextFormField(
                   focusNode: _controllerAreaPropriedadeFocus,
                   onEditingComplete: () => _controllerAreaTotalFocus.requestFocus(),
@@ -574,7 +574,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
               ),
               SizedBox(
                 width: constWidth,
-                height: 30,
+                height: 40,
                 child: TextFormField(
                   focusNode: _controllerAreaTotalFocus,
                   onEditingComplete: () => _controllerAreaPlantadaFocus.requestFocus(),
@@ -606,7 +606,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
       children: [
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerAreaPlantadaFocus,
             onEditingComplete: () => _controllerAreaEstimaConserFocus.requestFocus(),
@@ -630,7 +630,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerAreaEstimaConserFocus,
             onEditingComplete: () => _controllerAreaInfraestruturaFocus.requestFocus(),
@@ -655,7 +655,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerAreaInfraestruturaFocus,
             onEditingComplete: () => _controllerAreaOutroFocus.requestFocus(),
@@ -679,7 +679,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerAreaOutroFocus,
             onEditingComplete: () => _controllerLocalizacaoFocus.requestFocus(),
@@ -703,7 +703,7 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         SizedBox(
           width: constWidth,
-          height: 30,
+          height: 40,
           child: TextFormField(
             focusNode: _controllerLocalizacaoFocus,
             onEditingComplete: () => _controllerUfFocus.requestFocus(),
@@ -720,16 +720,16 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
         ),
         Container(
           width: constWidth,
-          height: 30,
-          decoration: BoxDecoration(
-            border: Border.all(
-                width: 1, color: Colors.grey),
-            borderRadius: BorderRadius.circular(5),
-          ),
+          height: 40,
           child: DropdownButtonHideUnderline(
             child: ButtonTheme(
               alignedDropdown: true,
-              child: DropdownButton<String>(
+              child: DropdownButtonFormField<String>(
+                decoration: InputDecoration(
+                  labelText: "UF",
+                  border: OutlineInputBorder(),
+                  isDense: true,
+                ),
                 hint: Text("UF"),
                 isDense: true,
                 isExpanded: true,

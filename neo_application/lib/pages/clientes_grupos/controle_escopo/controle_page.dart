@@ -78,7 +78,7 @@ class _ControlePageState extends State<ControlePage> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text("Fração: " + listControle[index].fracao!.Fracao.toString() + " - " "Entidade: " + listControle[index].entidades!.Nome.toString() + " - " + "Propriedade: " +  listControle[index].propriedades!.Nome.toString() + " - " "Grupos: " + listControle[index].grupos!.Nome.toString() + " - " "Data Entrada: " + "${listControle[index].DataEntrada}" + " - " "Data Saída: " + "${listControle[index].DataSaida}" + " - " "Requerente Saída: " + "${listControle[index].RequerenteSaida}" + " - " "Área do Escopo: " + "${listControle[index].AreaEscopo}" + " - " "Área Auditada: " + "${listControle[index].AreaAuditada}" + " - " "Ciclo de Trabalho: " + "${listControle[index].CicloTrabalho}"
+                    title: Text("Grupos: " + listControle[index].grupos!.Nome.toString() + " - " "Entidade: " + listControle[index].entidades!.Nome.toString() + " - " "Fração: " + listControle[index].fracao!.Fracao.toString() + " - " "Data Entrada: " + "${listControle[index].DataEntrada}" + " - " "Data Saída: " + "${listControle[index].DataSaida}" + " - " "Requerente Saída: " + "${listControle[index].RequerenteSaida}"
                         ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,

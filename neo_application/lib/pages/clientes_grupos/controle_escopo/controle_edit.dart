@@ -11,8 +11,6 @@ import 'package:neo_application/pages/clientes_grupos/entidades_gestoras/entidad
 import 'package:neo_application/pages/clientes_grupos/fracao_propriedades/Tabelas_model.dart';
 import 'package:neo_application/pages/clientes_grupos/fracao_propriedades/dropDownController_Fracao.dart';
 import 'package:neo_application/pages/clientes_grupos/fracao_propriedades/fracao_model.dart';
-import 'package:neo_application/pages/clientes_grupos/propriedades/dropDownController_Propriedades.dart';
-import 'package:neo_application/pages/clientes_grupos/propriedades/propriedades_model.dart';
 import 'package:neo_application/pages/provider/app_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -35,8 +33,6 @@ class _ControleEditState extends State<ControleEdit> {
 
   DropDownControllerEntidades dropDownControllerEntidades =
       DropDownControllerEntidades();
-  DropDownControllerPropriedades dropDownControllerPropriedades =
-      DropDownControllerPropriedades();
   DropDownControllerGrupos dropDownControllerGrupos =
       DropDownControllerGrupos();
   DropDownControllerFracao dropDownControllerFracao =
@@ -45,8 +41,6 @@ class _ControleEditState extends State<ControleEdit> {
   final TextEditingController _controllerID = TextEditingController();
   final TextEditingController _controlleridFracao = TextEditingController();
   final TextEditingController _controlleridEntidade = TextEditingController();
-  final TextEditingController _controlleridPropriedade =
-      TextEditingController();
   final TextEditingController _controlleridGrupo = TextEditingController();
   final TextEditingController _controllerDataEntrada = TextEditingController();
   final TextEditingController _controllerDataSaida = TextEditingController();
@@ -61,14 +55,12 @@ class _ControleEditState extends State<ControleEdit> {
   late ControleModel oControleModel;
 
   EntidadesModel listEntidadesSelecionado = EntidadesModel();
-  PropriedadesModel listPropriedadeSelecionado = PropriedadesModel();
   EntidadesModel listFracaoSelecionado = EntidadesModel();
   FracaoPropModel listGrupoSelecionado = FracaoPropModel();
 
   TodasTabelasModel todasTabelas = TodasTabelasModel();
 
   List<EntidadesModel> listEntidades = [];
-  List<PropriedadesModel> listPropriedade = [];
   List<FracaoPropModel> listFracao = [];
   List<GruposModel> listGrupos = [];
 
@@ -102,18 +94,17 @@ class _ControleEditState extends State<ControleEdit> {
     _controllerID.text = oControle.ID.toString();
     _controlleridFracao.text = oControle.idFracao.toString();
     _controlleridEntidade.text = oControle.idEntidade.toString();
-    _controlleridPropriedade.text = oControle.idPropriedade.toString();
     _controlleridGrupo.text = oControle.idGrupo.toString();
     _controllerDataEntrada.text = oControle.DataEntrada.toString();
     _controllerDataSaida.text = oControle.DataSaida.toString();
     _controllerRequerenteSaida.text = oControle.RequerenteSaida.toString();
     _controllerAreaEscopo.text = oControle.AreaEscopo.toString();
     _controllerAreaAuditada.text = oControle.AreaAuditada.toString();
-    _controllerCicloTrabalho.text = oControle.CicloTrabalho.toString();    
+    _controllerCicloTrabalho.text = oControle.CicloTrabalho.toString();
   }
 
   _buscarGrupos() async {
-      await dropDownControllerGrupos.buscarGrupos();
+    await dropDownControllerGrupos.buscarGrupos();
     var listGrupos = dropDownControllerGrupos.listGrupos;
 
     if (oControle.grupos != null) {
@@ -137,20 +128,6 @@ class _ControleEditState extends State<ControleEdit> {
     }
   }
 
-  _buscarPropriedades() async {
-    await dropDownControllerPropriedades.buscarPropriedades();
-    var listPropriedades = dropDownControllerPropriedades.listPropriedades;
-
-    if (oControle.propriedades != null) {
-      var listPropriedadesFiltrado = listPropriedades
-          .where((element) =>
-              element.idPropriedade == oControle.propriedades!.idPropriedade)
-          .toList();
-      dropDownControllerPropriedades
-          .setSelecionadoPropriedades(listPropriedadesFiltrado[0]);
-    }
-  }
-
   _buscarFracao() async {
     await dropDownControllerFracao.buscarFracao();
     var listFracao = dropDownControllerFracao.listFracao;
@@ -165,7 +142,6 @@ class _ControleEditState extends State<ControleEdit> {
 
   _body() {
     _buscarEntidades();
-    _buscarPropriedades();
     _buscarGrupos();
     _buscarFracao();
     return FutureBuilder(
@@ -177,11 +153,10 @@ class _ControleEditState extends State<ControleEdit> {
         if (snapshot.hasData) {
           todasTabelas = snapshot.data;
           listEntidades = todasTabelas.entidades!;
-          listPropriedade = todasTabelas.propriedades!;
           listFracao = todasTabelas.fracaoPropriedades!;
           listGrupos = todasTabelas.grupos!;
 
-           switch (snapshot.connectionState) {
+          switch (snapshot.connectionState) {
             case ConnectionState.none:
               break;
             case ConnectionState.waiting:
@@ -190,186 +165,146 @@ class _ControleEditState extends State<ControleEdit> {
             case ConnectionState.active:
               break;
             case ConnectionState.done:
-          return ListView(
-            children: [
-              Card(
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return Container(
-                    padding: EdgeInsets.all(50),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 300,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: AnimatedBuilder(
-                            animation: dropDownControllerEntidades,
-                            builder: (context, child) {
-                              if (dropDownControllerEntidades
-                                  .listEntidades.isEmpty) {
-                                return Center(
-                                    child: const CircularProgressIndicator());
-                              } else {
-                                return DropdownButtonHideUnderline(
+              return ListView(
+                children: [
+                  Card(
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      return Container(
+                        padding: EdgeInsets.all(50),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              width: 300,
+                              height: 40,
+                              child: AnimatedBuilder(
+                                animation: dropDownControllerGrupos,
+                                builder: (context, child) {
+                                  if (dropDownControllerGrupos
+                                      .listGrupos.isEmpty) {
+                                    return Center(
+                                        child:
+                                            const CircularProgressIndicator());
+                                  } else {
+                                    return DropdownButtonHideUnderline(
+                                        child: ButtonTheme(
+                                      child: DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                          labelText: "Grupos",
+                                          border: OutlineInputBorder(),
+                                          isDense: true,
+                                        ),
+                                        hint: Text("Grupos"),
+                                        isDense: true,
+                                        isExpanded: true,
+                                        value: dropDownControllerGrupos
+                                            .selecionadoGrupos,
+                                        onChanged: (value) =>
+                                            dropDownControllerGrupos
+                                                .setSelecionadoGrupos(value),
+                                        items: dropDownControllerGrupos
+                                            .listGrupos
+                                            .map((tipos) => DropdownMenuItem(
+                                                  child: Text(tipos.Nome!),
+                                                  value: tipos,
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ));
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            Container(
+                              width: 300,
+                              height: 40,
+                              child: AnimatedBuilder(
+                                animation: dropDownControllerEntidades,
+                                builder: (context, child) {
+                                  if (dropDownControllerEntidades
+                                      .listEntidades.isEmpty) {
+                                    return Center(
+                                        child:
+                                            const CircularProgressIndicator());
+                                  } else {
+                                    return DropdownButtonHideUnderline(
+                                        child: ButtonTheme(
+                                      child: DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                          labelText: "Entidades",
+                                          border: OutlineInputBorder(),
+                                          isDense: true,
+                                        ),
+                                        hint: Text("Entidades"),
+                                        isDense: true,
+                                        isExpanded: true,
+                                        value: dropDownControllerEntidades
+                                            .selecionadoEntidades,
+                                        onChanged: (value) =>
+                                            dropDownControllerEntidades
+                                                .setSelecionadoEntidades(value),
+                                        items: dropDownControllerEntidades
+                                            .listEntidades
+                                            .map((tipos) => DropdownMenuItem(
+                                                  child: Text(tipos.Nome!),
+                                                  value: tipos,
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ));
+                                  }
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            Container(
+                              width: 300,
+                              height: 40,
+                              child: AnimatedBuilder(
+                                animation: dropDownControllerFracao,
+                                builder: (context, child) {
+                                  return DropdownButtonHideUnderline(
                                     child: ButtonTheme(
-                                  child: DropdownButton(
-                                    hint: Text("Entidades"),
-                                    isDense: true,
-                                    isExpanded: true,
-                                    value: dropDownControllerEntidades
-                                        .selecionadoEntidades,
-                                    onChanged: (value) =>
-                                        dropDownControllerEntidades
-                                            .setSelecionadoEntidades(value),
-                                    items: dropDownControllerEntidades
-                                        .listEntidades
-                                        .map((tipos) => DropdownMenuItem(
-                                              child: Text(tipos.Nome!),
-                                              value: tipos,
-                                            ))
-                                        .toList(),
-                                  ),
-                                ));
-                              }
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        Container(
-                          width: 300,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: AnimatedBuilder(
-                            animation: dropDownControllerPropriedades,
-                            builder: (context, child) {
-                              if (dropDownControllerPropriedades
-                                  .listPropriedades.isEmpty) {
-                                return Center(
-                                    child: const CircularProgressIndicator());
-                              } else {
-                                return DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                  child: DropdownButton(
-                                    hint: Text("Propriedades"),
-                                    isDense: true,
-                                    isExpanded: true,
-                                    value: dropDownControllerPropriedades.selecionadoPropriedades,
-                                    onChanged: (value) =>
-                                        dropDownControllerPropriedades
-                                            .setSelecionadoPropriedades(value),
-                                    items: dropDownControllerPropriedades
-                                        .listPropriedades
-                                        .map((tipos) => DropdownMenuItem(
-                                              child: Text(tipos.Nome!),
-                                              value: tipos,
-                                            ))
-                                        .toList(),
-                                  ),
-                                ));
-                              }
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        Container(
-                          width: 300,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: AnimatedBuilder(
-                            animation: dropDownControllerGrupos,
-                            builder: (context, child) {
-                              if (dropDownControllerGrupos.listGrupos.isEmpty) {
-                                return Center(
-                                    child: const CircularProgressIndicator());
-                              } else {
-                                return DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                  child: DropdownButton(
-                                    hint: Text("Grupos"),
-                                    isDense: true,
-                                    isExpanded: true,
-                                    value: dropDownControllerGrupos
-                                        .selecionadoGrupos,
-                                    onChanged: (value) =>
-                                        dropDownControllerGrupos
-                                            .setSelecionadoGrupos(value),
-                                    items: dropDownControllerGrupos
-                                        .listGrupos
-                                        .map((tipos) => DropdownMenuItem(
-                                              child: Text(tipos.Nome!),
-                                              value: tipos,
-                                            ))
-                                        .toList(),
-                                  ),
-                                ));
-                              }
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        Container(
-                          width: 300,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
-                          child: AnimatedBuilder(
-                            animation: dropDownControllerFracao,
-                            builder: (context, child) {
-                              if (dropDownControllerFracao
-                                  .listFracao.isEmpty) {
-                                return Center(
-                                    child: const CircularProgressIndicator());
-                              } else {
-                                return DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                  child: DropdownButton(
-                                    hint: Text("Fração"),
-                                    isDense: true,
-                                    isExpanded: true,
-                                    value: dropDownControllerFracao
-                                        .selecionadoFracao,
-                                    onChanged: (value) =>
-                                        dropDownControllerFracao
-                                            .setSelecionadoFracao(value),
-                                    items: dropDownControllerFracao
-                                        .listFracao
-                                        .map((tipos) => DropdownMenuItem(
-                                              child: Text(tipos.Fracao.toString()),
-                                              value: tipos,
-                                            ))
-                                        .toList(),
-                                  ),
-                                ));
-                              }
-                            },
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        Container(
+                                      child: DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                          labelText: "Fração",
+                                          border: OutlineInputBorder(),
+                                          isDense: true,
+                                        ),
+                                        hint: Text("Fração"),
+                                        isDense: true,
+                                        isExpanded: true,
+                                        value: dropDownControllerFracao
+                                            .selecionadoFracao,
+                                        onChanged: (value) =>
+                                            dropDownControllerFracao
+                                                .setSelecionadoFracao(value),
+                                        items: dropDownControllerFracao
+                                            .listFracao
+                                            .map((tipos) => DropdownMenuItem(
+                                                  child: Text(
+                                                      tipos.Fracao.toString()),
+                                                  value: tipos,
+                                                ))
+                                            .toList(),
+                                      ),
+                                    ),
+                                  );
+                                },
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            Container(
                               width: 300,
                               height: 40,
                               child: TextFormField(
@@ -395,19 +330,24 @@ class _ControleEditState extends State<ControleEdit> {
                                         lastDate: DateTime(2100),
                                       );
                                       if (data != null) {
-                                      _valueEntrada = data.toString(); 
-                                      _controllerDataEntrada.text = _valueEntrada.substring(8, 10) + '/' + _valueEntrada.substring(5, 7) + '/' + _valueEntrada.substring(0, 4);
+                                        _valueEntrada = data.toString();
+                                        _controllerDataEntrada.text =
+                                            _valueEntrada.substring(8, 10) +
+                                                '/' +
+                                                _valueEntrada.substring(5, 7) +
+                                                '/' +
+                                                _valueEntrada.substring(0, 4);
                                       }
                                     },
                                   ),
                                 ),
                               ),
                             ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        Container(
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            Container(
                               width: 300,
                               height: 40,
                               child: TextFormField(
@@ -433,103 +373,108 @@ class _ControleEditState extends State<ControleEdit> {
                                         lastDate: DateTime(2100),
                                       );
                                       if (data != null) {
-                                      _valueSaida = data.toString(); 
-                                      _controllerDataSaida.text = _valueSaida.substring(8, 10) + '/' + _valueSaida.substring(5, 7) + '/' + _valueSaida.substring(0, 4);
+                                        _valueSaida = data.toString();
+                                        _controllerDataSaida.text =
+                                            _valueSaida.substring(8, 10) +
+                                                '/' +
+                                                _valueSaida.substring(5, 7) +
+                                                '/' +
+                                                _valueSaida.substring(0, 4);
                                       }
                                     },
                                   ),
                                 ),
                               ),
                             ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        SizedBox(
-                          width: 300,
-                          height: 40,
-                          child: TextFormField(
-                            controller: _controllerRequerenteSaida,
-                            decoration: const InputDecoration(
-                              labelText: "Requerente de Saída",
-                              border: OutlineInputBorder(),
-                              isDense: true,
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        SizedBox(
-                          width: 300,
-                          height: 40,
-                          child: TextFormField(
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d+.?\d{0,2}'))
-                            ],
-                            keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                            controller: _controllerAreaEscopo,
-                            decoration: const InputDecoration(
-                              labelText: "Área Escopo",
-                              border: OutlineInputBorder(),
-                              isDense: true,
+                            SizedBox(
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerRequerenteSaida,
+                                decoration: const InputDecoration(
+                                  labelText: "Requerente de Saída",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        SizedBox(
-                          width: 300,
-                          height: 40,
-                          child: TextFormField(
-                            inputFormatters: <TextInputFormatter>[
-                              FilteringTextInputFormatter.allow(
-                                  RegExp(r'^\d+.?\d{0,2}'))
-                            ],
-                            keyboardType:
-                                TextInputType.numberWithOptions(decimal: true),
-                            controller: _controllerAreaAuditada,
-                            decoration: const InputDecoration(
-                              labelText: "Área Auditada",
-                              border: OutlineInputBorder(),
-                              isDense: true,
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        SizedBox(
-                          width: 300,
-                          height: 40,
-                          child: TextFormField(
-                            controller: _controllerCicloTrabalho,
-                            decoration: const InputDecoration(
-                              labelText: "Ciclo Trabalho",
-                              border: OutlineInputBorder(),
-                              isDense: true,
+                            SizedBox(
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d+.?\d{0,2}'))
+                                ],
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: _controllerAreaEscopo,
+                                decoration: const InputDecoration(
+                                  labelText: "Área Escopo",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
+                                ),
+                              ),
                             ),
-                          ),
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.allow(
+                                      RegExp(r'^\d+.?\d{0,2}'))
+                                ],
+                                keyboardType: TextInputType.numberWithOptions(
+                                    decimal: true),
+                                controller: _controllerAreaAuditada,
+                                decoration: const InputDecoration(
+                                  labelText: "Área Auditada",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            SizedBox(
+                              width: 300,
+                              height: 40,
+                              child: TextFormField(
+                                controller: _controllerCicloTrabalho,
+                                decoration: const InputDecoration(
+                                  labelText: "Ciclo Trabalho",
+                                  border: OutlineInputBorder(),
+                                  isDense: true,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              width: 30,
+                              height: 20,
+                            ),
+                            _Buttons()
+                          ],
                         ),
-                        const SizedBox(
-                          width: 30,
-                          height: 20,
-                        ),
-                        _Buttons()
-                      ],
-                    ),
-                  );
-                }),
-              ),
-            ],
-          );
-           }
+                      );
+                    }),
+                  ),
+                ],
+              );
+          }
         }
         return Center(
           child: CircularProgressIndicator(),
@@ -569,16 +514,14 @@ class _ControleEditState extends State<ControleEdit> {
       return;
     }
 
-    var DataEntradaInt = 
-        int.parse(_controllerDataEntrada.text.substring(0, 2) +
+    var DataEntradaInt = int.parse(_controllerDataEntrada.text.substring(0, 2) +
         _controllerDataEntrada.text.substring(3, 5) +
         _controllerDataEntrada.text.substring(6, 10));
-    var DataSaidaInt = 
-         int.parse(_controllerDataSaida.text.substring(0, 2) +
+    var DataSaidaInt = int.parse(_controllerDataSaida.text.substring(0, 2) +
         _controllerDataSaida.text.substring(3, 5) +
         _controllerDataSaida.text.substring(6, 10));
 
-    if ( DataEntradaInt > DataSaidaInt) {
+    if (DataEntradaInt > DataSaidaInt) {
       _onClickDialogDataIco();
       return;
     }
@@ -612,39 +555,30 @@ class _ControleEditState extends State<ControleEdit> {
           double.parse(_controllerAreaAuditada.text.replaceAll(",", "."));
     }
 
-      var fracao;
-      var entidades;
-      var propriedades;
-      var grupos;
+    var fracao;
+    var entidades;
+    var grupos;
 
+    var idFracao = dropDownControllerFracao.selecionadoFracao;
+    if (idFracao == null) {
+      fracao = 0;
+    } else {
+      fracao = dropDownControllerFracao.selecionadoFracao!.ID;
+    }
 
-      var idFracao = dropDownControllerFracao.selecionadoFracao;
-      if (idFracao == null) {
-        fracao = 0;
-      } else {
-        fracao = dropDownControllerFracao.selecionadoFracao!.ID;
-      }
+    var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
+    if (idEntidade == null) {
+      entidades = 0;
+    } else {
+      entidades = dropDownControllerEntidades.selecionadoEntidades!.Id;
+    }
 
-      var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
-      if (idEntidade == null) {
-        entidades = 0;
-      } else {
-        entidades = dropDownControllerEntidades.selecionadoEntidades!.Id;
-      }
-
-      var idPropriedade = dropDownControllerPropriedades.selecionadoPropriedades;
-      if (idPropriedade == null) {
-        propriedades = 0;
-      } else {
-        propriedades = dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade;
-      }
-
-      var idGrupo = dropDownControllerGrupos.selecionadoGrupos;
-      if (idGrupo == null) {
-        grupos = 0;
-      } else {
-        grupos = dropDownControllerGrupos.selecionadoGrupos!.idGrupo;
-      }
+    var idGrupo = dropDownControllerGrupos.selecionadoGrupos;
+    if (idGrupo == null) {
+      grupos = 0;
+    } else {
+      grupos = dropDownControllerGrupos.selecionadoGrupos!.idGrupo;
+    }
 
     ControleApi controleApi = ControleApi();
 
@@ -652,7 +586,6 @@ class _ControleEditState extends State<ControleEdit> {
       ID: widget.controleModel.ID,
       idFracao: fracao,
       idEntidade: entidades,
-      idPropriedade: propriedades,
       idGrupo: grupos,
       DataEntrada: DataEntrada.toString(),
       DataSaida: DataSaida.toString(),
@@ -683,16 +616,14 @@ class _ControleEditState extends State<ControleEdit> {
       return;
     }
 
-     var DataEntradaInt = 
-        int.parse(_controllerDataEntrada.text.substring(0, 2) +
+    var DataEntradaInt = int.parse(_controllerDataEntrada.text.substring(0, 2) +
         _controllerDataEntrada.text.substring(3, 5) +
         _controllerDataEntrada.text.substring(6, 10));
-    var DataSaidaInt = 
-         int.parse(_controllerDataSaida.text.substring(0, 2) +
+    var DataSaidaInt = int.parse(_controllerDataSaida.text.substring(0, 2) +
         _controllerDataSaida.text.substring(3, 5) +
         _controllerDataSaida.text.substring(6, 10));
 
-    if ( DataEntradaInt > DataSaidaInt) {
+    if (DataEntradaInt > DataSaidaInt) {
       _onClickDialogDataIco();
       return;
     }
@@ -726,46 +657,36 @@ class _ControleEditState extends State<ControleEdit> {
           double.parse(_controllerAreaAuditada.text.replaceAll(",", "."));
     }
 
-      var fracao;
-      var entidades;
-      var propriedades;
-      var grupos;
+    var fracao;
+    var entidades;
+    var grupos;
 
+    var idFracao = dropDownControllerFracao.selecionadoFracao;
+    if (idFracao == null) {
+      fracao = 0;
+    } else {
+      fracao = dropDownControllerFracao.selecionadoFracao!.ID;
+    }
 
-      var idFracao = dropDownControllerFracao.selecionadoFracao;
-      if (idFracao == null) {
-        fracao = 0;
-      } else {
-        fracao = dropDownControllerFracao.selecionadoFracao!.ID;
-      }
+    var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
+    if (idEntidade == null) {
+      entidades = 0;
+    } else {
+      entidades = dropDownControllerEntidades.selecionadoEntidades!.Id;
+    }
 
-      var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
-      if (idEntidade == null) {
-        entidades = 0;
-      } else {
-        entidades = dropDownControllerEntidades.selecionadoEntidades!.Id;
-      }
-
-      var idPropriedade = dropDownControllerPropriedades.selecionadoPropriedades;
-      if (idPropriedade == null) {
-        propriedades = 0;
-      } else {
-        propriedades = dropDownControllerPropriedades.selecionadoPropriedades!.idPropriedade;
-      }
-
-      var idGrupo = dropDownControllerGrupos.selecionadoGrupos;
-      if (idGrupo == null) {
-        grupos = 0;
-      } else {
-        grupos = dropDownControllerGrupos.selecionadoGrupos!.idGrupo;
-      }
+    var idGrupo = dropDownControllerGrupos.selecionadoGrupos;
+    if (idGrupo == null) {
+      grupos = 0;
+    } else {
+      grupos = dropDownControllerGrupos.selecionadoGrupos!.idGrupo;
+    }
 
     ControleApi controleApi = ControleApi();
 
     ControleModel oControle = ControleModel(
       idFracao: fracao,
       idEntidade: entidades,
-      idPropriedade: propriedades,
       idGrupo: grupos,
       DataEntrada: DataEntrada.toString(),
       DataSaida: DataSaida.toString(),
@@ -803,16 +724,20 @@ class _ControleEditState extends State<ControleEdit> {
             height: 60,
             child: Center(
               child: ListTile(
-              leading: Icon(Icons.warning,
-              color: Colors.orange,
-              size: 30,),
-              title: Text('Preencha os campos obrigatórios.',
-             style: TextStyle(fontSize: 20),
-             ),
-              subtitle: Text('Entidades, Propriedades, Grupos, Fração, Data Entrada e Data Saída.',
-              style: TextStyle(fontSize: 18),
+                leading: Icon(
+                  Icons.warning,
+                  color: Colors.orange,
+                  size: 30,
+                ),
+                title: Text(
+                  'Preencha os campos obrigatórios.',
+                  style: TextStyle(fontSize: 20),
+                ),
+                subtitle: Text(
+                  'Entidades, Grupos, Fração, Data Entrada e Data Saída.',
+                  style: TextStyle(fontSize: 18),
+                ),
               ),
-            ),
             ),
           ),
           actions: [
@@ -826,20 +751,23 @@ class _ControleEditState extends State<ControleEdit> {
         ),
       );
 
-      _onClickDialogDataIco() => showDialog(
+  _onClickDialogDataIco() => showDialog(
         context: context,
         builder: (context) => AlertDialog(
           content: Container(
             height: 60,
             child: Center(
               child: ListTile(
-              leading: Icon(Icons.warning,
-              color: Colors.orange,
-              size: 30,),
-              title: Text(' A Data Entrada não pode ser maior que a Data Saída',
-             style: TextStyle(fontSize: 20),
-             ),
-            ),
+                leading: Icon(
+                  Icons.warning,
+                  color: Colors.orange,
+                  size: 30,
+                ),
+                title: Text(
+                  ' A Data Entrada não pode ser maior que a Data Saída',
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
             ),
           ),
           actions: [

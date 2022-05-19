@@ -166,11 +166,6 @@ class _GruposEditState extends State<GruposEdit> {
                         Container(
                           width: 300,
                           height: 40,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                                width: 1, color: Colors.grey),
-                            borderRadius: BorderRadius.circular(5),
-                          ),
                           child: AnimatedBuilder(
                             animation: dropDownControllerEntidades,
                             builder: (context, child) {
@@ -179,7 +174,12 @@ class _GruposEditState extends State<GruposEdit> {
                               } else {
                                 return DropdownButtonHideUnderline(
                                     child: ButtonTheme(
-                                  child: DropdownButton(
+                                  child: DropdownButtonFormField(
+                                        decoration: InputDecoration(
+                                          labelText: "Entidades",
+                                          border: OutlineInputBorder(),
+                                          isDense: true,
+                                        ),
                                     hint: Text("Entidades"),
                                     isDense: true,
                                     isExpanded: true,

@@ -80,7 +80,7 @@ class _EntidadesEditState extends State<EntidadesEdit> {
                   children: [
                     SizedBox(
                       width: 300,
-                      height: 30,
+                      height: 40,
                       child: TextFormField(
                         controller: _controllerNome,
                         decoration: const InputDecoration(
@@ -96,7 +96,7 @@ class _EntidadesEditState extends State<EntidadesEdit> {
                     ),
                     SizedBox(
                       width: 300,
-                      height: 30,
+                      height: 40,
                       child: TextFormField(
                         controller: _controllerContato,
                         decoration: const InputDecoration(
@@ -112,7 +112,7 @@ class _EntidadesEditState extends State<EntidadesEdit> {
                     ),
                     SizedBox(
                       width: 300,
-                      height: 30,
+                      height: 40,
                       child: TextFormField(
                         controller: _controllerTelefone,
                         decoration: const InputDecoration(
@@ -128,7 +128,7 @@ class _EntidadesEditState extends State<EntidadesEdit> {
                     ),
                     SizedBox(
                       width: 300,
-                      height: 30,
+                      height: 40,
                       child: TextFormField(
                         controller: _controllerEmail,
                         decoration: const InputDecoration(
