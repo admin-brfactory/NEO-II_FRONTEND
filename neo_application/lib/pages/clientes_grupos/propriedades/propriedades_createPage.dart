@@ -419,6 +419,10 @@ class _PropriedadesCreateState extends State<PropriedadesCreate> {
           child: DropdownButtonHideUnderline(
             child: ButtonTheme(
               child: DropdownButtonFormField<String>(
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                ),
                 decoration: InputDecoration(
                   labelText: "UF",
                   border: OutlineInputBorder(),

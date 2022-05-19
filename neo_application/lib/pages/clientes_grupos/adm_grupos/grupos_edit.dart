@@ -175,6 +175,10 @@ class _GruposEditState extends State<GruposEdit> {
                                 return DropdownButtonHideUnderline(
                                     child: ButtonTheme(
                                   child: DropdownButtonFormField(
+                                    style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
                                         decoration: InputDecoration(
                                           labelText: "Entidades",
                                           border: OutlineInputBorder(),

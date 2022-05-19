@@ -189,6 +189,10 @@ class _ControleEditState extends State<ControleEdit> {
                                     return DropdownButtonHideUnderline(
                                         child: ButtonTheme(
                                       child: DropdownButtonFormField(
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
                                         decoration: InputDecoration(
                                           labelText: "Grupos",
                                           border: OutlineInputBorder(),
@@ -234,6 +238,10 @@ class _ControleEditState extends State<ControleEdit> {
                                     return DropdownButtonHideUnderline(
                                         child: ButtonTheme(
                                       child: DropdownButtonFormField(
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
                                         decoration: InputDecoration(
                                           labelText: "Entidades",
                                           border: OutlineInputBorder(),
@@ -273,6 +281,10 @@ class _ControleEditState extends State<ControleEdit> {
                                   return DropdownButtonHideUnderline(
                                     child: ButtonTheme(
                                       child: DropdownButtonFormField(
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 15,
+                                        ),
                                         decoration: InputDecoration(
                                           labelText: "Fração",
                                           border: OutlineInputBorder(),
