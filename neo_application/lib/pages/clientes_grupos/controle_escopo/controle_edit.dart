@@ -14,6 +14,8 @@ import 'package:neo_application/pages/clientes_grupos/fracao_propriedades/fracao
 import 'package:neo_application/pages/provider/app_provider.dart';
 import 'package:provider/provider.dart';
 
+import '../../widgets/dropdown_edit_fracao.dart';
+
 class ControleEdit extends StatefulWidget {
   ControleModel controleModel;
   var tipoAcao;
@@ -123,7 +125,8 @@ class _ControleEditState extends State<ControleEdit> {
       var listEntidadeFiltrado = listEntidades
           .where((element) => element.Id == oControle.entidades!.Id)
           .toList();
-      dropDownControllerEntidades.setSelecionadoEntidadesFracao(listEntidadeFiltrado[0], listEntidadeFiltrado[0].Id);
+      dropDownControllerEntidades
+          .setSelecionadoEntidades(listEntidadeFiltrado[0]);
     }
   }
 
@@ -181,18 +184,17 @@ class _ControleEditState extends State<ControleEdit> {
                                 builder: (context, child) {
                                   if (dropDownControllerGrupos
                                       .listGrupos.isEmpty) {
-                                    return Center(
-                                        child:
-                                            const CircularProgressIndicator());
+                                    return const Center(
+                                        child: CircularProgressIndicator());
                                   } else {
                                     return DropdownButtonHideUnderline(
                                         child: ButtonTheme(
                                       child: DropdownButtonFormField(
-                                        style: TextStyle(
+                                        style: const TextStyle(
                                           color: Colors.black,
                                           fontSize: 15,
                                         ),
-                                        decoration: InputDecoration(
+                                        decoration: const InputDecoration(
                                           labelText: "Grupos",
                                           border: OutlineInputBorder(),
                                           isDense: true,
@@ -202,9 +204,10 @@ class _ControleEditState extends State<ControleEdit> {
                                         isExpanded: true,
                                         value: dropDownControllerGrupos
                                             .selecionadoGrupos,
-                                        onChanged: (value) =>
-                                            dropDownControllerGrupos
-                                                .setSelecionadoGrupos(value),
+                                        onChanged: (value) {
+                                          dropDownControllerGrupos
+                                              .setSelecionadoGrupos(value);
+                                        },
                                         items: dropDownControllerGrupos
                                             .listGrupos
                                             .map((tipos) => DropdownMenuItem(
@@ -236,7 +239,8 @@ class _ControleEditState extends State<ControleEdit> {
                                   } else {
                                     return DropdownButtonHideUnderline(
                                         child: ButtonTheme(
-                                      child: DropdownButtonFormField(
+                                      child: DropdownButtonFormField<
+                                          EntidadesModel>(
                                         style: TextStyle(
                                           color: Colors.black,
                                           fontSize: 15,
@@ -249,10 +253,19 @@ class _ControleEditState extends State<ControleEdit> {
                                         hint: Text("Entidades"),
                                         isDense: true,
                                         isExpanded: true,
-                                        value: dropDownControllerEntidades.selecionadoEntidadesFracao,
-                                        onChanged: (value) =>
-                                            dropDownControllerEntidades.setSelecionadoEntidadesFracao(value, dropDownControllerEntidades.selecionadoEntidadesFracao!.Id ),
-                                        items: dropDownControllerEntidades.listEntidades.map((tipos) => DropdownMenuItem(
+                                        value: dropDownControllerEntidades
+                                            .selecionadoEntidades,
+                                        onChanged: (value) {
+                                          dropDownControllerEntidades
+                                              .setSelecionadoEntidades(value);
+
+                                          dropDownControllerFracao
+                                              .buscarFracao(value!.Id!);
+                                        },
+                                        items: dropDownControllerEntidades
+                                            .listEntidades
+                                            .map((tipos) => DropdownMenuItem<
+                                                    EntidadesModel>(
                                                   child: Text(tipos.Nome!),
                                                   value: tipos,
                                                 ))
@@ -267,40 +280,9 @@ class _ControleEditState extends State<ControleEdit> {
                               width: 30,
                               height: 20,
                             ),
-                            Container(
-                              width: 300,
-                              height: 40,
-                              child: Consumer<DropDownControllerFracao>(
-                                builder: (context, value, child) {
-                                  return DropdownButtonHideUnderline(
-                                    child: ButtonTheme(
-                                      child: DropdownButtonFormField(
-                                        style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 15,
-                                        ),
-                                        decoration: InputDecoration(
-                                          labelText: "Fração",
-                                          border: OutlineInputBorder(),
-                                          isDense: true,
-                                        ),
-                                        hint: Text("Fração"),
-                                        isDense: true,
-                                        isExpanded: true,
-                                        value: value.selecionadoFracao,
-                                        onChanged: (fracao) =>
-                                            value.setSelecionadoFracao(fracao),
-                                        items: value.listFracao.map((tipos) => DropdownMenuItem(
-                                                  child: Text(
-                                                      tipos.Fracao.toString()),
-                                                  value: tipos,
-                                                ))
-                                            .toList(),
-                                      ),
-                                    ),
-                                  );
-                                },
-                              ),
+                            DropdownEditFracao(
+                              dropDownControllerFracao:
+                                  dropDownControllerFracao,
                             ),
                             const SizedBox(
                               width: 30,
@@ -609,6 +591,13 @@ class _ControleEditState extends State<ControleEdit> {
 
       AppModel app = Provider.of<AppModel>(context, listen: false);
       app.setPage(ControlePage());
+    } else {
+      Fluttertoast.showToast(
+          msg: messageReturn["message"],
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 10,
+          fontSize: 16.0);
     }
   }
 
