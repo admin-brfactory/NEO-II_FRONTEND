@@ -123,27 +123,26 @@ class _ControleEditState extends State<ControleEdit> {
       var listEntidadeFiltrado = listEntidades
           .where((element) => element.Id == oControle.entidades!.Id)
           .toList();
-      dropDownControllerEntidades
-          .setSelecionadoEntidades(listEntidadeFiltrado[0]);
+      dropDownControllerEntidades.setSelecionadoEntidadesFracao(listEntidadeFiltrado[0], listEntidadeFiltrado[0].Id);
     }
   }
 
-  _buscarFracao() async {
-    await dropDownControllerFracao.buscarFracao();
-    var listFracao = dropDownControllerFracao.listFracao;
+  // _buscarFracao() async {
+  //   await dropDownControllerFracao.buscarFracao();
+  //   var listFracao = dropDownControllerFracao.listFracao;
 
-    if (oControle.fracao != null) {
-      var listFracaoFiltrado = listFracao
-          .where((element) => element.ID == oControle.fracao!.ID)
-          .toList();
-      dropDownControllerFracao.setSelecionadoFracao(listFracaoFiltrado[0]);
-    }
-  }
+  //   if (oControle.fracao != null) {
+  //     var listFracaoFiltrado = listFracao
+  //         .where((element) => element.ID == oControle.fracao!.ID)
+  //         .toList();
+  //     dropDownControllerFracao.setSelecionadoFracao(listFracaoFiltrado[0]);
+  //   }
+  // }
 
   _body() {
     _buscarEntidades();
     _buscarGrupos();
-    _buscarFracao();
+    // _buscarFracao();
     return FutureBuilder(
       future: TodasTabelas().getTodasTabelas(),
       builder: (context, AsyncSnapshot snapshot) {
@@ -250,14 +249,10 @@ class _ControleEditState extends State<ControleEdit> {
                                         hint: Text("Entidades"),
                                         isDense: true,
                                         isExpanded: true,
-                                        value: dropDownControllerEntidades
-                                            .selecionadoEntidades,
+                                        value: dropDownControllerEntidades.selecionadoEntidadesFracao,
                                         onChanged: (value) =>
-                                            dropDownControllerEntidades
-                                                .setSelecionadoEntidades(value),
-                                        items: dropDownControllerEntidades
-                                            .listEntidades
-                                            .map((tipos) => DropdownMenuItem(
+                                            dropDownControllerEntidades.setSelecionadoEntidadesFracao(value, dropDownControllerEntidades.selecionadoEntidadesFracao!.Id ),
+                                        items: dropDownControllerEntidades.listEntidades.map((tipos) => DropdownMenuItem(
                                                   child: Text(tipos.Nome!),
                                                   value: tipos,
                                                 ))
@@ -275,9 +270,8 @@ class _ControleEditState extends State<ControleEdit> {
                             Container(
                               width: 300,
                               height: 40,
-                              child: AnimatedBuilder(
-                                animation: dropDownControllerFracao,
-                                builder: (context, child) {
+                              child: Consumer<DropDownControllerFracao>(
+                                builder: (context, value, child) {
                                   return DropdownButtonHideUnderline(
                                     child: ButtonTheme(
                                       child: DropdownButtonFormField(
@@ -293,14 +287,10 @@ class _ControleEditState extends State<ControleEdit> {
                                         hint: Text("Fração"),
                                         isDense: true,
                                         isExpanded: true,
-                                        value: dropDownControllerFracao
-                                            .selecionadoFracao,
-                                        onChanged: (value) =>
-                                            dropDownControllerFracao
-                                                .setSelecionadoFracao(value),
-                                        items: dropDownControllerFracao
-                                            .listFracao
-                                            .map((tipos) => DropdownMenuItem(
+                                        value: value.selecionadoFracao,
+                                        onChanged: (fracao) =>
+                                            value.setSelecionadoFracao(fracao),
+                                        items: value.listFracao.map((tipos) => DropdownMenuItem(
                                                   child: Text(
                                                       tipos.Fracao.toString()),
                                                   value: tipos,
