@@ -125,27 +125,28 @@ class _ControleEditState extends State<ControleEdit> {
       var listEntidadeFiltrado = listEntidades
           .where((element) => element.Id == oControle.entidades!.Id)
           .toList();
+
       dropDownControllerEntidades
           .setSelecionadoEntidades(listEntidadeFiltrado[0]);
+      _buscarFracao(listEntidadeFiltrado[0].Id!);
     }
   }
 
-  // _buscarFracao() async {
-  //   await dropDownControllerFracao.buscarFracao();
-  //   var listFracao = dropDownControllerFracao.listFracao;
+  _buscarFracao(int idEnti) async {
+    await dropDownControllerFracao.buscarFracao(idEnti);
+    var listFracao = dropDownControllerFracao.listFracao;
 
-  //   if (oControle.fracao != null) {
-  //     var listFracaoFiltrado = listFracao
-  //         .where((element) => element.ID == oControle.fracao!.ID)
-  //         .toList();
-  //     dropDownControllerFracao.setSelecionadoFracao(listFracaoFiltrado[0]);
-  //   }
-  // }
+    if (oControle.fracao != null) {
+      var listFracaoFiltrado = listFracao
+          .where((element) => element.ID == oControle.fracao!.ID)
+          .toList();
+      dropDownControllerFracao.setSelecionadoFracao(listFracaoFiltrado[0]);
+    }
+  }
 
   _body() {
     _buscarEntidades();
     _buscarGrupos();
-    // _buscarFracao();
     return FutureBuilder(
       future: TodasTabelas().getTodasTabelas(),
       builder: (context, AsyncSnapshot snapshot) {
@@ -195,6 +196,7 @@ class _ControleEditState extends State<ControleEdit> {
                                           fontSize: 15,
                                         ),
                                         decoration: const InputDecoration(
+                                          contentPadding: EdgeInsets.all(10),
                                           labelText: "Grupos",
                                           border: OutlineInputBorder(),
                                           isDense: true,
@@ -246,6 +248,7 @@ class _ControleEditState extends State<ControleEdit> {
                                           fontSize: 15,
                                         ),
                                         decoration: InputDecoration(
+                                          contentPadding: EdgeInsets.all(10),
                                           labelText: "Entidades",
                                           border: OutlineInputBorder(),
                                           isDense: true,
@@ -299,7 +302,7 @@ class _ControleEditState extends State<ControleEdit> {
                                 ),
                                 decoration: InputDecoration(
                                   border: const OutlineInputBorder(),
-                                  labelText: "Data Entrada",
+                                  labelText: "Data de Entrada",
                                   suffixIcon: IconButton(
                                     icon: Icon(
                                       Icons.date_range,
@@ -505,7 +508,7 @@ class _ControleEditState extends State<ControleEdit> {
         _controllerDataSaida.text.substring(3, 5) +
         _controllerDataSaida.text.substring(6, 10));
 
-    if (DataEntradaInt > DataSaidaInt) {
+    if (DataEntradaInt.compareTo(DataSaidaInt) == 1) {
       _onClickDialogDataIco();
       return;
     }
@@ -540,6 +543,7 @@ class _ControleEditState extends State<ControleEdit> {
     }
 
     var fracao;
+    var propriedade;
     var entidades;
     var grupos;
 
@@ -548,6 +552,13 @@ class _ControleEditState extends State<ControleEdit> {
       fracao = 0;
     } else {
       fracao = dropDownControllerFracao.selecionadoFracao!.ID;
+    }
+
+    var idPropriedade = idFracao!.IDPropriedade;
+     if (idPropriedade == null) {
+      propriedade = 0;
+    } else {
+      propriedade = dropDownControllerFracao.selecionadoFracao!.IDPropriedade;
     }
 
     var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
@@ -571,6 +582,7 @@ class _ControleEditState extends State<ControleEdit> {
       idFracao: fracao,
       idEntidade: entidades,
       idGrupo: grupos,
+      idPropriedade: propriedade,
       DataEntrada: DataEntrada.toString(),
       DataSaida: DataSaida.toString(),
       RequerenteSaida: _controllerRequerenteSaida.text.toString(),
@@ -614,7 +626,7 @@ class _ControleEditState extends State<ControleEdit> {
         _controllerDataSaida.text.substring(3, 5) +
         _controllerDataSaida.text.substring(6, 10));
 
-    if (DataEntradaInt > DataSaidaInt) {
+    if (DataEntradaInt.compareTo(DataSaidaInt) == 1) {
       _onClickDialogDataIco();
       return;
     }
@@ -649,6 +661,7 @@ class _ControleEditState extends State<ControleEdit> {
     }
 
     var fracao;
+    var propriedade;
     var entidades;
     var grupos;
 
@@ -657,6 +670,13 @@ class _ControleEditState extends State<ControleEdit> {
       fracao = 0;
     } else {
       fracao = dropDownControllerFracao.selecionadoFracao!.ID;
+    }
+
+    var idPropriedade = idFracao!.IDPropriedade;
+     if (idPropriedade == null) {
+      propriedade = 0;
+    } else {
+      propriedade = dropDownControllerFracao.selecionadoFracao!.IDPropriedade;
     }
 
     var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
@@ -679,6 +699,7 @@ class _ControleEditState extends State<ControleEdit> {
       idFracao: fracao,
       idEntidade: entidades,
       idGrupo: grupos,
+      idPropriedade: propriedade,
       DataEntrada: DataEntrada.toString(),
       DataSaida: DataSaida.toString(),
       RequerenteSaida: _controllerRequerenteSaida.text.toString(),

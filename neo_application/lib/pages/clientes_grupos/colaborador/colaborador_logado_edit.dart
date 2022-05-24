@@ -211,7 +211,6 @@ class _ColaboradorLogadoEditState extends State<ColaboradorLogadoEdit> {
                                               '/' +
                                               _valueEntrada.substring(0, 4);
 
-                                      print(_controllerDataInicio.text);
                                     },
                                   ),
                                 ),

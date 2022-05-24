@@ -119,7 +119,6 @@ class TodasTabelas {
       if (response.statusCode == 200) {
         var responseMap = json.decode(response.body);
         var todasTabelas = TodasTabelasModel.fromMap(responseMap);
-        print(todasTabelas);
         return todasTabelas;
       }
     } catch (e) {

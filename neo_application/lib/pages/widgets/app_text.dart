@@ -11,6 +11,7 @@ class AppText extends StatelessWidget {
   TextInputAction? textInputAction;
   FocusNode? focusNode;
   FocusNode? nextFocus;
+  var onFieldSubmitted;
 
   AppText(
     this.text,
@@ -23,6 +24,7 @@ class AppText extends StatelessWidget {
     this.textInputAction,
     this.focusNode,
     this.nextFocus,
+    this.onFieldSubmitted,
   });
 
   @override
@@ -36,12 +38,7 @@ class AppText extends StatelessWidget {
         keyboardType: keyboardType,
         textInputAction: textInputAction,
         focusNode: focusNode,
-        onFieldSubmitted: (text) {
-          if (nextFocus != null) {
-            FocusScope.of(context).requestFocus(nextFocus);
-          }
-        },
-        // ignore: prefer_const_constructors
+        onFieldSubmitted: onFieldSubmitted,
         style: TextStyle(
           color: Colors.black,
           fontSize: 15,

@@ -91,9 +91,6 @@ class _GruposEditState extends State<GruposEdit> {
         }
         if (snapshot.hasData) {
           listEntidades = snapshot.data;
-
-          print(listEntidades);
-
           return ListView(
             children: [
               Card(
@@ -153,7 +150,6 @@ class _GruposEditState extends State<GruposEdit> {
 
                                   _controllerDataFormacao.text =  _value.substring(8, 10) + '/' + _value.substring(5, 7) +  '/' + _value.substring(0, 4);
                             
-                                  print( _controllerDataFormacao.text);
                                 },
                               ),
                             ),

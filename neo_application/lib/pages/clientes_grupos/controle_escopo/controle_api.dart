@@ -36,6 +36,7 @@ class ControleApi {
       'idFracao': oControle.idFracao,
       'idEntidade': oControle.idEntidade,
       'idGrupo': oControle.idGrupo,
+      'idPropriedade': oControle.idPropriedade,
       'DataEntrada': oControle.DataEntrada,
       'DataSaida': oControle.DataSaida,
       'RequerenteSaida': oControle.RequerenteSaida,

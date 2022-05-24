@@ -35,6 +35,8 @@ class _LoginPageState extends State<LoginPage> {
 
   final _focusSenha = FocusNode();
 
+  final _controllerBtnLogin = TextEditingController();
+
   late ColaboradorModel oColaborador;
 
   final TextEditingController _controlleridAuditor = TextEditingController();
@@ -127,6 +129,9 @@ class _LoginPageState extends State<LoginPage> {
                   validator: _validateSenha,
                   keyboardType: TextInputType.number,
                   focusNode: _focusSenha,
+                  onFieldSubmitted:(value) {
+                _onClickLogin();
+              },
                 ),
                 const SizedBox(
                   height: 10,
@@ -177,7 +182,7 @@ class _LoginPageState extends State<LoginPage> {
     
   }
 
-  Future<void> _onClickLogin() async {
+   _onClickLogin() async {
     bool formOk = _formKey.currentState!.validate();
     if (!formOk) {
       return;

@@ -39,7 +39,7 @@ class DropdownEditFracao extends StatelessWidget {
                 hint: Text("Fração"),
                 isDense: true,
                 isExpanded: true,
-                value: dropDownControllerFracao.selecionadoFracao != null ? dropDownControllerFracao.selecionadoFracao : null,
+                value: dropDownControllerFracao.selecionadoFracao,
                 onChanged: (fracao) =>
                     dropDownControllerFracao.setSelecionadoFracao(fracao),
                 items: dropDownControllerFracao.listFracao
