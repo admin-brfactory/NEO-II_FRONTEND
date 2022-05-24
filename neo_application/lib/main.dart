@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:neo_application/pages/clientes_grupos/fracao_propriedades/dropDownController_Fracao.dart';
 import 'package:neo_application/pages/clientes_grupos/propriedades/tipoManejo/dropDownController.dart';
 import 'package:neo_application/pages/login_page/login_page.dart';
 import 'package:neo_application/pages/provider/app_provider.dart';
@@ -43,6 +44,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => Uf(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => DropDownControllerFracao(),
         ),
       ],
       child: MaterialApp(

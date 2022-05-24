@@ -197,7 +197,6 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
                                           '/' +
                                           _valueEntrada.substring(0, 4);
                       
-                                      print(_controllerDataInicio.text);
                                     },
                                   ),
                                 ),

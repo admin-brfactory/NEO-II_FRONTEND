@@ -24,10 +24,6 @@ class _DefaultPageState extends State<DefaultPage> {
     );
   }
 
-  // _body() {
-  //   return Center(child: Text("DEFAULT PAGE"));
-  // }
-
   _body() {
     return FutureBuilder(
       future: ColaboradorApi().getColaborador(),
