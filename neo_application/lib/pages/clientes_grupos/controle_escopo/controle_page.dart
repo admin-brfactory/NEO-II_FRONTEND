@@ -78,7 +78,7 @@ class _ControlePageState extends State<ControlePage> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    title: Text("Grupos: " + listControle[index].grupos!.Nome.toString() + " - " "Entidade: " + listControle[index].entidades!.Nome.toString() + " - " "Fração: " + listControle[index].fracao!.Fracao.toString() + " - " "Data Entrada: " + "${listControle[index].DataEntrada}" + " - " "Data Saída: " + "${listControle[index].DataSaida}" + " - " "Requerente Saída: " + "${listControle[index].RequerenteSaida}"
+                    title: Text("Grupos: " + listControle[index].grupos!.Nome.toString() + " - " "Entidade: " + listControle[index].entidades!.Nome.toString() + " - " "Propriedade: " + listControle[index].fracao!.propriedades!.Nome.toString() + " - " "Fração da Propriedade: " + listControle[index].fracao!.Fracao.toString() + " - " "Data Entrada: " + "${listControle[index].DataEntrada}" + " - " "Data Saída: " + "${listControle[index].DataSaida}" + " - " "Requerente Saída: " + "${listControle[index].RequerenteSaida}"
                         ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,

@@ -710,10 +710,10 @@ class _PropriedadesEditState extends State<PropriedadesEdit>
                 isExpanded: true,
                 value: listUfSelecionado,
                 onChanged: (newValue) => {
-                  setState(() {
-                    valueSelected = newValue;
-                    listUfSelecionado = valueSelected;
-                  })
+                  // setState(() {
+                    valueSelected = newValue,
+                    listUfSelecionado = valueSelected,
+                  // })
                 },
                 items: listUfs.map((String value) {
                   return DropdownMenuItem(

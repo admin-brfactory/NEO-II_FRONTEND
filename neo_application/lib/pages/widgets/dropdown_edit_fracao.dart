@@ -42,9 +42,8 @@ class DropdownEditFracao extends StatelessWidget {
                 value: dropDownControllerFracao.selecionadoFracao,
                 onChanged: (fracao) =>
                     dropDownControllerFracao.setSelecionadoFracao(fracao),
-                items: dropDownControllerFracao.listFracao
-                    .map((tipos) => DropdownMenuItem(
-                          child: Text(tipos.Fracao.toString()),
+                items: dropDownControllerFracao.listFracao.map((tipos) => DropdownMenuItem(
+                          child: Text(tipos.propriedades!.Nome.toString() + " - " + tipos.Fracao.toString()),
                           value: tipos,
                         ))
                     .toList(),
