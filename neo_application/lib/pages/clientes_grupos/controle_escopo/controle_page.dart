@@ -76,9 +76,21 @@ class _ControlePageState extends State<ControlePage> {
             child: ListView.builder(
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
+                var grupo = listControle[index].grupos!.Nome != null ? listControle[index].grupos!.Nome.toString() : "";
+                var entidades = listControle[index].entidades!.Nome != null ? listControle[index].entidades!.Nome.toString() : "";
+                var propriedades;
+                var fracao;
+                if (entidades != "") {
+                  propriedades = listControle[index].fracao!.propriedades!.Nome != null ? listControle[index].fracao!.propriedades!.Nome.toString() : "";
+                  fracao = listControle[index].fracao!.Fracao != null ? listControle[index].fracao!.Fracao.toString() : "";
+                } else {
+                  propriedades = "";
+                  fracao = "";
+                }
+                
                 return Card(
                   child: ListTile(
-                    title: Text("Grupos: " + listControle[index].grupos!.Nome.toString() + " - " "Entidade: " + listControle[index].entidades!.Nome.toString() + " - " "Propriedade: " + listControle[index].fracao!.propriedades!.Nome.toString() + " - " "Fração da Propriedade: " + listControle[index].fracao!.Fracao.toString() + " - " "Data Entrada: " + "${listControle[index].DataEntrada}" + " - " "Data Saída: " + "${listControle[index].DataSaida}" + " - " "Requerente Saída: " + "${listControle[index].RequerenteSaida}"
+                    title: Text("Grupos: " + grupo + " - " "Entidade: " + entidades + " - " "Propriedade: " + propriedades + " - " "Fração da Propriedade: " + fracao + " - " "Data Entrada: " + "${listControle[index].DataEntrada}" + " - " "Data Saída: " + "${listControle[index].DataSaida}" + " - " "Requerente Saída: " + "${listControle[index].RequerenteSaida}"
                         ),
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,

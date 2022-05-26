@@ -73044,8 +73044,10 @@ r.d=s
 return A.a1(q,A.kH(new A.acd(r),J.bE(s)),B.h,q,q,q,q,q,q,q,q,q,q)}return B.bp},
 $S:10}
 A.acd.prototype={
-$2(a,b){var s=null,r=this.a
-return A.eh(A.cp(s,s,s,s,A.B("Grupos: "+J.aH(J.G(r.d,b).y.b)+" - Entidade: "+J.aH(J.G(r.d,b).e.b)+" - Propriedade: "+J.aH(J.G(r.d,b).c.e.b)+" - Fra\xe7\xe3o da Propriedade: "+J.aH(J.G(r.d,b).c.f)+" - Data Entrada: "+A.f(J.G(r.d,b).z)+" - Data Sa\xedda: "+A.f(J.G(r.d,b).Q)+" - Requerente Sa\xedda: "+A.f(J.G(r.d,b).ch),s,s,s,s,s,s,s),A.bR(A.a([A.cW(s,B.dx,s,new A.acb(r,a,b),s),A.cW(s,B.bV,s,new A.acc(r,b,a),s)],t.p),B.u,B.q,B.aO)))},
+$2(a,b){var s,r,q=null,p=this.a,o=J.G(p.d,b).y.b!=null?J.aH(J.G(p.d,b).y.b):"",n=J.G(p.d,b).e.b!=null?J.aH(J.G(p.d,b).e.b):""
+if(n!==""){s=J.G(p.d,b).c.e.b!=null?J.aH(J.G(p.d,b).c.e.b):""
+r=J.G(p.d,b).c.f!=null?J.aH(J.G(p.d,b).c.f):""}else{s=""
+r=""}return A.eh(A.cp(q,q,q,q,A.B("Grupos: "+o+" - Entidade: "+n+" - Propriedade: "+s+" - Fra\xe7\xe3o da Propriedade: "+r+" - Data Entrada: "+A.f(J.G(p.d,b).z)+" - Data Sa\xedda: "+A.f(J.G(p.d,b).Q)+" - Requerente Sa\xedda: "+A.f(J.G(p.d,b).ch),q,q,q,q,q,q,q),A.bR(A.a([A.cW(q,B.dx,q,new A.acb(p,a,b),q),A.cW(q,B.bV,q,new A.acc(p,b,a),q)],t.p),B.u,B.q,B.aO)))},
 $S:28}
 A.acb.prototype={
 $0(){var s=A.br(this.b,!1,t.e)

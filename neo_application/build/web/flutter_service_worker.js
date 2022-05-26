@@ -10,7 +10,7 @@ const RESOURCES = {
 "assets/images/logoEco.jpeg": "ae17667475df61f8470c86152a761217",
 "assets/images/message.txt": "7c3c770d577e07524aa7ad2be3c9d479",
 "assets/images/neocert_logo.png": "c8e699c3acb94e0bab09c4dc9aa05364",
-"assets/NOTICES": "48c194f447e46782aaf13dd09b349ac0",
+"assets/NOTICES": "63ded9acb1728c439e457f768c505e00",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "6d342eb68f170c97609e9da345464e5e",
 "assets/packages/fluttertoast/assets/toastify.css": "a85675050054f179444bc5ad70ffc635",
 "assets/packages/fluttertoast/assets/toastify.js": "e7006a0a033d834ef9414d48db3be6fc",
@@ -23,9 +23,9 @@ const RESOURCES = {
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
 "icons/Icon-maskable-512.png": "301a7604d45b3e739efc881eb04896ea",
-"index.html": "8dfbd6c9cf8f6806e46eedefa6700d4f",
-"/": "8dfbd6c9cf8f6806e46eedefa6700d4f",
-"main.dart.js": "38d052294896937f278bf2e8c78c68c4",
+"index.html": "94368b25476a2d4a537f23f98fc67dd1",
+"/": "94368b25476a2d4a537f23f98fc67dd1",
+"main.dart.js": "bf72af948846c86b0bf43da8cb374939",
 "manifest.json": "689d85e07f16f38de3a561956def330b",
 "version.json": "31ad7459046c8ebc10c17e09127cccad"
 };
