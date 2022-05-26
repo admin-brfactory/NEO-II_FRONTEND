@@ -66,6 +66,9 @@ class _ControleEditState extends State<ControleEdit> {
   List<FracaoPropModel> listFracao = [];
   List<GruposModel> listGrupos = [];
 
+  DateTime? dataEntrada;
+  DateTime? dataSaida;
+
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -317,6 +320,7 @@ class _ControleEditState extends State<ControleEdit> {
                                         lastDate: DateTime(2100),
                                       );
                                       if (data != null) {
+                                          dataEntrada = data;
                                         _valueEntrada = data.toString();
                                         _controllerDataEntrada.text =
                                             _valueEntrada.substring(8, 10) +
@@ -325,6 +329,7 @@ class _ControleEditState extends State<ControleEdit> {
                                                 '/' +
                                                 _valueEntrada.substring(0, 4);
                                       }
+
                                     },
                                   ),
                                 ),
@@ -360,6 +365,7 @@ class _ControleEditState extends State<ControleEdit> {
                                         lastDate: DateTime(2100),
                                       );
                                       if (data != null) {
+                                        dataSaida = data;
                                         _valueSaida = data.toString();
                                         _controllerDataSaida.text =
                                             _valueSaida.substring(8, 10) +
@@ -508,7 +514,7 @@ class _ControleEditState extends State<ControleEdit> {
         _controllerDataSaida.text.substring(3, 5) +
         _controllerDataSaida.text.substring(6, 10));
 
-    if (DataEntradaInt.compareTo(DataSaidaInt) == 1) {
+    if (dataEntrada!.isAfter(dataSaida!)) {
       _onClickDialogDataIco();
       return;
     }
@@ -626,7 +632,7 @@ class _ControleEditState extends State<ControleEdit> {
         _controllerDataSaida.text.substring(3, 5) +
         _controllerDataSaida.text.substring(6, 10));
 
-    if (DataEntradaInt.compareTo(DataSaidaInt) == 1) {
+    if (dataEntrada!.isAfter(dataSaida!)) {
       _onClickDialogDataIco();
       return;
     }
