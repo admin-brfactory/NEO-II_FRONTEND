@@ -514,11 +514,6 @@ class _ControleEditState extends State<ControleEdit> {
         _controllerDataSaida.text.substring(3, 5) +
         _controllerDataSaida.text.substring(6, 10));
 
-    if (dataEntrada!.isAfter(dataSaida!)) {
-      _onClickDialogDataIco();
-      return;
-    }
-
     var DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
         '/' +
         _controllerDataEntrada.text.substring(0, 2) +
@@ -631,11 +626,6 @@ class _ControleEditState extends State<ControleEdit> {
     var DataSaidaInt = int.parse(_controllerDataSaida.text.substring(0, 2) +
         _controllerDataSaida.text.substring(3, 5) +
         _controllerDataSaida.text.substring(6, 10));
-
-    if (dataEntrada!.isAfter(dataSaida!)) {
-      _onClickDialogDataIco();
-      return;
-    }
 
     var DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
         '/' +
