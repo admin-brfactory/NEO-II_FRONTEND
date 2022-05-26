@@ -55,12 +55,6 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // @override
-  // void initState() {
-  //   _setText();
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     oColaboradorModel = widget.colaboradorModel;
@@ -75,19 +69,6 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
       ),
     );
   }
-
-  // _setText() {
-  //   oColaborador = widget.colaboradorModel;
-  //   _controlleridAuditor.text = oColaborador.idAuditor.toString();
-  //   _controllerNome.text = oColaborador.Nome.toString();
-  //   _controllerDataInicio.text = oColaborador.DataInicio.toString();
-  //   _controllerEspecialidade.text = oColaborador.Especialidade.toString();
-  //   _controllerqAuditor.text = oColaborador.qAuditor.toString();
-  //   _controllerqAuditorLider.text = oColaborador.qAuditorLider.toString();
-  //   _controllerqLiderExperiencia.text =
-  //       oColaborador.qLiderExperiencia.toString();
-  //   _controllerEmail.text = oColaborador.Usuario.toString();
-  // }
 
   _body() {
     return FutureBuilder(
@@ -227,6 +208,7 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
                               width: 300,
                               height: 60,
                               child: TextFormField(
+                                obscureText: true,
                                 validator: (value) {
                                   if (value!.length == 0) {
                                     return "Senha obrigatória";
@@ -249,6 +231,7 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
                               width: 300,
                               height: 60,
                               child: TextFormField(
+                                obscureText: true,
                                 validator: (value) {
                                   if (value!.length == 0) {
                                     return "Confirmação de senha obrigatória";
@@ -444,7 +427,6 @@ class _ColaboradorCreateState extends State<ColaboradorCreate> {
     ColaboradorApi colaboradorApi = ColaboradorApi();
 
     ColaboradorModel oColaborador = ColaboradorModel(
-      // idAuditor: widget.colaboradorModel.idAuditor,
       Nome: _controllerNome.text,
       DataInicio: DataInicio.toString(),
       Especialidade: _controllerEspecialidade.text,

@@ -111,8 +111,6 @@ class _ColaboradorPageState extends State<ColaboradorPage> {
                                     listen: false);
                                 app.setPage(ColaboradorEdit(
                                   colaboradorModel: listColaborador[index],
-                                  // tipoAcao: "editar",
-                                  // indice: index,
                                 ));
                               },
                               icon: const Icon(
@@ -129,30 +127,6 @@ class _ColaboradorPageState extends State<ColaboradorPage> {
                                 color: Color.fromARGB(246, 34, 37, 44),
                               ),
                             ),
-
-                        // IconButton(
-                        //   onPressed: () {
-                        //     AppModel app =
-                        //         Provider.of<AppModel>(context, listen: false);
-                        //     app.setPage(ColaboradorEdit(
-                        //       colaboradorModel: listColaborador[index],
-                        //       tipoAcao: "editar",
-                        //     ));
-                        //   },
-                        //   icon: const Icon(
-                        //     Icons.edit,
-                        //     color: Color.fromARGB(246, 34, 37, 44),
-                        //   ),
-                        // ),
-                        // IconButton(
-                        //   onPressed: () async {
-                        //     await _dialogDelete(index, context);
-                        //   },
-                        //   icon: const Icon(
-                        //     Icons.delete,
-                        //     color: Color.fromARGB(246, 34, 37, 44),
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),

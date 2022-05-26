@@ -12,14 +12,10 @@ import 'package:provider/provider.dart';
 
 class ColaboradorEdit extends StatefulWidget {
   ColaboradorModel colaboradorModel;
-  // var tipoAcao;
-  // var indice;
 
   ColaboradorEdit({
     Key? key,
     required this.colaboradorModel,
-    // this.tipoAcao,
-    // this.indice
   }) : super(key: key);
 
   @override
@@ -100,12 +96,6 @@ class _ColaboradorEditState extends State<ColaboradorEdit> {
     _controllerDataInicio.text = oColaborador.DataInicio.toString();
     _controllerEspecialidade.text = oColaborador.Especialidade.toString();
     _controllerEmail.text = oColaborador.Usuario.toString();
-    // _controllerChangePwd.text = oColaborador.change_pwd.toString();
-    // if (_controllerChangePwd.text == "X") {
-    //   checkSenha = true;
-    // } else {
-    //   checkSenha = false;
-    // }
     _controllerqAuditor.text = oColaborador.qAuditor.toString();
     if (_controllerqAuditor.text == "X") {
       checkAuditor = true;
