@@ -171,8 +171,6 @@ class ColaboradorApi {
     try {
       var url = Uri.parse(
           "https://neo-ii-back-end.azurewebsites.net/user/delete/$delete");
-
-      // var response = await http.delete(url);
       
       var response = await http.delete(url,
           headers: <String, String>{

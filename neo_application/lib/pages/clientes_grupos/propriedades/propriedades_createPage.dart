@@ -433,10 +433,10 @@ class _PropriedadesCreateState extends State<PropriedadesCreate> {
                 isExpanded: true,
                 value: listUfSelecionado,
                 onChanged: (newValue) => {
-                  setState(() {
-                    valueSelected = newValue;
-                    listUfSelecionado = valueSelected;
-                  })
+                  
+                    valueSelected = newValue,
+                    listUfSelecionado = valueSelected,
+                 
                 },
                 items: listUfs.map((String value) {
                   return DropdownMenuItem(
