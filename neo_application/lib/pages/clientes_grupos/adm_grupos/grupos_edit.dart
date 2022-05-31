@@ -131,7 +131,7 @@ class _GruposEditState extends State<GruposEdit> {
                             ),
                             decoration: InputDecoration(
                               border: const OutlineInputBorder(),
-                              labelText: "Data da Formatação",
+                              labelText: "Data da Formação",
                               suffixIcon: IconButton(
                                 icon: Icon(
                                   Icons.date_range,

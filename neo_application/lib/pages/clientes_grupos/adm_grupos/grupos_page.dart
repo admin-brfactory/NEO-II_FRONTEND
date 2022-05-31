@@ -68,8 +68,7 @@ class _GruposPageState extends State<GruposPage> {
               itemBuilder: (context, index) {
                 return Card(
                   child: ListTile(
-                    
-                    title: Text('Nome: ' + listGrupos[index].Nome! + ' - DataFormacao: ' + listGrupos[index].DataFormacao!
+                    title: Text('Nome: ' + listGrupos[index].Nome! + ' - Data da Formação: ' + listGrupos[index].DataFormacao!
                         ),
                         
                     trailing: Row(
