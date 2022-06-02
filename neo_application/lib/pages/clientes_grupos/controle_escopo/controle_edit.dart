@@ -264,7 +264,6 @@ class _ControleEditState extends State<ControleEdit> {
                                         onChanged: (value) {
                                           dropDownControllerEntidades
                                               .setSelecionadoEntidades(value);
-
                                           dropDownControllerFracao
                                               .buscarFracao(value!.Id!);
                                         },
@@ -320,7 +319,7 @@ class _ControleEditState extends State<ControleEdit> {
                                         lastDate: DateTime(2100),
                                       );
                                       if (data != null) {
-                                          dataEntrada = data;
+                                        dataEntrada = data;
                                         _valueEntrada = data.toString();
                                         _controllerDataEntrada.text =
                                             _valueEntrada.substring(8, 10) +
@@ -329,7 +328,6 @@ class _ControleEditState extends State<ControleEdit> {
                                                 '/' +
                                                 _valueEntrada.substring(0, 4);
                                       }
-
                                     },
                                   ),
                                 ),
@@ -502,28 +500,36 @@ class _ControleEditState extends State<ControleEdit> {
   }
 
   _onClickSalvar() async {
-    if (_controllerDataEntrada.text == "" || _controllerDataSaida.text == "") {
+    if (_controllerDataEntrada.text == "" ||
+        dropDownControllerGrupos.selecionadoGrupos == null ||
+        dropDownControllerEntidades.selecionadoEntidades == null ||
+        dropDownControllerFracao.selecionadoFracao == null) {
       _onClickDialog();
       return;
     }
 
-    var DataEntradaInt = int.parse(_controllerDataEntrada.text.substring(0, 2) +
-        _controllerDataEntrada.text.substring(3, 5) +
-        _controllerDataEntrada.text.substring(6, 10));
-    var DataSaidaInt = int.parse(_controllerDataSaida.text.substring(0, 2) +
-        _controllerDataSaida.text.substring(3, 5) +
-        _controllerDataSaida.text.substring(6, 10));
+    var DataEntrada = _controllerDataEntrada.text;
+    var DataSaida = _controllerDataSaida.text;
 
-    var DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
-        '/' +
-        _controllerDataEntrada.text.substring(0, 2) +
-        '/' +
-        _controllerDataEntrada.text.substring(6, 10);
-    var DataSaida = _controllerDataSaida.text.substring(3, 5) +
-        '/' +
-        _controllerDataSaida.text.substring(0, 2) +
-        '/' +
-        _controllerDataSaida.text.substring(6, 10);
+    if (DataEntrada != "") {
+      DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
+          '/' +
+          _controllerDataEntrada.text.substring(0, 2) +
+          '/' +
+          _controllerDataEntrada.text.substring(6, 10);
+    } else {
+      DataEntrada = "";
+    }
+
+    if (DataSaida != "") {
+      DataSaida = _controllerDataSaida.text.substring(3, 5) +
+          '/' +
+          _controllerDataSaida.text.substring(0, 2) +
+          '/' +
+          _controllerDataSaida.text.substring(6, 10);
+    } else {
+      DataSaida = "";
+    }
 
     double AreaEscopo = double.parse(_controllerAreaEscopo.text);
     double AreaAuditada = double.parse(_controllerAreaAuditada.text);
@@ -555,8 +561,19 @@ class _ControleEditState extends State<ControleEdit> {
       fracao = dropDownControllerFracao.selecionadoFracao!.ID;
     }
 
+    if (idFracao != null) {
+      var idPropriedade = idFracao.IDPropriedade;
+    if (idPropriedade == null) {
+      propriedade = 0;
+    } else {
+      propriedade = dropDownControllerFracao.selecionadoFracao!.IDPropriedade;
+    }
+    } else {
+      propriedade = 0;
+    }
+
     var idPropriedade = idFracao!.IDPropriedade;
-     if (idPropriedade == null) {
+    if (idPropriedade == null) {
       propriedade = 0;
     } else {
       propriedade = dropDownControllerFracao.selecionadoFracao!.IDPropriedade;
@@ -615,28 +632,36 @@ class _ControleEditState extends State<ControleEdit> {
   }
 
   _onClickAdd() async {
-    if (_controllerDataEntrada.text == "" || _controllerDataSaida.text == "") {
+    if (_controllerDataEntrada.text == "" ||
+        dropDownControllerGrupos.selecionadoGrupos == null ||
+        dropDownControllerEntidades.selecionadoEntidades == null ||
+        dropDownControllerFracao.selecionadoFracao == null) {
       _onClickDialog();
       return;
     }
 
-    var DataEntradaInt = int.parse(_controllerDataEntrada.text.substring(0, 2) +
-        _controllerDataEntrada.text.substring(3, 5) +
-        _controllerDataEntrada.text.substring(6, 10));
-    var DataSaidaInt = int.parse(_controllerDataSaida.text.substring(0, 2) +
-        _controllerDataSaida.text.substring(3, 5) +
-        _controllerDataSaida.text.substring(6, 10));
+    var DataEntrada = _controllerDataEntrada.text;
+    var DataSaida = _controllerDataSaida.text;
 
-    var DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
-        '/' +
-        _controllerDataEntrada.text.substring(0, 2) +
-        '/' +
-        _controllerDataEntrada.text.substring(6, 10);
-    var DataSaida = _controllerDataSaida.text.substring(3, 5) +
-        '/' +
-        _controllerDataSaida.text.substring(0, 2) +
-        '/' +
-        _controllerDataSaida.text.substring(6, 10);
+    if (DataEntrada != "") {
+      DataEntrada = _controllerDataEntrada.text.substring(3, 5) +
+          '/' +
+          _controllerDataEntrada.text.substring(0, 2) +
+          '/' +
+          _controllerDataEntrada.text.substring(6, 10);
+    } else {
+      DataEntrada = "";
+    }
+
+    if (DataSaida != "") {
+      DataSaida = _controllerDataSaida.text.substring(3, 5) +
+          '/' +
+          _controllerDataSaida.text.substring(0, 2) +
+          '/' +
+          _controllerDataSaida.text.substring(6, 10);
+    } else {
+      DataSaida = "";
+    }
 
     double AreaEscopo = double.parse(_controllerAreaEscopo.text);
     double AreaAuditada = double.parse(_controllerAreaAuditada.text);
@@ -668,11 +693,15 @@ class _ControleEditState extends State<ControleEdit> {
       fracao = dropDownControllerFracao.selecionadoFracao!.ID;
     }
 
-    var idPropriedade = idFracao!.IDPropriedade;
-     if (idPropriedade == null) {
+    if (idFracao != null) {
+      var idPropriedade = idFracao.IDPropriedade;
+    if (idPropriedade == null) {
       propriedade = 0;
     } else {
       propriedade = dropDownControllerFracao.selecionadoFracao!.IDPropriedade;
+    }
+    } else {
+      propriedade = 0;
     }
 
     var idEntidade = dropDownControllerEntidades.selecionadoEntidades;
@@ -738,42 +767,12 @@ class _ControleEditState extends State<ControleEdit> {
                   size: 30,
                 ),
                 title: Text(
-                  'Preencha os campos obrigatórios.',
+                  'Preencha os campos obrigatórios',
                   style: TextStyle(fontSize: 20),
                 ),
                 subtitle: Text(
-                  'Entidades, Grupos, Fração, Data Entrada e Data Saída.',
+                  'Entidades, Grupos, Fração e Data de Entrada.',
                   style: TextStyle(fontSize: 18),
-                ),
-              ),
-            ),
-          ),
-          actions: [
-            ElevatedButton(
-              onPressed: () => {Navigator.pop(context)},
-              style: ElevatedButton.styleFrom(
-                  primary: Color.fromRGBO(75, 171, 143, 30)),
-              child: Text("Ok"),
-            )
-          ],
-        ),
-      );
-
-  _onClickDialogDataIco() => showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          content: Container(
-            height: 60,
-            child: Center(
-              child: ListTile(
-                leading: Icon(
-                  Icons.warning,
-                  color: Colors.orange,
-                  size: 30,
-                ),
-                title: Text(
-                  ' A Data Entrada não pode ser maior que a Data Saída',
-                  style: TextStyle(fontSize: 20),
                 ),
               ),
             ),
