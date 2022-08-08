@@ -92,21 +92,21 @@ class _LoginPageState extends State<LoginPage> {
               children: [
                 Container(
                   decoration: const BoxDecoration(
-                      color: Colors.white,
+                      color: Color.fromRGBO(78, 204, 196, 2),
+
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10))),
-                  child: Center(
-                    child: Container(
-                      height: 100,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                          image: AssetImage("images/logoEco.jpeg"),
-                          fit: BoxFit.fitHeight,
-                        ),
-                      ),
+                  height: 76,
+                  child: const Center(
+                    child: Text(
+                      "NEO ANALYTICS",
+                      style: TextStyle(color: Colors.white, fontSize: 30),
                     ),
                   ),
+                ),
+                const SizedBox(
+                  height: 20,
                 ),
                 AppText(
                   "E-mail",
